@@ -1,5 +1,7 @@
 # be-linked
 
+## Propagating Event Target Subscribing Scenarios
+
 Scenario 1.
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
@@ -50,23 +52,65 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
+Scenario 4
 
+Pass number value of previous element to local cm property.
 
 ```html
-<host-element>
-<my-element be-linked='
-    Link value as number from previous largest scale element 
-        to my very important \and unusual property.
-    Link value as number from propagating beScoped:scope of previous largest scale element to my very important \and unusual property.   
-    Nudge previous largest scale element.
-    Link update of value property as float from previous largest scale element to my very important \and unusual property.//SkipInit.
-    On value-changed event of previous largest scale element having inner a-duck element  
-        do stop propagation
-        and debug 
-        and link value as string to my rhs property
-        and fire my custom event name.
-    Link true value as hello and false value as goodbye as string from previous largest scale element to my very import \and unusual property.
-    
-'>
-</my-element>
+<div>
+    <div data-d=7></div>
+    <metric-units be-linked='
+        Number-parse dataset:d property of previous element to local cm property.
+    '></metric-units>
+</div>
 ```
+
+NB:  Can't subscribe to dataset.d changes.  Could add attrib mutation observer
+
+Verbs:
+
+Key          |Meaning                                                |Notes
+-------------|-------------------------------------------------------|-----
+Clone        |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
+Number-parse |Parse value as number.
+Date-parse   |Parse value as date.
+Stringify    |Do a JSON.stringify.
+Objectify    |Do a JSON.parse.
+Regexp-parse |Compile string as regular expression.
+Reference    |Pass weak reference of the property.
+Map          |Two JSON arrays separated by arrow function
+
+Scenario 5
+
+Property passing, with updates only, debug, fire
+
+```html
+<my-light-weight-container>
+    <number-generator></number-generator>
+    <metric-units be-linked='
+        ```
+        Link value updates of previous element to local cm property.
+        Enable debugging.
+        Fire changed event.
+        ```
+    '></metric-units>
+</my-liehgt-weight-container>
+```
+
+## Traditional Element Events
+
+```html
+<my-light-weight-container>
+    <number-generator></number-generator>
+    <metric-units be-linked='
+        ```
+        On value changed event of previous element do link value to local cm property. 
+        Enable debugging.
+        Fire changed event.
+        Nudge previous element.
+        Skip init.
+        ```
+    '></metric-units>
+</my-light-weight-container
+```
+
