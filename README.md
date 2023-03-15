@@ -51,7 +51,7 @@ Alternative:
 </host-element>
 ```
 
-"the link" is optional and ignored.
+"the link" is optional and ignored.  Treated as commentary.
 
 ```html
 <paul-mccartney age=64>
@@ -114,7 +114,11 @@ Stringify.        |Do a JSON.stringify.
 Objectify.        |Do a JSON.parse.
 Parse as regExp.  |Compile string as regular expression.
 Pass as weak ref. |Pass weak reference of the property.
-
+Negate.           |
+Minus by.         |Parse as number if needed and subtract this number.
+Plus by.
+Increment.
+Increment by.
 
 Scenario 5
 
