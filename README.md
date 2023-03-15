@@ -148,8 +148,8 @@ Property passing, with updates only, debug, fire
         On value changed event of previous element do pass value to local cm property. 
         Debug.
         Fire changed event.
-        Nudge previous element.
-        Skip initialization.
+        Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.
+        Skip initialization. //"initialization" is ignored commentary.
         ```
     '></metric-units>
 </my-light-weight-container
