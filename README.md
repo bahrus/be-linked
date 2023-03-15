@@ -10,7 +10,7 @@ host-element container has boolean property "readOnly".  Inner element wants to 
 <host-element>
     #shadow
     <input be-linked='
-        Link readOnly.
+        Link read only props.
     '>
 </host-element>
 ```
@@ -21,7 +21,7 @@ which is shorthand for:
 <host-element>
     #shadow
     <input be-linked='
-        Link readOnly property of host to local readOnly property.
+        Link read only property of host to local read only property.
     '>
 </host-element>
 ```
@@ -34,9 +34,33 @@ host-element container has property "readOnly".  Inner element wants to set data
 <host-element>
     #shadow
     <input be-linked='
-        Negate readOnly property of host to local dataset:isEditable property.
+        Negate read only property of host to local dataset:isEditable property.
     '>
 </host-element>
+```
+
+Alternative:
+
+```html
+<host-element>
+    #shadow
+    <input be-linked='
+        Link read only property of host to local dataset:isEditable property.
+        Negate the link.
+    '>
+</host-element>
+```
+
+"the link" is optional and ignored.
+
+```html
+<paul-mccartney age=64>
+    #shadow
+    <daughter-heather be-linked='
+        Link age.
+        Minus by 20 the link.
+    '></daughter-heather>
+</paul-mccartney>
 ```
 
 Scenario 3
@@ -70,8 +94,8 @@ Pass number value of previous element to local cm property.
     <div data-d=7></div>
     <metric-units be-linked='
         ```
-        Parse as number.  
         Copy dataset:d property of previous element to local cm property.
+        Parse as number the copy.
         ```
     '></metric-units>
 </div>
@@ -107,7 +131,7 @@ Property passing, with updates only, debug, fire
         Fire changed event.
         ```
     '></metric-units>
-</my-liehgt-weight-container>
+</my-light-weight-container>
 ```
 
 ## Traditional Element Events
@@ -117,11 +141,26 @@ Property passing, with updates only, debug, fire
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element do link value to local cm property. 
+        On value changed event of previous element do pass value to local cm property. 
         Debug.
         Fire changed event.
         Nudge previous element.
-        Skip init.
+        Skip initialization.
+        ```
+    '></metric-units>
+</my-light-weight-container
+```
+
+```html
+<my-light-weight-container>
+    <number-generator></number-generator>
+    <metric-units be-linked='
+        ```
+        On value changed event of previous element do increment local cm property. 
+        Debug.
+        Fire changed event.
+        Nudge previous element.
+        Skip initialization.
         ```
     '></metric-units>
 </my-light-weight-container
