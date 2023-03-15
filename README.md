@@ -1,4 +1,4 @@
-# be-linked
+# be-linked [TODO]
 
 ## Propagating Event Target Subscribing Scenarios
 
@@ -57,8 +57,8 @@ Alternative:
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age.
-        Minus by 20 the link.
+        Link age props.
+        Minus by 20 the linkage.
     '></daughter-heather>
 </paul-mccartney>
 ```

@@ -2,9 +2,29 @@
   "name": "be-linked",
   "version": "0.0.0",
   "description": "",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements"
+  ],
+  "dependencies": {
+    "be-decorated": "0.0.235",
+    "be-hive": "0.0.82",
+    "trans-render": "0.0.670"
+  },
+  "devDependencies": {
+    "be-scoped": "0.0.6",
+    "may-it-serve": "0.0.5",
+    "@skypack/package-check": "0.2.2",
+    "@playwright/test": "1.31.2"
+  },
   "main": "index.js",
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "node node_modules/may-it-serve/serve.js",
+    "package-check": "package-check",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
