@@ -13,7 +13,9 @@ export type downstreamCamelQry = camelQry;
 
 export type SuperShortLinkStatement = `${propName}Props`;
 
-export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropName}Of${downstreamCamelQry}`;
+export type TargetStatement = 'AdornedElement' | 'Decorator'
+
+export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropName}Of${TargetStatement}`;
 
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
@@ -31,7 +33,7 @@ export interface DownLink<TSrc, TDest>{
     downstreamPropPath?: string,
     downstreamPropName?: string & keyof TDest,
     scrutinize?: string,
-    target: 'local' | 'myProxy',
+    target: 'local' | 'proxy',
     negate?: boolean,
     nudge?: boolean,
     translate?: number,

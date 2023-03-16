@@ -2,7 +2,7 @@
 
 ## Propagating Event Target Subscribing Scenarios
 
-Scenario 1.
+## Simplest scenario.
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -21,12 +21,12 @@ which is shorthand for:
 <host-element>
     #shadow
     <input be-linked='
-        Link read only property of host to local read only property.
+        Link read only property of host to read only property of adorned element.
     '>
 </host-element>
 ```
 
-Scenario 2.
+## Standard scenario.
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
@@ -34,7 +34,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 <host-element>
     #shadow
     <input be-linked='
-        Negate read only property of host to local dataset:isEditable property.
+        Negate read only property of host to dataset:isEditable property of adorned element.
     '>
 </host-element>
 ```
@@ -45,7 +45,7 @@ Alternative:
 <host-element>
     #shadow
     <input be-linked='
-        Link read only property of host to local dataset:isEditable property.
+        Link read only property of host to dataset:isEditable property of adorned element.
         Negate the value.
     '>
 </host-element>
@@ -63,38 +63,77 @@ Alternative:
 </paul-mccartney>
 ```
 
+## Mapping
+
+In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
+
+However, there may be circumstances where this might not (more details forthcoming).
+
+## Declarative mapping scenario
+
+host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
+
+```html
+<host-element>
+    #shadow
+    <toggle-element be-linked='
+        {
+            "declare": {
+                "isTrue": true,
+                "isFalse": false,
+                "is7": 7,
+                "trueVal": "on",
+                "falseVal": "off"
+            }
+        }
+        If read only property of host is true then set checked property of adorned element to true val.
+        If read only property of host is false then set checked property of adorned element to false val.
+        If value property of host is 7 then set 
+    '></toggle-element>
+</host-element>
+```
+
+## Dynamic import mapping scenario  
+
+```html
+<host-element>
+    #shadow
+    <toggle-element be-linked='
+        {
+            "actions": {
+                "calculateCheckedValue": {
+                    "exportFrom": "bareImportSpecifier/somePath.js",
+                    "ifKeyIn": ["readOnly"]
+                }
+            }
+            
+        }
+        Map host to adorned element.
+    '></toggle-element>
+</host-element>
+```
+
+```html
+<host-element>
+    #shadow
+    <toggle-element be-linked='
+       Map host to element via myMap 
+    '></toggle-element>
+</host-element>
+```
+
 Counting Scenario
 
 ```html
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
         <span be-linked='
-            Count changes to value of previous element to local text content property.
+            Count changes to value property of previous element and pass it to text content property of adorned element.
         '>
 </my-light-weight-container>
 ```
 
-Scenario 3
 
-host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".
-
-```html
-<host-element>
-    #shadow
-    <toggle-element be-linked='
-        ```
-            {
-                "matchValues": [
-                    {"from": true, "to": "on"},
-                    {"from": false, "to": "off"},
-                    {"default": "indefinite"}
-                ]
-            }
-            Link readOnly property of host to local checked property.
-        ```
-    '></toggle-element>
-</host-element>
-```
 
 Scenario 4
 
