@@ -46,12 +46,12 @@ Alternative:
     #shadow
     <input be-linked='
         Link read only property of host to local dataset:isEditable property.
-        Negate the link.
+        Negate the value.
     '>
 </host-element>
 ```
 
-"the link" is optional and ignored.  Treated as commentary.
+"the value" is optional and ignored.  Treated as commentary.
 
 ```html
 <paul-mccartney age=64>
@@ -61,6 +61,17 @@ Alternative:
         Minus by 20 the linkage.
     '></daughter-heather>
 </paul-mccartney>
+```
+
+Counting Scenario
+
+```html
+<my-light-weight-container>
+        <my-time-ticker-service></my-time-ticker-service>
+        <span be-linked='
+            Count changes to value of previous element to local text content property.
+        '>
+</my-light-weight-container>
 ```
 
 Scenario 3
@@ -108,12 +119,9 @@ Ambient Verbs:
 Key               |Meaning                                                |Notes
 ------------------|-------------------------------------------------------|-----
 Clone.            |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
-Parse as number.  |Parse value as number.
-Parse as date.    |Parse value as date.
+Parse.            |Parse value as number or date or regExp or Object, whichever works.
 Stringify.        |Do a JSON.stringify.
-Objectify.        |Do a JSON.parse.
-Parse as regExp.  |Compile string as regular expression.
-Pass as weak ref. |Pass weak reference of the property.
+Reference.        |Pass weak reference of the property.
 Negate.           |
 Minus by.         |Parse as number if needed and subtract this number.
 Plus by.
