@@ -109,14 +109,27 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         })
     <script>
     <toggle-element be-linked='
+        Use imported read only mediator to manage read only property changes of host.
+    '></toggle-element>
+</host-element>
+```
+
+which is shorthand for:
+
+```html
+<host-element>
+    #shadow
+    <script nomodule>
+        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
+            checked: upstreamElement.readOnly ? 'on' : 'off';
+        })
+    <script>
+    <toggle-element be-linked='
         {
-            "declare": {
-                "readOnlyMediator": {
-                    "importFrom": "previousElementSibling", //default
-                    "exportSymbol": "readOnlyHandler"
-                }
+            "import": {
+                "from": "previousElementSibling", //default
+                "symbol": "readOnlyHandler"
             }
-            
         }
         Use read only mediator to manage read only property changes of host.
     '></toggle-element>
