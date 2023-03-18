@@ -72,6 +72,7 @@ However, there may be circumstances where this might not ideal:
 1.  We may be building a "Democratic Organism" web component, where the "brains" of the component is a non visual "component as a service" sitting within the outer web component skin.
 2.  We may need to interact with sibling elements, where we cannot go in and add computed properties.
 3.  Even if we are using a more traditional model with a robust host container element filled with logic, some of the binding rules contained within the component may seem overly tightly coupled to the UI, and can detract from the central meaning of the host container element.
+4.  Constantly switching context between the UI Markup and the host element's computed properties might make sense when the requirements are very well understood, and the desire is to make the host element highly reusable.  But before that happens, it might be easier on the developer if the computed properties are defined as close to where they are used as possible.  I would suggest that this argument provides some of the reasoning behind why template engines with full access to the JavaScript runtime engine (tagged template literals and/or JSX) seem quite popular.
 
 So we provide ways of adding the equivalent of computed properties  
 
@@ -102,12 +103,16 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 ```html
 <host-element>
     #shadow
+    <script nomodule>
+        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
+            checked: upstreamElement.readOnly ? 'on' : 'off';
+        })
+    <script>
     <toggle-element be-linked='
         {
             "declare": {
-                "CommonImport": "bareImportSpecifier/HostElementToToggleElementMediator.js",
-                "ReadOnlyMediator": {
-                    "importFrom": "CommonImport",
+                "readOnlyMediator": {
+                    "importFrom": "previousElementSibling", //default
                     "exportSymbol": "readOnlyHandler"
                 }
             }
