@@ -109,7 +109,8 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         })
     <script>
     <toggle-element be-linked='
-        Use imported read only mediator to manage read only property changes of host.
+        Import read only handler.
+        Use import to manage read only property changes of host.
     '></toggle-element>
 </host-element>
 ```
@@ -125,16 +126,34 @@ which is shorthand for:
         })
     <script>
     <toggle-element be-linked='
-        {
-            "import": {
-                "from": "previousElementSibling", //default
-                "symbol": "readOnlyHandler"
-            }
-        }
-        Use read only mediator to manage read only property changes of host.
+        Import read only handler.
+        Use read only handler import to manage read only property changes of host.
     '></toggle-element>
 </host-element>
 ```
+
+```html
+<host-element>
+    #shadow
+    <script nomodule>
+        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
+            checked: upstreamElement.readOnly ? 'on' : 'off';
+        })
+    <script>
+    <toggle-element be-linked='
+        {
+            "import": {
+                "symbol": "readOnlyHandler",
+                "as": "readOnlyHandler", //default, optional
+                "from": "previousElementSibling", //default
+            }
+        }
+        Use imported read only mediator to manage read only property changes of host.
+    '></toggle-element>
+</host-element>
+```
+
+-->
 
 Bare import specifiers only allowed, so that the web site needs to green light such references via import mapping script element.
 
