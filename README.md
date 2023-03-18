@@ -107,7 +107,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
             checked: upstreamElement.readOnly ? 'on' : 'off';
         });
-    <script>
+    </script>
     <toggle-element be-linked='
         Import read only handler.
         Use import to manage read only property changes of host.
@@ -124,7 +124,7 @@ which is shorthand for:
         export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
             checked: upstreamElement.readOnly ? 'on' : 'off';
         });
-    <script>
+    </script>
     <toggle-element be-linked='
         Import read only handler.
         Use read only handler import to manage read only property changes of host.
