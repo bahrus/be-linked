@@ -26,12 +26,7 @@ export type NumericString = string;
 
 export type TranslateStatement = `By${NumericString}`;
 
-
-export interface DownLink<TSrc, TDest>{
-    upstreamPropPath?: string, 
-    upstreamPropName?: string & keyof TSrc,
-    downstreamPropPath?: string,
-    downstreamPropName?: string & keyof TDest,
+export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
     target: 'local' | 'proxy',
     negate?: boolean,
@@ -42,6 +37,13 @@ export interface DownLink<TSrc, TDest>{
     clone?: boolean,
     skipInit?: boolean,
     passDirection?: 'up' | 'down' | 'sync', //default to down
+}
+
+export interface DownLink<TSrc, TDest> extends Link<TSrc, TDest>{
+    upstreamPropPath?: string, 
+    upstreamPropName?: string & keyof TSrc,
+    downstreamPropPath?: string,
+    downstreamPropName?: string & keyof TDest,
 }
 
 export interface CamelConfig<TSrc=any, TDest=any>{

@@ -67,7 +67,13 @@ Alternative:
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
 
-However, there may be circumstances where this might not (more details forthcoming).
+However, there may be circumstances where this might not ideal:
+
+1.  We may be building a "Democratic Organism" web component, where the "brains" of the component is a non visual "component as a service" sitting within the outer web component skin.
+2.  We may need to interact with sibling elements, where we cannot go in and add computed properties.
+3.  Even if we are using a more traditional model with a robust host container element filled with logic, some of the binding rules contained within the component may seem overly tightly coupled to the UI, and can detract from the central meaning of the host container element.
+
+So we provide ways of adding the equivalent of computed properties  
 
 ## Declarative mapping scenario
 
@@ -79,39 +85,40 @@ host-element container has boolean property "readOnly" property.  If readOnly is
     <toggle-element be-linked='
         {
             "declare": {
-                "isTrue": true,
-                "isFalse": false,
-                "is7": 7,
+                "true": true,
+                "false": false,
                 "trueVal": "on",
                 "falseVal": "off"
             }
         }
         If read only property of host is true then set checked property of adorned element to true val.
         If read only property of host is false then set checked property of adorned element to false val.
-        If value property of host is 7 then set 
     '></toggle-element>
 </host-element>
 ```
 
-## Dynamic import mapping scenario  
+## Imperative Dynamic import mapping scenario  
 
 ```html
 <host-element>
     #shadow
     <toggle-element be-linked='
         {
-            "actions": {
-                "calculateCheckedValue": {
-                    "exportFrom": "bareImportSpecifier/somePath.js",
-                    "ifKeyIn": ["readOnly"]
+            "declare": {
+                "CommonImport": "bareImportSpecifier/HostElementToToggleElementMediator.js",
+                "ReadOnlyHandshakeHandler": {
+                    "importFrom": "CommonImport",
+                    "exportSymbol": "readOnlyHandler"
                 }
             }
             
         }
-        Map host to adorned element.
+        Use read only handshake handler to manage read only property changes of host.
     '></toggle-element>
 </host-element>
 ```
+
+Bare import specifiers only allowed, so that the web site needs to green light such references via import mapping script element.
 
 ```html
 <host-element>
