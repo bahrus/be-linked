@@ -67,7 +67,7 @@ Alternative:
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
 
-However, there may be circumstances where this might not ideal:
+However, there may be circumstances where this might not be ideal:
 
 1.  We may be building a "Democratic Organism" web component, where the "brains" of the component is a non visual "component as a service" sitting within the outer web component skin.
 2.  We may need to interact with sibling elements, where we cannot go in and add computed properties.
