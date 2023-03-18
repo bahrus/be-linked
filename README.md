@@ -1,8 +1,10 @@
 # be-linked [TODO]
 
-## Propagating Event Target Subscribing Scenarios
+## Part I Downstream linkage
 
-## Simplest scenario.
+### Propagating Event Target Subscribing Scenarios
+
+#### Simplest scenario.
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -26,7 +28,7 @@ which is shorthand for:
 </host-element>
 ```
 
-## Standard scenario.
+#### Negation scenario.
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
@@ -63,7 +65,7 @@ Alternative:
 </paul-mccartney>
 ```
 
-## Mapping
+#### Mapping
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
 
@@ -76,7 +78,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-## Declarative mapping scenario
+##### Declarative mapping scenario
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 
@@ -98,7 +100,24 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-## Imperative import mapping scenario  
+##### Using JavaScript for more complex scenarios 
+
+```html
+<host-element>
+    #shadow
+    <script nomodule>
+        ({upstreamElement, downstreamElement, ctx}) => ({
+            checked: upstreamElement.readOnly ? 'on' : 'off';
+        });
+    </script>
+    <toggle-element be-linked='
+        Import.
+        Use import to manage read only property changes of host.
+    '></toggle-element>
+</host-element>
+```
+
+which is short hand for:
 
 ```html
 <host-element>
@@ -157,31 +176,21 @@ which is shorthand for:
 
 -->
 
-Bare import specifiers only allowed, so that the web site needs to green light such references via import mapping script element.
 
-```html
-<host-element>
-    #shadow
-    <toggle-element be-linked='
-       Map host to element via myMap 
-    '></toggle-element>
-</host-element>
-```
-
-Counting Scenario
+#### Counting Scenario
 
 ```html
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
         <span be-linked='
             Count changes to value property of previous element and pass it to text content property of adorned element.
-        '>
+        '></span>
 </my-light-weight-container>
 ```
 
 
 
-Scenario 4
+#### Copying
 
 Pass number value of previous element to local cm property.
 
@@ -197,7 +206,11 @@ Pass number value of previous element to local cm property.
 </div>
 ```
 
-NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy.  
+NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy. 
+
+Maybe this should be a separate decorator?
+
+
 
 Ambient Verbs:
 
@@ -213,9 +226,9 @@ Plus by.
 Increment.
 Increment by.
 
-Scenario 5
+### Leaning on server rendering
 
-Property passing, with updates only, debug, fire
+If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
 ```html
 <my-light-weight-container>
@@ -223,9 +236,7 @@ Property passing, with updates only, debug, fire
     <metric-units be-linked='
         ```
         Skip initialization.
-        Link value of previous element to local cm property.
-        Debug.
-        Fire changed event.
+        ...
         ```
     '></metric-units>
 </my-light-weight-container>
@@ -262,4 +273,43 @@ Property passing, with updates only, debug, fire
     '></metric-units>
 </my-light-weight-container
 ```
+
+The use of the three tick marks here, by the way, is there just to mention another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
+
+## Upstream linking
+
+Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should shoulder the responsibility that this is triggered almost exclusively by user initiated events.
+
+```html
+<host-element>
+    #shadow
+        <input be-linked='
+            On input event of adorned element do pass value up to greeting property of host.
+        '>
+</host-element>
+```
+
+So the big difference in the syntax is use of "up".  
+
+### Sidewise linking
+
+It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That is by specifying the id:
+
+```html
+<host-element>
+    #shadow
+        <input be-linked='
+            On input event of adorned element do pass value to greeting property of downstream target id.
+        '>
+        ...
+        <my-carousel id=downstream-target></my-carousel>
+</host-element>
+```
+
+If the enters something in the input field before the my-carousel element has streamed to the browser, tough luck!
+
+To avoid this possibility maybe it would make more sense to add a be-linked attribute to my-carousel?
+
+
+
 
