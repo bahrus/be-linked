@@ -106,14 +106,14 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         {
             "declare": {
                 "CommonImport": "bareImportSpecifier/HostElementToToggleElementMediator.js",
-                "ReadOnlyHandshakeHandler": {
+                "ReadOnlyMediator": {
                     "importFrom": "CommonImport",
                     "exportSymbol": "readOnlyHandler"
                 }
             }
             
         }
-        Use read only handshake handler to manage read only property changes of host.
+        Use read only mediator to manage read only property changes of host.
     '></toggle-element>
 </host-element>
 ```
