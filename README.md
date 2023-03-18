@@ -98,7 +98,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-## Imperative dynamic import mapping scenario  
+## Imperative import mapping scenario  
 
 ```html
 <host-element>
