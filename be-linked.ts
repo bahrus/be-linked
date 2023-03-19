@@ -37,9 +37,9 @@ interface ShortDownLinkStatementGroup {
     upstreamPropPath: string,
     upstreamCamelQry: string,
     downstreamPropPath: string,
-    downstreamCamelQry: string,
+    //downstreamCamelQry: string,
 }
-const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)Of(?<downstreamCamelQry>\w+)/;
+const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';

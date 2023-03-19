@@ -21,7 +21,7 @@ export class BeLinked extends EventTarget {
         return mold;
     }
 }
-const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)Of(?<downstreamCamelQry>\w+)/;
+const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';
