@@ -41,7 +41,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 </host-element>
 ```
 
-Alternative [TODO]:
+Alternative [Done]:
 
 ```html
 <host-element>
