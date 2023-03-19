@@ -43,10 +43,11 @@ export interface Link<TSrc = any, TDest = any>{
     passDirection?: 'up' | 'down' | 'sync', //default to down
 }
 
-export interface DownLink<TSrc, TDest> extends Link<TSrc, TDest>{
-    upstreamPropPath?: string, 
+export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
+    upstreamPropPath: string, 
     upstreamPropName?: string & keyof TSrc,
-    downstreamPropPath?: string,
+    upstreamCamelQry: Scope,
+    downstreamPropPath: string,
     downstreamPropName?: string & keyof TDest,
 }
 
@@ -67,7 +68,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
 }
 
 export interface CanonicalConfig{
-    
+    downlinks: DownLink[];
 }
 
 export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;
