@@ -5,14 +5,14 @@ import {Actions, PP, PPP, PPPP, Proxy, CamelConfig} from './types';
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
         const {camelConfig} = pp;
-        const {arr} = await import('be-decorated/cpu.js');
+        const {arr, tryParse} = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         for(const cc of camelConfigArr){
             const {Link} = cc;
             console.log({Link});
             if(Link !== undefined){
                 for(const linkCamelString of Link){
-                    const test = reShortDownLinkStatement.exec(linkCamelString);
+                    const test = tryParse(linkCamelString, reShortDownLinkStatement);
                     console.log({test});
                 }
             }

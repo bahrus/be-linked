@@ -67,7 +67,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
 }
 
 export interface CanonicalConfig{
-
+    
 }
 
 export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;

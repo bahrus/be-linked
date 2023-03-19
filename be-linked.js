@@ -3,14 +3,14 @@ import { register } from "be-hive/register.js";
 export class BeLinked extends EventTarget {
     async camelToCanonical(pp) {
         const { camelConfig } = pp;
-        const { arr } = await import('be-decorated/cpu.js');
+        const { arr, tryParse } = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         for (const cc of camelConfigArr) {
             const { Link } = cc;
             console.log({ Link });
             if (Link !== undefined) {
                 for (const linkCamelString of Link) {
-                    const test = reShortDownLinkStatement.exec(linkCamelString);
+                    const test = tryParse(linkCamelString, reShortDownLinkStatement);
                     console.log({ test });
                 }
             }
