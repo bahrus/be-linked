@@ -54,6 +54,7 @@ export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
 export interface CamelConfig<TSrc=any, TDest=any>{
     Link?: LinkStatement[];
     //link?: DownLink<TSrc, TDest>[];
+    negate?: boolean;
     Negate?: LinkStatement[];
     Clone?: LinkStatement[];
     Stringify?: LinkStatement[];

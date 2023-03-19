@@ -12,12 +12,13 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link} = cc;
+            const {Link, negate} = cc;
             if(Link !== undefined){
                 const links = await this.#matchStd(Link, reShortDownLinkStatement);
                 links.forEach(link => {
                     downlinks.push({
                         target: 'local',
+                        negate,
                         ...link
                     } as DownLink);
                 });
@@ -133,6 +134,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions, CamelConfig>, Actions>({
             parseAndCamelize: true,
             camelizeOptions: {
                 //TODO
+                booleans: ['Negate']
             },
             primaryPropReq: true,
         },

@@ -48,7 +48,7 @@ Alternative [TODO]:
     #shadow
     <input be-linked='
         Link read only property of host to dataset:isEditable property of adorned element.
-        Negate the value.
+        Negate the linkage.
     '>
 </host-element>
 ```
