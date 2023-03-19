@@ -5,9 +5,13 @@ export interface EndUserProps {
     camelConfig?: CamelConfig | CamelConfig[],
 }
 
+export interface VirtualProps extends EndUserProps, MinimalProxy{
+    canonicalConfig?: CanonicalConfig;
+}
+
 export type propName = string;
 export type upstreamPropPath = string;
-export type downstreamPropName = string;
+export type downstreamPropPath = string;
 export type upstreamCamelQry = camelQry;
 export type downstreamCamelQry = camelQry;
 
@@ -15,7 +19,7 @@ export type SuperShortLinkStatement = `${propName}Props`;
 
 export type TargetStatement = 'AdornedElement' | 'Decorator'
 
-export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropName}Of${TargetStatement}`;
+export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
@@ -60,4 +64,23 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     skip?: boolean;
     Minus?: [TranslateStatement];
     Plus?: [TranslateStatement];
+}
+
+export interface CanonicalConfig{
+
+}
+
+export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;
+
+export interface PP extends VirtualProps{
+    proxy: Proxy
+}
+
+export type PPP = Partial<PP>;
+
+export type PPPP = Promise<PPP>;
+
+export interface Actions{
+    camelToCanonical(pp: PP): PPPP;
+    onCanonical(pp: PP, mold: PPP): PPPP;
 }
