@@ -42,19 +42,40 @@ export class BeLinked extends EventTarget implements Actions{
         const {downlinks} = canonicalConfig!;
         if(downlinks !== undefined){
             const {findRealm} = await import('trans-render/lib/findRealm.js');
+            const {getVal} = await import('trans-render/lib/getVal.js');
+            const {setProp} = await import('trans-render/lib/setProp.js');
             for(const downlink of downlinks){
                 const {upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath} = downlink;
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if(src === null) throw 'bL.404';
                 if(!skipInit){
-                    const {getVal} = await import('trans-render/lib/getVal.js');
                     const val = await getVal({host: src}, upstreamPropPath);
-                    const {setProp} = await import('trans-render/lib/setProp.js');
                     await setProp(targetObj, downstreamPropPath, val);
                 }
+                // let eventTarget = src;
+                // if(!(<any>src)._isPropagating){
+                //     const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
+                //     import('be-propagating/be-propagating.js');
+                //     await doBeHavings(src as any as Element, [{
+                //         be: 'propagating',
+                //         waitForResolved: true,
+                //     }]);
+                // }
+                let upstreamPropName = downlink.upstreamPropName;
+                if(upstreamPropName === undefined){
+                    upstreamPropName = upstreamPropPath.split('.')[0];
+                    downlink.upstreamPropName = upstreamPropName;
+                }
+                const {subscribe} = await import('trans-render/lib/subscribe.js');
+                await subscribe(src, upstreamPropName, async () => {
+                    console.log('iah');
+                    const val = await getVal({host: src}, upstreamPropPath);
+                    await setProp(targetObj, downstreamPropPath, val);
+                });
+                //src.addEventListener()
             }
-            
+
         }
         return mold;
     }
