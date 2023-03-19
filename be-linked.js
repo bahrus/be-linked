@@ -11,7 +11,6 @@ export class BeLinked extends EventTarget {
         const { downlinks } = canonicalConfig;
         for (const cc of camelConfigArr) {
             const { Link } = cc;
-            console.log({ Link });
             if (Link !== undefined) {
                 for (const linkCamelString of Link) {
                     const test = tryParse(linkCamelString, reShortDownLinkStatement);
@@ -31,7 +30,6 @@ export class BeLinked extends EventTarget {
     }
     async onCanonical(pp, mold) {
         const { canonicalConfig, self, proxy } = pp;
-        console.log({ canonicalConfig });
         const { downlinks } = canonicalConfig;
         if (downlinks !== undefined) {
             const { findRealm } = await import('trans-render/lib/findRealm.js');
@@ -47,27 +45,32 @@ export class BeLinked extends EventTarget {
                     const val = await getVal({ host: src }, upstreamPropPath);
                     await setProp(targetObj, downstreamPropPath, val);
                 }
-                // let eventTarget = src;
-                // if(!(<any>src)._isPropagating){
-                //     const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-                //     import('be-propagating/be-propagating.js');
-                //     await doBeHavings(src as any as Element, [{
-                //         be: 'propagating',
-                //         waitForResolved: true,
-                //     }]);
-                // }
                 let upstreamPropName = downlink.upstreamPropName;
                 if (upstreamPropName === undefined) {
                     upstreamPropName = upstreamPropPath.split('.')[0];
                     downlink.upstreamPropName = upstreamPropName;
                 }
-                const { subscribe } = await import('trans-render/lib/subscribe.js');
-                await subscribe(src, upstreamPropName, async () => {
-                    console.log('iah');
+                let propagator = null;
+                if (!src._isPropagating) {
+                    const aSrc = src;
+                    if (!aSrc?.beDecorated?.propagating) {
+                        const { doBeHavings } = await import('trans-render/lib/doBeHavings.js');
+                        import('be-propagating/be-propagating.js');
+                        await doBeHavings(src, [{
+                                be: 'propagating',
+                                waitForResolved: true,
+                            }]);
+                    }
+                    propagator = aSrc.beDecorated.propagating.propagators.get('self');
+                    //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
+                }
+                else {
+                    propagator = src;
+                }
+                propagator.addEventListener(upstreamPropName, async (e) => {
                     const val = await getVal({ host: src }, upstreamPropPath);
                     await setProp(targetObj, downstreamPropPath, val);
                 });
-                //src.addEventListener()
             }
         }
         return mold;

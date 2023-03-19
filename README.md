@@ -1,10 +1,10 @@
-# be-linked [TODO]
+# be-linked [WIP]
 
 ## Part I Downstream linkage
 
 ### Propagating Event Target Subscribing Scenarios
 
-#### Simplest scenario.
+#### Simplest scenario. [TODO]
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -17,7 +17,7 @@ host-element container has boolean property "readOnly".  Inner element wants to 
 </host-element>
 ```
 
-which is shorthand for:
+which is shorthand for [Done]:
 
 ```html
 <host-element>
@@ -28,7 +28,7 @@ which is shorthand for:
 </host-element>
 ```
 
-#### Negation scenario.
+#### Negation scenario [TODO].
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
