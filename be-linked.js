@@ -12,7 +12,7 @@ export class BeLinked extends EventTarget {
         for (const cc of camelConfigArr) {
             const { Link } = cc;
             if (Link !== undefined) {
-                const links = await this.#mergeLinkStatements(Link, reShortDownLinkStatement);
+                const links = await this.#matchStd(Link, reShortDownLinkStatement);
                 links.forEach(link => {
                     downlinks.push({
                         target: 'local',
@@ -22,19 +22,29 @@ export class BeLinked extends EventTarget {
             }
             const { Negate } = cc;
             if (Negate !== undefined) {
+                const negates = await this.#matchStd(Negate, reShortDownLinkStatement);
+                negates.forEach(link => {
+                    downlinks.push({
+                        target: 'local',
+                        negate: true,
+                        ...link
+                    });
+                });
             }
         }
         return {
             canonicalConfig
         };
     }
-    async #mergeLinkStatements(links, re) {
+    async #matchStd(links, re) {
         const { tryParse } = await import('be-decorated/cpu.js');
         const returnObj = [];
         for (const linkCamelString of links) {
             const test = tryParse(linkCamelString, re);
-            if (test !== null)
+            if (test !== null) {
+                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
                 returnObj.push(test);
+            }
         }
         return returnObj;
     }
@@ -46,13 +56,15 @@ export class BeLinked extends EventTarget {
             const { getVal } = await import('trans-render/lib/getVal.js');
             const { setProp } = await import('trans-render/lib/setProp.js');
             for (const downlink of downlinks) {
-                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath } = downlink;
+                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate } = downlink;
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if (src === null)
                     throw 'bL.404';
                 if (!skipInit) {
-                    const val = await getVal({ host: src }, upstreamPropPath);
+                    let val = await getVal({ host: src }, upstreamPropPath);
+                    if (negate)
+                        val = !val;
                     await setProp(targetObj, downstreamPropPath, val);
                 }
                 let upstreamPropName = downlink.upstreamPropName;
@@ -78,7 +90,9 @@ export class BeLinked extends EventTarget {
                     propagator = src;
                 }
                 propagator.addEventListener(upstreamPropName, async (e) => {
-                    const val = await getVal({ host: src }, upstreamPropPath);
+                    let val = await getVal({ host: src }, upstreamPropPath);
+                    if (negate)
+                        val = !val;
                     await setProp(targetObj, downstreamPropPath, val);
                 });
             }

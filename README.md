@@ -28,7 +28,7 @@ which is shorthand for [Done]:
 </host-element>
 ```
 
-#### Negation scenario [TODO].
+#### Negation scenario [Done].
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
