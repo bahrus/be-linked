@@ -41,7 +41,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 </host-element>
 ```
 
-Alternative:
+Alternative [TODO]:
 
 ```html
 <host-element>
@@ -54,6 +54,8 @@ Alternative:
 ```
 
 "the value" is optional and ignored.  Treated as commentary.
+
+#### Translate scenario [TODO]
 
 ```html
 <paul-mccartney age=64>
@@ -106,7 +108,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 <host-element>
     #shadow
     <script nomodule>
-        ({upstreamElement, downstreamElement, ctx}) => ({
+        ({upstreamElement}) => ({
             checked: upstreamElement.readOnly ? 'on' : 'off';
         });
     </script>

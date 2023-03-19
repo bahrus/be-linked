@@ -1,11 +1,11 @@
 import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
-import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink} from './types';
+import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink, LinkStatement} from './types';
 
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
         const {camelConfig} = pp;
-        const {arr, tryParse} = await import('be-decorated/cpu.js');
+        const {arr} = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
             downlinks: []
@@ -14,25 +14,34 @@ export class BeLinked extends EventTarget implements Actions{
         for(const cc of camelConfigArr){
             const {Link} = cc;
             if(Link !== undefined){
-                for(const linkCamelString of Link){
-                    const test = tryParse(linkCamelString, reShortDownLinkStatement) as ShortDownLinkStatementGroup | null;
-                    if(test !== null){
-                        const downLink: DownLink = {
-                            target: 'local',
-                            ...test
-                        };
-                        
-                        downlinks.push(downLink);
-                    }
-                }
+                const links = await this.#mergeLinkStatements(Link, reShortDownLinkStatement);
+                links.forEach(link => {
+                    downlinks.push({
+                        target: 'local',
+                        ...link
+                    } as DownLink);
+                });
+                
             }
+            const {Negate} = cc;
+            if(Negate !== undefined){
 
-            
+            }
         }
         
         return {
             canonicalConfig
         };
+    }
+
+    async #mergeLinkStatements(links: LinkStatement[], re: RegExp){
+        const {tryParse} = await import('be-decorated/cpu.js');
+        const returnObj: ShortDownLinkStatementGroup[] = [];
+        for(const linkCamelString of links){
+            const test = tryParse(linkCamelString, re) as ShortDownLinkStatementGroup | null;
+            if(test !== null) returnObj.push(test);
+        }
+        return returnObj;
     }
 
     async onCanonical(pp: PP, mold: PPP): PPPP {

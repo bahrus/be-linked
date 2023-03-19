@@ -3,7 +3,7 @@ import { register } from "be-hive/register.js";
 export class BeLinked extends EventTarget {
     async camelToCanonical(pp) {
         const { camelConfig } = pp;
-        const { arr, tryParse } = await import('be-decorated/cpu.js');
+        const { arr } = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig = {
             downlinks: []
@@ -12,21 +12,31 @@ export class BeLinked extends EventTarget {
         for (const cc of camelConfigArr) {
             const { Link } = cc;
             if (Link !== undefined) {
-                for (const linkCamelString of Link) {
-                    const test = tryParse(linkCamelString, reShortDownLinkStatement);
-                    if (test !== null) {
-                        const downLink = {
-                            target: 'local',
-                            ...test
-                        };
-                        downlinks.push(downLink);
-                    }
-                }
+                const links = await this.#mergeLinkStatements(Link, reShortDownLinkStatement);
+                links.forEach(link => {
+                    downlinks.push({
+                        target: 'local',
+                        ...link
+                    });
+                });
+            }
+            const { Negate } = cc;
+            if (Negate !== undefined) {
             }
         }
         return {
             canonicalConfig
         };
+    }
+    async #mergeLinkStatements(links, re) {
+        const { tryParse } = await import('be-decorated/cpu.js');
+        const returnObj = [];
+        for (const linkCamelString of links) {
+            const test = tryParse(linkCamelString, re);
+            if (test !== null)
+                returnObj.push(test);
+        }
+        return returnObj;
     }
     async onCanonical(pp, mold) {
         const { canonicalConfig, self, proxy } = pp;
