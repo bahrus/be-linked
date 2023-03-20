@@ -41,6 +41,8 @@ host-element container has property "readOnly".  Inner element wants to set data
 </host-element>
 ```
 
+
+
 Alternative [Done]:
 
 ```html
@@ -55,13 +57,25 @@ Alternative [Done]:
 
 "the linkage" is optional and ignored.  Treated as commentary.
 
-#### Translate scenario [TODO]
+### Other verbs [TODO]
+
+In place of "Negate" above, we can use the following verbs:
+
+Key               |Meaning                                                |Notes
+------------------|-------------------------------------------------------|-----
+Clone.            |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
+Stringify.        |Do a JSON.stringify.
+Objectify.        |Do a JSON.parse
+Number.           |Apply Number function of source
+Reference.        |Pass weak reference of the property.
+
+#### Translate scenario [Done]
 
 ```html
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age props after subtracting 20.
+        Link age props after subtracting 20. //TODO
         Link age property of host to age property of adorned element after subtracting 20.
     '></daughter-heather>
 </paul-mccartney>
@@ -106,22 +120,6 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 
 ##### Using JavaScript for more complex scenarios [TODO]
 
-```html
-<host-element>
-    #shadow
-    <script nomodule>
-        ({upstreamElement}) => ({
-            checked: upstreamElement.readOnly ? 'on' : 'off';
-        });
-    </script>
-    <toggle-element be-linked='
-        Import.
-        Use import to manage read only property changes of host.
-    '></toggle-element>
-</host-element>
-```
-
-which is short hand for:
 
 ```html
 <host-element>

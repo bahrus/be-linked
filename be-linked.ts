@@ -43,21 +43,27 @@ export class BeLinked extends EventTarget implements Actions{
             }
             const {Negate} = cc;
             if(Negate !== undefined){
-                const negates = await this.#matchStd(Negate);
-                const {linkStatementsWithSingleArgs, shortDownLinkStatements} = negates;
-                shortDownLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate: true,
-                        ...link
-                    } as DownLink);
-                });
+                await this.#merge(Negate, {
+                    target: 'local',
+                    negate: true
+                } as Partial<DownLink>, downlinks);
             }
         }
         
         return {
             canonicalConfig
         };
+    }
+
+    async #merge(Links: LinkStatement[], mergeObj: Partial<DownLink>, downlinks: DownLink[]){
+        const links = await this.#matchStd(Links);
+        const {shortDownLinkStatements} = links;
+        shortDownLinkStatements.forEach(link => {
+            downlinks.push({
+                ...mergeObj,
+                ...link
+            } as DownLink);
+        });
     }
 
     async #matchStd(links: LinkStatement[]){

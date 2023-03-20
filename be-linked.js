@@ -40,20 +40,25 @@ export class BeLinked extends EventTarget {
             }
             const { Negate } = cc;
             if (Negate !== undefined) {
-                const negates = await this.#matchStd(Negate);
-                const { linkStatementsWithSingleArgs, shortDownLinkStatements } = negates;
-                shortDownLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate: true,
-                        ...link
-                    });
-                });
+                await this.#merge(Negate, {
+                    target: 'local',
+                    negate: true
+                }, downlinks);
             }
         }
         return {
             canonicalConfig
         };
+    }
+    async #merge(Links, mergeObj, downlinks) {
+        const links = await this.#matchStd(Links);
+        const { shortDownLinkStatements } = links;
+        shortDownLinkStatements.forEach(link => {
+            downlinks.push({
+                ...mergeObj,
+                ...link
+            });
+        });
     }
     async #matchStd(links) {
         const { tryParse } = await import('be-decorated/cpu.js');
