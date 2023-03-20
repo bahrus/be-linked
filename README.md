@@ -79,7 +79,7 @@ Refer             |Pass weak reference of the property.
 </paul-mccartney>
 ```
 
-#### Parse as [Done]
+#### as ... [Done]
 
 ```html
 <input type=number value=37></input>
@@ -89,6 +89,7 @@ Refer             |Pass weak reference of the property.
 '></paul-mccartney>
 ```
 
+Options:  as number, as date, as object, as string, as reg exp, as string.
 
 
 #### Mapping
@@ -133,29 +134,11 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 <host-element>
     #shadow
     <script nomodule>
-        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
+        export const readOnlyHandler = async ({remoteElement, adornedElement, ctx}) => ({
             checked: upstreamElement.readOnly ? 'on' : 'off';
         });
     </script>
     <toggle-element be-linked='
-        Import read only handler.
-        Use import to manage read only property changes of host.
-    '></toggle-element>
-</host-element>
-```
-
-which is shorthand for:
-
-```html
-<host-element>
-    #shadow
-    <script nomodule>
-        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
-            checked: upstreamElement.readOnly ? 'on' : 'off';
-        });
-    </script>
-    <toggle-element be-linked='
-        Import read only handler.
         Use read only handler import to manage read only property changes of host.
     '></toggle-element>
 </host-element>
