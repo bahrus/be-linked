@@ -12,19 +12,37 @@ export class BeLinked extends EventTarget {
         for (const cc of camelConfigArr) {
             const { Link, negate } = cc;
             if (Link !== undefined) {
-                const links = await this.#matchStd(Link, reShortDownLinkStatement);
-                links.forEach(link => {
+                const links = await this.#matchStd(Link);
+                const { linkStatementsWithSingleArgs, shortDownLinkStatements } = links;
+                shortDownLinkStatements.forEach(link => {
                     downlinks.push({
                         target: 'local',
                         negate,
                         ...link
                     });
                 });
+                linkStatementsWithSingleArgs.forEach(link => {
+                    const downlink = {
+                        target: 'local',
+                        ...link,
+                    };
+                    const { adjustmentVerb, argument } = link;
+                    switch (adjustmentVerb) {
+                        case 'subtracting':
+                            downlink.translate = -1 * Number(argument);
+                            break;
+                        case 'adding':
+                            downlink.translate = Number(argument);
+                            break;
+                    }
+                    downlinks.push(downlink);
+                });
             }
             const { Negate } = cc;
             if (Negate !== undefined) {
-                const negates = await this.#matchStd(Negate, reShortDownLinkStatement);
-                negates.forEach(link => {
+                const negates = await this.#matchStd(Negate);
+                const { linkStatementsWithSingleArgs, shortDownLinkStatements } = negates;
+                shortDownLinkStatements.forEach(link => {
                     downlinks.push({
                         target: 'local',
                         negate: true,
@@ -37,17 +55,28 @@ export class BeLinked extends EventTarget {
             canonicalConfig
         };
     }
-    async #matchStd(links, re) {
+    async #matchStd(links) {
         const { tryParse } = await import('be-decorated/cpu.js');
-        const returnObj = [];
+        const shortDownLinkStatements = [];
+        const linkStatementsWithSingleArgs = [];
         for (const linkCamelString of links) {
-            const test = tryParse(linkCamelString, re);
+            let test = tryParse(linkCamelString, reLinkStatementWithSingleArgVerb);
             if (test !== null) {
                 test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                returnObj.push(test);
+                linkStatementsWithSingleArgs.push(test);
+                continue;
+            }
+            test = tryParse(linkCamelString, reShortDownLinkStatement);
+            if (test !== null) {
+                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
+                shortDownLinkStatements.push(test);
+                continue;
             }
         }
-        return returnObj;
+        return {
+            shortDownLinkStatements,
+            linkStatementsWithSingleArgs
+        };
     }
     async onCanonical(pp, mold) {
         const { canonicalConfig, self, proxy } = pp;
@@ -57,7 +86,7 @@ export class BeLinked extends EventTarget {
             const { getVal } = await import('trans-render/lib/getVal.js');
             const { setProp } = await import('trans-render/lib/setProp.js');
             for (const downlink of downlinks) {
-                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate } = downlink;
+                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate } = downlink;
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if (src === null)
@@ -66,6 +95,8 @@ export class BeLinked extends EventTarget {
                     let val = await getVal({ host: src }, upstreamPropPath);
                     if (negate)
                         val = !val;
+                    if (translate)
+                        val = Number(val) + translate;
                     await setProp(targetObj, downstreamPropPath, val);
                 }
                 let upstreamPropName = downlink.upstreamPropName;
@@ -94,6 +125,8 @@ export class BeLinked extends EventTarget {
                     let val = await getVal({ host: src }, upstreamPropPath);
                     if (negate)
                         val = !val;
+                    if (translate)
+                        val = Number(val) + translate;
                     await setProp(targetObj, downstreamPropPath, val);
                 });
             }
@@ -102,6 +135,7 @@ export class BeLinked extends EventTarget {
     }
 }
 const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+const reLinkStatementWithSingleArgVerb = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';

@@ -53,7 +53,7 @@ Alternative [Done]:
 </host-element>
 ```
 
-"the value" is optional and ignored.  Treated as commentary.
+"the linkage" is optional and ignored.  Treated as commentary.
 
 #### Translate scenario [TODO]
 
@@ -61,11 +61,13 @@ Alternative [Done]:
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age props.
-        Minus by 20 the linkage.
+        Link age props after subtracting 20.
+        Link age property of host to age property of adorned element after subtracting 20.
     '></daughter-heather>
 </paul-mccartney>
 ```
+
+
 
 #### Mapping
 
@@ -80,7 +82,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-##### Declarative mapping scenario
+##### Declarative mapping scenario [TODO]
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 
@@ -102,7 +104,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios 
+##### Using JavaScript for more complex scenarios [TODO]
 
 ```html
 <host-element>

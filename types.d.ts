@@ -28,6 +28,8 @@ export type ParseOptions = 'String' | 'Number' | 'Date' | 'RegExp' | 'Object' | 
 export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
 
+
+
 export type TranslateStatement = `By${NumericString}`;
 
 export interface Link<TSrc = any, TDest = any>{

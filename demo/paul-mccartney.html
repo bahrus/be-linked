@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <paul-mccartney></paul-mccartney>
+
+    <div be-linked='
+        Link age property of previous element sibling to text content property of adorned element after subtracting 20.
+    '></div>
+    <script type=importmap>
+        {
+            "imports": {
+                "be-decorated/": "../node_modules/be-decorated/",
+                "be-hive/": "../node_modules/be-hive/",
+                "be-propagating/": "../be-propagating/",
+                "be-scoped/": "../node_modules/be-scoped/",
+                "trans-render/": "../trans-render/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../be-linked.js';
+        import './paul-mccartney.js'
+    </script>
+</body>
+</html>

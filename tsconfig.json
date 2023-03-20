@@ -10,7 +10,8 @@
 		"strict": true,
 	},
 	"files":[
-		"be-linked.ts"
+		"be-linked.ts",
+		"demo/paul-mccartney.ts"
 	],
 	"exclude":[
 		"node_modules"
