@@ -57,17 +57,15 @@ Alternative [Done]:
 
 "the linkage" is optional and ignored.  Treated as commentary.
 
-### Other verbs [TODO]
+### Other verbs [Untest]
 
 In place of "Negate" above, we can use the following verbs:
 
 Key               |Meaning                                                |Notes
 ------------------|-------------------------------------------------------|-----
-Clone.            |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
-Stringify.        |Do a JSON.stringify.
-Objectify.        |Do a JSON.parse
-Number.           |Apply Number function of source
-Reference.        |Pass weak reference of the property.
+Clone             |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
+Stringify         |Do a JSON.stringify.
+Refer             |Pass weak reference of the property.
 
 #### Translate scenario [Done]
 
@@ -79,6 +77,16 @@ Reference.        |Pass weak reference of the property.
         Link age property of host to age property of adorned element after subtracting 20.
     '></daughter-heather>
 </paul-mccartney>
+```
+
+#### Parse as [Done]
+
+```html
+<input type=number value=37></input>
+
+<paul-mccartney be-linked='
+    Link value property as number of previous element sibling to age property of adorned element.
+'></paul-mccartney>
 ```
 
 

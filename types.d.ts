@@ -21,11 +21,12 @@ export type TargetStatement = 'AdornedElement' | 'Decorator'
 
 export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 
+export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
-export type ParseOptions = 'String' | 'Number' | 'Date' | 'RegExp' | 'Object' | 'Url';
-export type ParseStatement = `As${ParseOptions}`;
+export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
+//export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
 
 
@@ -38,11 +39,14 @@ export interface Link<TSrc = any, TDest = any>{
     negate?: boolean,
     nudge?: boolean,
     translate?: number,
+    parseOption?: ParseOptions,
     on?: string,
     of?: camelQry,
     clone?: boolean,
+    refer?: boolean,
     skipInit?: boolean,
     passDirection?: 'up' | 'down' | 'sync', //default to down
+
 }
 
 export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
@@ -59,15 +63,12 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     negate?: boolean;
     Negate?: LinkStatement[];
     Clone?: LinkStatement[];
-    Stringify?: LinkStatement[];
-    Numberfy?: LinkStatement[];
-    Parse?: [ParseStatement];
+    Refer?: LinkStatement[];
+
     Nudge?: [''];
     nudge?: boolean;
     Skip?: [''];
     skip?: boolean;
-    Minus?: [TranslateStatement];
-    Plus?: [TranslateStatement];
 }
 
 export interface CanonicalConfig{
