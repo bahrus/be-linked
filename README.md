@@ -127,15 +127,15 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [TODO]
+##### Using JavaScript for more complex scenarios [Done]
 
 
 ```html
 <host-element>
     #shadow
     <script nomodule>
-        export const readOnlyHandler = ({remoteElement}) => ({
-            checked: remoteElement.readOnly ? 'on' : 'off',
+        export const readOnlyHandler = ({remoteInstance}) => ({
+            checked: remoteInstance.readOnly ? 'on' : 'off',
         });
     </script>
     <toggle-element be-linked='
