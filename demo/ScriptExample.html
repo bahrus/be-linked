@@ -11,7 +11,7 @@
         <input readonly>
         <script nomodule>
             export const readOnlyHandler = ({remoteInstance}) => ({
-                checked: remoteInstance.readOnly ? 'on' : 'off',
+                someProp: remoteInstance.readOnly ? 'on' : 'off',
             })
         </script>
         <input be-linked='

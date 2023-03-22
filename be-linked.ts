@@ -169,6 +169,8 @@ export class BeLinked extends EventTarget implements Actions{
                 return new URL(val);
         }
     }
+
+
     async onCanonical(pp: PP, mold: PPP): PPPP {
         const {canonicalConfig, self, proxy} = pp;
         const {downlinks} = canonicalConfig!;
@@ -184,7 +186,7 @@ export class BeLinked extends EventTarget implements Actions{
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if(src === null) throw 'bL.404';
-                if(!skipInit){
+                const doPass = async () => {
                     let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
                     if(negate) val = !val;
                     if(translate) val = Number(val) + translate;
@@ -197,6 +199,9 @@ export class BeLinked extends EventTarget implements Actions{
                         });
                         Object.assign(targetObj, objToMerge);
                     }
+                }
+                if(!skipInit){
+                    await doPass();
                     
                 }
 
@@ -223,10 +228,7 @@ export class BeLinked extends EventTarget implements Actions{
                     propagator = src;
                 }
                 propagator.addEventListener(upstreamPropName, async e => {
-                    let val = this.#parseVal(await getVal({host: src}, upstreamPropPath), parseOption);
-                    if(negate) val = !val;
-                    if(translate) val = Number(val) + translate;
-                    await setProp(targetObj, downstreamPropPath, val);
+                    await doPass();
                 });
                 
             }
