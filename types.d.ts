@@ -50,14 +50,19 @@ export interface Link<TSrc = any, TDest = any>{
     refer?: boolean,
     skipInit?: boolean,
     passDirection?: 'up' | 'down' | 'sync', //default to down
+    handler?: (arg: HandlerArg) => any,
 
+}
+
+export interface HandlerArg {
+    remoteInstance: EventTarget,
 }
 
 export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
     upstreamPropPath: string, 
     upstreamPropName?: string & keyof TSrc,
     upstreamCamelQry: Scope,
-    downstreamPropPath: string,
+    downstreamPropPath?: string,
     downstreamPropName?: string & keyof TDest,
 }
 

@@ -2,6 +2,7 @@ import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
 import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink, LinkStatement, ParseOptions} from './types';
 import {ExportableScript} from 'be-exportable/types';
+import {Scope} from 'trans-render/lib/types';
 
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
@@ -75,17 +76,25 @@ export class BeLinked extends EventTarget implements Actions{
                 if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
                 const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
                 import('be-exportable/be-exportable.js');
-                await doBeHavings(self, [{
+                const prevScriptElement = self.previousElementSibling as ExportableScript;
+                await doBeHavings(prevScriptElement!, [{
                     be: 'exportable',
                     waitForResolved: true,
                 }]);
-                const exports = (self as ExportableScript)._modExport;
+                const exports = prevScriptElement._modExport;
                 const {tryParse} = await import('be-decorated/cpu.js');
                 for(const useStatement of Use){
                     const test = tryParse(useStatement, reUseStatement) as UseLinkStatement;
                     console.log({useStatement, reUseStatement, test});
                     if(test !== null){
-
+                        const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
+                        const downlink: DownLink = {
+                            target: 'local',
+                            upstreamPropPath,
+                            upstreamCamelQry,
+                            handler: exports[exportSymbol],
+                        };
+                        downlinks.push(downlink);
                     }
                 }
             }
@@ -168,7 +177,10 @@ export class BeLinked extends EventTarget implements Actions{
             const {getVal} = await import('trans-render/lib/getVal.js');
             const {setProp} = await import('trans-render/lib/setProp.js');
             for(const downlink of downlinks){
-                const {upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption} = downlink;
+                const {
+                    upstreamCamelQry, skipInit, upstreamPropPath, target, 
+                    downstreamPropPath, negate, translate, parseOption, handler
+                } = downlink;
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if(src === null) throw 'bL.404';
@@ -176,8 +188,16 @@ export class BeLinked extends EventTarget implements Actions{
                     let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
                     if(negate) val = !val;
                     if(translate) val = Number(val) + translate;
-                    console.log({targetObj, downstreamPropPath, val});
-                    await setProp(targetObj, downstreamPropPath, val);
+                    //console.log({targetObj, downstreamPropPath, val});
+                    if(downstreamPropPath !== undefined){
+                        await setProp(targetObj, downstreamPropPath, val);
+                    }else if(handler !== undefined){
+                        const objToMerge = await handler({
+                            remoteInstance: src
+                        });
+                        Object.assign(targetObj, objToMerge);
+                    }
+                    
                 }
 
                 let upstreamPropName = downlink.upstreamPropName;
@@ -243,7 +263,7 @@ const reParseLinkStatement =
 
 interface UseLinkStatement {
     upstreamPropPath: string,
-    upstreamCamelQry: string,
+    upstreamCamelQry: Scope,
     exportSymbol: string,
 }
 const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;

@@ -71,16 +71,25 @@ export class BeLinked extends EventTarget {
                     throw 'bL.404';
                 const { doBeHavings } = await import('trans-render/lib/doBeHavings.js');
                 import('be-exportable/be-exportable.js');
-                await doBeHavings(self, [{
+                const prevScriptElement = self.previousElementSibling;
+                await doBeHavings(prevScriptElement, [{
                         be: 'exportable',
                         waitForResolved: true,
                     }]);
-                const exports = self._modExport;
+                const exports = prevScriptElement._modExport;
                 const { tryParse } = await import('be-decorated/cpu.js');
                 for (const useStatement of Use) {
                     const test = tryParse(useStatement, reUseStatement);
                     console.log({ useStatement, reUseStatement, test });
                     if (test !== null) {
+                        const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
+                        const downlink = {
+                            target: 'local',
+                            upstreamPropPath,
+                            upstreamCamelQry,
+                            handler: exports[exportSymbol],
+                        };
+                        downlinks.push(downlink);
                     }
                 }
             }
@@ -159,7 +168,7 @@ export class BeLinked extends EventTarget {
             const { getVal } = await import('trans-render/lib/getVal.js');
             const { setProp } = await import('trans-render/lib/setProp.js');
             for (const downlink of downlinks) {
-                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption } = downlink;
+                const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler } = downlink;
                 const src = await findRealm(self, upstreamCamelQry);
                 const targetObj = target === 'local' ? self : proxy;
                 if (src === null)
@@ -170,8 +179,16 @@ export class BeLinked extends EventTarget {
                         val = !val;
                     if (translate)
                         val = Number(val) + translate;
-                    console.log({ targetObj, downstreamPropPath, val });
-                    await setProp(targetObj, downstreamPropPath, val);
+                    //console.log({targetObj, downstreamPropPath, val});
+                    if (downstreamPropPath !== undefined) {
+                        await setProp(targetObj, downstreamPropPath, val);
+                    }
+                    else if (handler !== undefined) {
+                        const objToMerge = await handler({
+                            remoteInstance: src
+                        });
+                        Object.assign(targetObj, objToMerge);
+                    }
                 }
                 let upstreamPropName = downlink.upstreamPropName;
                 if (upstreamPropName === undefined) {
