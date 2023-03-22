@@ -171,66 +171,69 @@ export class BeLinked extends EventTarget implements Actions{
     }
 
 
-    async onCanonical(pp: PP, mold: PPP): PPPP {
+    async #doDownlink(pp: PP, downlink: DownLink, ){
         const {canonicalConfig, self, proxy} = pp;
+        const {findRealm} = await import('trans-render/lib/findRealm.js');
+        const {getVal} = await import('trans-render/lib/getVal.js');
+        const {setProp} = await import('trans-render/lib/setProp.js');
+        const {
+            upstreamCamelQry, skipInit, upstreamPropPath, target, 
+            downstreamPropPath, negate, translate, parseOption, handler
+        } = downlink;
+        const src = await findRealm(self, upstreamCamelQry);
+        const targetObj = target === 'local' ? self : proxy;
+        if(src === null) throw 'bL.404';
+        const doPass = async () => {
+            let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
+            if(negate) val = !val;
+            if(translate) val = Number(val) + translate;
+            //console.log({targetObj, downstreamPropPath, val});
+            if(downstreamPropPath !== undefined){
+                await setProp(targetObj, downstreamPropPath, val);
+            }else if(handler !== undefined){
+                const objToMerge = await handler({
+                    remoteInstance: src
+                });
+                Object.assign(targetObj, objToMerge);
+            }
+        }
+        if(!skipInit){
+            await doPass();
+            
+        }
+
+        let upstreamPropName = downlink.upstreamPropName;
+        if(upstreamPropName === undefined){
+            upstreamPropName = upstreamPropPath.split('.')[0];
+            downlink.upstreamPropName = upstreamPropName;
+        }
+        let propagator: EventTarget | null = null;
+        if(!(<any>src)._isPropagating){
+            const aSrc = src as any;
+            if(!aSrc?.beDecorated?.propagating){
+                const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
+                import('be-propagating/be-propagating.js');
+                await doBeHavings(src as any as Element, [{
+                    be: 'propagating',
+                    waitForResolved: true,
+                }]);
+            }
+            propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
+            
+            //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
+        }else{
+            propagator = src;
+        }
+        propagator.addEventListener(upstreamPropName, async e => {
+            await doPass();
+        });
+    }
+    async onCanonical(pp: PP, mold: PPP): PPPP {
+        const {canonicalConfig} = pp;
         const {downlinks} = canonicalConfig!;
         if(downlinks !== undefined){
-            const {findRealm} = await import('trans-render/lib/findRealm.js');
-            const {getVal} = await import('trans-render/lib/getVal.js');
-            const {setProp} = await import('trans-render/lib/setProp.js');
             for(const downlink of downlinks){
-                const {
-                    upstreamCamelQry, skipInit, upstreamPropPath, target, 
-                    downstreamPropPath, negate, translate, parseOption, handler
-                } = downlink;
-                const src = await findRealm(self, upstreamCamelQry);
-                const targetObj = target === 'local' ? self : proxy;
-                if(src === null) throw 'bL.404';
-                const doPass = async () => {
-                    let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
-                    if(negate) val = !val;
-                    if(translate) val = Number(val) + translate;
-                    //console.log({targetObj, downstreamPropPath, val});
-                    if(downstreamPropPath !== undefined){
-                        await setProp(targetObj, downstreamPropPath, val);
-                    }else if(handler !== undefined){
-                        const objToMerge = await handler({
-                            remoteInstance: src
-                        });
-                        Object.assign(targetObj, objToMerge);
-                    }
-                }
-                if(!skipInit){
-                    await doPass();
-                    
-                }
-
-                let upstreamPropName = downlink.upstreamPropName;
-                if(upstreamPropName === undefined){
-                    upstreamPropName = upstreamPropPath.split('.')[0];
-                    downlink.upstreamPropName = upstreamPropName;
-                }
-                let propagator: EventTarget | null = null;
-                if(!(<any>src)._isPropagating){
-                    const aSrc = src as any;
-                    if(!aSrc?.beDecorated?.propagating){
-                        const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-                        import('be-propagating/be-propagating.js');
-                        await doBeHavings(src as any as Element, [{
-                            be: 'propagating',
-                            waitForResolved: true,
-                        }]);
-                    }
-                    propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
-                    
-                    //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
-                }else{
-                    propagator = src;
-                }
-                propagator.addEventListener(upstreamPropName, async e => {
-                    await doPass();
-                });
-                
+                await this.#doDownlink(pp, downlink);
             }
 
         }
