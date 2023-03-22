@@ -134,8 +134,8 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 <host-element>
     #shadow
     <script nomodule>
-        export const readOnlyHandler = async ({remoteElement, adornedElement, ctx}) => ({
-            checked: upstreamElement.readOnly ? 'on' : 'off';
+        export const readOnlyHandler = ({remoteElement}) => ({
+            checked: remoteElement.readOnly ? 'on' : 'off',
         });
     </script>
     <toggle-element be-linked='

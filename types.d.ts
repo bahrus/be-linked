@@ -25,6 +25,10 @@ export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
+export type ExportSymbol = string;
+
+export type UseStatement = `${ExportSymbol}ImportToManage${upstreamPropPath}PropertyChangesTo${upstreamCamelQry}`;
+
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 //export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
@@ -64,6 +68,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Negate?: LinkStatement[];
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
+    Use?: UseStatement[];
 
     Nudge?: [''];
     nudge?: boolean;

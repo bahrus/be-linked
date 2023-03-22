@@ -2,7 +2,7 @@ import { define } from 'be-decorated/DE.js';
 import { register } from "be-hive/register.js";
 export class BeLinked extends EventTarget {
     async camelToCanonical(pp) {
-        const { camelConfig } = pp;
+        const { camelConfig, self } = pp;
         const { arr } = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig = {
@@ -11,7 +11,6 @@ export class BeLinked extends EventTarget {
         const { downlinks } = canonicalConfig;
         for (const cc of camelConfigArr) {
             const { Link, negate } = cc;
-            console.log({ negate });
             if (Link !== undefined) {
                 const links = await this.#matchStd(Link);
                 const { linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements } = links;
@@ -64,6 +63,26 @@ export class BeLinked extends EventTarget {
                     target: 'local',
                     refer: true
                 }, downlinks);
+            }
+            const { Use } = cc;
+            if (Use !== undefined) {
+                const prev = self.previousElementSibling;
+                if (!(prev instanceof HTMLScriptElement))
+                    throw 'bL.404';
+                const { doBeHavings } = await import('trans-render/lib/doBeHavings.js');
+                import('be-exportable/be-exportable.js');
+                await doBeHavings(self, [{
+                        be: 'exportable',
+                        waitForResolved: true,
+                    }]);
+                const exports = self._modExport;
+                const { tryParse } = await import('be-decorated/cpu.js');
+                for (const useStatement of Use) {
+                    const test = tryParse(useStatement, reUseStatement);
+                    console.log({ useStatement, reUseStatement, test });
+                    if (test !== null) {
+                    }
+                }
             }
         }
         return {
@@ -192,6 +211,7 @@ export class BeLinked extends EventTarget {
 const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reLinkStatementWithSingleArgVerb = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';

@@ -1,10 +1,11 @@
 import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
 import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink, LinkStatement, ParseOptions} from './types';
+import {ExportableScript} from 'be-exportable/types';
 
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
-        const {camelConfig} = pp;
+        const {camelConfig, self} = pp;
         const {arr} = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
@@ -13,7 +14,6 @@ export class BeLinked extends EventTarget implements Actions{
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
             const {Link, negate} = cc;
-            console.log({negate});
             if(Link !== undefined){
                 const links = await this.#matchStd(Link);
                 const {linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements} = links;
@@ -68,6 +68,26 @@ export class BeLinked extends EventTarget implements Actions{
                     refer: true
                     
                 }, downlinks);
+            }
+            const {Use} = cc;
+            if(Use !== undefined){
+                const prev = self.previousElementSibling as HTMLScriptElement;
+                if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
+                const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
+                import('be-exportable/be-exportable.js');
+                await doBeHavings(self, [{
+                    be: 'exportable',
+                    waitForResolved: true,
+                }]);
+                const exports = (self as ExportableScript)._modExport;
+                const {tryParse} = await import('be-decorated/cpu.js');
+                for(const useStatement of Use){
+                    const test = tryParse(useStatement, reUseStatement) as UseLinkStatement;
+                    console.log({useStatement, reUseStatement, test});
+                    if(test !== null){
+
+                    }
+                }
             }
         }
         
@@ -213,11 +233,21 @@ interface LinkStatementWithSingleArgVerbGroup extends ShortDownLinkStatementGrou
 interface ParseLinkStatement extends ShortDownLinkStatementGroup {
     parseOption: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp',
 }
+
+
 const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reLinkStatementWithSingleArgVerb = 
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = 
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+
+interface UseLinkStatement {
+    upstreamPropPath: string,
+    upstreamCamelQry: string,
+    exportSymbol: string,
+}
+const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
+
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';
