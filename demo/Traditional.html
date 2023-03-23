@@ -7,26 +7,19 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <input readonly>
-        <script nomodule>
-            export const readOnlyHandler = ({remoteInstance}) => ({
-                someProp: remoteInstance.readOnly ? 'on' : 'off',
-            })
-        </script>
-        <input be-linked='
-            Use read only handler import to manage read only property changes of previous input element.
-        '>
-    </div>
+    <input>
+    <input be-linked='
+        On input event of previous element sibling do pass value property to local value property.
+        
+    '>
     <script type=importmap>
         {
             "imports": {
                 "be-decorated/": "../be-decorated/",
-                "be-exportable/": "../node_modules/be-exportable/",
                 "be-hive/": "../node_modules/be-hive/",
                 "be-propagating/": "../be-propagating/",
                 "be-scoped/": "../node_modules/be-scoped/",
-                "trans-render/": "../node_modules/trans-render/"
+                "trans-render/": "../trans-render/"
             }
         }
     </script>

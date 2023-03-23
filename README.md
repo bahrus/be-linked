@@ -4,7 +4,7 @@
 
 ### Propagating Event Target Subscribing Scenarios
 
-#### Simplest scenario. [TODO]
+#### Simplest scenario. [Untested]
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -57,7 +57,7 @@ Alternative [Done]:
 
 "the linkage" is optional and ignored.  Treated as commentary.
 
-### Other verbs [Untest]
+### Other verbs [Untested]
 
 In place of "Negate" above, we can use the following verbs:
 
@@ -170,7 +170,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 -->
 
 
-#### Counting Scenario
+#### Counting Scenario [TODO]
 
 ```html
 <my-light-weight-container>
@@ -183,7 +183,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 
 
 
-#### Copying
+#### Copying [TODO]
 
 Pass number value of previous element to local cm property.
 
@@ -219,7 +219,7 @@ Plus by.
 Increment.
 Increment by.
 
-### Leaning on server rendering
+### Leaning on server rendering [Done]
 
 If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
@@ -235,14 +235,14 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container>
 ```
 
-## Traditional Element Events
+## Traditional Element Events [TODO]
 
 ```html
 <my-light-weight-container>
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element do pass value to local cm property. 
+        On value changed event of previous element sibling do pass value to local cm property. 
         Debug.
         Fire changed event.
         Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.
@@ -269,7 +269,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 The use of the three tick marks here, by the way, is there just to mention another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
-## Upstream linking
+## Upstream linking [TODO]
 
 Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should shoulder the responsibility that this is triggered almost exclusively by user initiated events.
 
@@ -284,7 +284,7 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 
 So the big difference in the syntax is use of "up".  
 
-### Sidewise linking
+### Sidewise linking [TODO]
 
 It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That is by specifying the id:
 

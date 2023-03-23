@@ -14,7 +14,7 @@
     "be-having": "0.0.13",
     "be-propagating": "0.0.3",
     "be-hive": "0.0.82",
-    "trans-render": "0.0.670"
+    "trans-render": "0.0.671"
   },
   "devDependencies": {
     "be-scoped": "0.0.6",

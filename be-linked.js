@@ -13,7 +13,7 @@ export class BeLinked extends EventTarget {
             const { Link, negate } = cc;
             if (Link !== undefined) {
                 const links = await this.#matchStd(Link);
-                const { linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements } = links;
+                const { linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements } = links;
                 shortDownLinkStatements.forEach(link => {
                     downlinks.push({
                         target: 'local',
@@ -42,6 +42,15 @@ export class BeLinked extends EventTarget {
                             downlink.translate = Number(argument);
                             break;
                     }
+                    downlinks.push(downlink);
+                });
+                simplestLinkStatements.forEach(link => {
+                    const downlink = {
+                        target: 'local',
+                        downstreamPropName: link.props,
+                        upstreamCamelQry: 'host',
+                        upstreamPropPath: link.props
+                    };
                     downlinks.push(downlink);
                 });
             }
@@ -113,6 +122,7 @@ export class BeLinked extends EventTarget {
         const shortDownLinkStatements = [];
         const linkStatementsWithSingleArgs = [];
         const parseLinkStatements = [];
+        const simplestLinkStatements = [];
         for (const linkCamelString of links) {
             let test = tryParse(linkCamelString, reLinkStatementWithSingleArgVerb);
             if (test !== null) {
@@ -133,11 +143,16 @@ export class BeLinked extends EventTarget {
                 shortDownLinkStatements.push(test);
                 continue;
             }
+            test = tryParse(linkCamelString, reSimplest);
+            if (test !== null) {
+                simplestLinkStatements.push(test);
+            }
         }
         return {
             shortDownLinkStatements,
             linkStatementsWithSingleArgs,
             parseLinkStatements,
+            simplestLinkStatements,
         };
     }
     #parseVal(val, option) {
@@ -227,6 +242,7 @@ export class BeLinked extends EventTarget {
         return mold;
     }
 }
+const reSimplest = /^(?<props>\w+)Props/;
 const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reLinkStatementWithSingleArgVerb = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
