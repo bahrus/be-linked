@@ -51,7 +51,7 @@ export class BeLinked extends EventTarget implements Actions{
                 simplestLinkStatements.forEach(link => {
                     const downlink = {
                         target: 'local',
-                        downstreamPropName: link.props,
+                        downstreamPropPath: link.props,
                         upstreamCamelQry: 'host',
                         upstreamPropPath: link.props
                     } as DownLink;
@@ -94,7 +94,6 @@ export class BeLinked extends EventTarget implements Actions{
                 const {tryParse} = await import('be-decorated/cpu.js');
                 for(const useStatement of Use){
                     const test = tryParse(useStatement, reUseStatement) as UseLinkStatement;
-                    console.log({useStatement, reUseStatement, test});
                     if(test !== null){
                         const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
                         const downlink: DownLink = {
@@ -140,7 +139,6 @@ export class BeLinked extends EventTarget implements Actions{
                 continue;
             }
             test = tryParse(linkCamelString, reParseLinkStatement);
-            console.log({linkCamelString, reParseLinkStatement, test});
             if(test !== null){
                 test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
                 parseLinkStatements.push(test);
@@ -166,7 +164,6 @@ export class BeLinked extends EventTarget implements Actions{
     }
 
     #parseVal(val: any, option?: ParseOptions){
-        console.log({option, val});
         if(option === undefined) return val;
         debugger;
         switch(option){
@@ -202,7 +199,6 @@ export class BeLinked extends EventTarget implements Actions{
             let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
             if(negate) val = !val;
             if(translate) val = Number(val) + translate;
-            //console.log({targetObj, downstreamPropPath, val});
             if(downstreamPropPath !== undefined){
                 await setProp(targetObj, downstreamPropPath, val);
             }else if(handler !== undefined){
@@ -283,7 +279,8 @@ const reLinkStatementWithSingleArgVerb =
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = 
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
-
+const reTraditional = 
+/^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 interface UseLinkStatement {
     upstreamPropPath: string,
     upstreamCamelQry: Scope,

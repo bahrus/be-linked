@@ -4,7 +4,7 @@
 
 ### Propagating Event Target Subscribing Scenarios
 
-#### Simplest scenario. [Untested]
+#### Simplest scenario. [Done]
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -242,7 +242,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element sibling do pass value to local cm property. 
+        On value changed event of previous element sibling do pass value to cm property of adorned element. 
         Debug.
         Fire changed event.
         Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.

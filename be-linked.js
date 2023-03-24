@@ -47,7 +47,7 @@ export class BeLinked extends EventTarget {
                 simplestLinkStatements.forEach(link => {
                     const downlink = {
                         target: 'local',
-                        downstreamPropName: link.props,
+                        downstreamPropPath: link.props,
                         upstreamCamelQry: 'host',
                         upstreamPropPath: link.props
                     };
@@ -89,7 +89,6 @@ export class BeLinked extends EventTarget {
                 const { tryParse } = await import('be-decorated/cpu.js');
                 for (const useStatement of Use) {
                     const test = tryParse(useStatement, reUseStatement);
-                    console.log({ useStatement, reUseStatement, test });
                     if (test !== null) {
                         const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
                         const downlink = {
@@ -131,7 +130,6 @@ export class BeLinked extends EventTarget {
                 continue;
             }
             test = tryParse(linkCamelString, reParseLinkStatement);
-            console.log({ linkCamelString, reParseLinkStatement, test });
             if (test !== null) {
                 test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
                 parseLinkStatements.push(test);
@@ -156,7 +154,6 @@ export class BeLinked extends EventTarget {
         };
     }
     #parseVal(val, option) {
-        console.log({ option, val });
         if (option === undefined)
             return val;
         debugger;
@@ -191,7 +188,6 @@ export class BeLinked extends EventTarget {
                 val = !val;
             if (translate)
                 val = Number(val) + translate;
-            //console.log({targetObj, downstreamPropPath, val});
             if (downstreamPropPath !== undefined) {
                 await setProp(targetObj, downstreamPropPath, val);
             }
@@ -246,6 +242,7 @@ const reSimplest = /^(?<props>\w+)Props/;
 const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reLinkStatementWithSingleArgVerb = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+const reTraditional = /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
