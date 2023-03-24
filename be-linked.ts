@@ -1,8 +1,7 @@
 import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
 import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink, LinkStatement, ParseOptions} from './types';
-import {ExportableScript} from 'be-exportable/types';
-import {Scope} from 'trans-render/lib/types';
+
 
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
@@ -24,30 +23,8 @@ export class BeLinked extends EventTarget implements Actions{
             const {Use} = cc;
             if(Use !== undefined){
                 //TODO:  async import
-                const prev = self.previousElementSibling as HTMLScriptElement;
-                if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
-                const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-                import('be-exportable/be-exportable.js');
-                const prevScriptElement = self.previousElementSibling as ExportableScript;
-                await doBeHavings(prevScriptElement!, [{
-                    be: 'exportable',
-                    waitForResolved: true,
-                }]);
-                const exports = prevScriptElement._modExport;
-                const {tryParse} = await import('be-decorated/cpu.js');
-                for(const useStatement of Use){
-                    const test = tryParse(useStatement, reUseStatement) as UseLinkStatement;
-                    if(test !== null){
-                        const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
-                        const downlink: DownLink = {
-                            target: 'local',
-                            upstreamPropPath,
-                            upstreamCamelQry,
-                            handler: exports[exportSymbol],
-                        };
-                        downlinks.push(downlink);
-                    }
-                }
+                const {doUse} = await import('./doUse.js');
+                await doUse(pp, cc, downlinks);
             }
         }
         
@@ -158,12 +135,6 @@ export class BeLinked extends EventTarget implements Actions{
 
 const reTraditional = 
 /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
-interface UseLinkStatement {
-    upstreamPropPath: string,
-    upstreamCamelQry: Scope,
-    exportSymbol: string,
-}
-const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
 
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';

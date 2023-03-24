@@ -18,31 +18,8 @@ export class BeLinked extends EventTarget {
             const { Use } = cc;
             if (Use !== undefined) {
                 //TODO:  async import
-                const prev = self.previousElementSibling;
-                if (!(prev instanceof HTMLScriptElement))
-                    throw 'bL.404';
-                const { doBeHavings } = await import('trans-render/lib/doBeHavings.js');
-                import('be-exportable/be-exportable.js');
-                const prevScriptElement = self.previousElementSibling;
-                await doBeHavings(prevScriptElement, [{
-                        be: 'exportable',
-                        waitForResolved: true,
-                    }]);
-                const exports = prevScriptElement._modExport;
-                const { tryParse } = await import('be-decorated/cpu.js');
-                for (const useStatement of Use) {
-                    const test = tryParse(useStatement, reUseStatement);
-                    if (test !== null) {
-                        const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
-                        const downlink = {
-                            target: 'local',
-                            upstreamPropPath,
-                            upstreamCamelQry,
-                            handler: exports[exportSymbol],
-                        };
-                        downlinks.push(downlink);
-                    }
-                }
+                const { doUse } = await import('./doUse.js');
+                await doUse(pp, cc, downlinks);
             }
         }
         return {
@@ -136,7 +113,6 @@ export class BeLinked extends EventTarget {
 }
 //export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 const reTraditional = /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
-const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';
