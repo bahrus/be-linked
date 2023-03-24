@@ -14,73 +14,16 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link, negate} = cc;
-            if(Link !== undefined){
-                const links = await this.#matchStd(Link);
-                const {linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements} = links;
-                shortDownLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate,
-                        ...link
-                    } as DownLink);
-                });
-                parseLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate,
-                        ...link
-                    } as DownLink);
-                });
-                linkStatementsWithSingleArgs.forEach(link => {
-                    const downlink = {
-                        target: 'local',
-                        ...link,
-                    } as DownLink;
-                    const {adjustmentVerb, argument} = link;
-                    switch(adjustmentVerb){
-                        case 'subtracting':
-                            downlink.translate = -1 * Number(argument);
-                            break;
-                        case 'adding':
-                            downlink.translate = Number(argument);
-                            break;
-                    }
-                    downlinks.push(downlink);
-                });
-                simplestLinkStatements.forEach(link => {
-                    const downlink = {
-                        target: 'local',
-                        downstreamPropPath: link.props,
-                        upstreamCamelQry: 'host',
-                        upstreamPropPath: link.props
-                    } as DownLink;
-                    downlinks.push(downlink);
-                })
+            const {Link, Negate, Clone, Refer} = cc;
+            if(Link || Negate || Clone || Refer !== undefined){
+                const {doLink} = await import('./doLink.js');
+                await doLink(cc, downlinks);
                 
             }
-            const {Negate, Clone, Refer} = cc;
-            if(Negate !== undefined){
-                await this.#merge(Negate, {
-                    target: 'local',
-                    negate: true
-                } as Partial<DownLink>, downlinks);
-            }
-            if(Clone !== undefined){
-                await this.#merge(Clone, {
-                    target: 'local',
-                    clone: true
-                }, downlinks);
-            }
-            if(Refer !== undefined){
-                await this.#merge(Refer,  {
-                    target: 'local',
-                    refer: true
-                    
-                }, downlinks);
-            }
+
             const {Use} = cc;
             if(Use !== undefined){
+                //TODO:  async import
                 const prev = self.previousElementSibling as HTMLScriptElement;
                 if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
                 const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
@@ -113,55 +56,11 @@ export class BeLinked extends EventTarget implements Actions{
         };
     }
 
-    async #merge(Links: LinkStatement[], mergeObj: Partial<DownLink>, downlinks: DownLink[]){
-        const links = await this.#matchStd(Links);
-        const {shortDownLinkStatements} = links;
-        shortDownLinkStatements.forEach(link => {
-            downlinks.push({
-                ...mergeObj,
-                ...link
-            } as DownLink);
-        });
-    }
 
 
-    async #matchStd(links: LinkStatement[]){
-        const {tryParse} = await import('be-decorated/cpu.js');
-        const shortDownLinkStatements: ShortDownLinkStatementGroup[] = [];
-        const linkStatementsWithSingleArgs: LinkStatementWithSingleArgVerbGroup[] = [];
-        const parseLinkStatements: ParseLinkStatement[] = [];
-        const simplestLinkStatements: SimplestStatementGroup[] = [];
-        for(const linkCamelString of links){
-            let test = tryParse(linkCamelString, reLinkStatementWithSingleArgVerb);
-            if(test !== null){
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                linkStatementsWithSingleArgs.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reParseLinkStatement);
-            if(test !== null){
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                parseLinkStatements.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reShortDownLinkStatement) as ShortDownLinkStatementGroup | null;
-            if(test !== null) {
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                shortDownLinkStatements.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reSimplest) as SimplestStatementGroup | null;
-            if(test !== null){
-                simplestLinkStatements.push(test);
-            }
-        }
-        return {
-            shortDownLinkStatements,
-            linkStatementsWithSingleArgs,
-            parseLinkStatements,
-            simplestLinkStatements,
-        }
-    }
+
+
+
 
     #parseVal(val: any, option?: ParseOptions){
         if(option === undefined) return val;
@@ -254,31 +153,9 @@ export class BeLinked extends EventTarget implements Actions{
 
 //export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 
-interface SimplestStatementGroup {
-    props: string;
-}
 
-interface ShortDownLinkStatementGroup {
-    upstreamPropPath: string,
-    upstreamCamelQry: string,
-    downstreamPropPath: string,
-}
 
-interface LinkStatementWithSingleArgVerbGroup extends ShortDownLinkStatementGroup{
-    adjustmentVerb: 'subtracting' | 'adding' | 'parsingAs' | 'multiplyingBy' | 'dividingBy' | 'mod',
-    argument: string,
-}
 
-interface ParseLinkStatement extends ShortDownLinkStatementGroup {
-    parseOption: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp',
-}
-
-const reSimplest = /^(?<props>\w+)Props/;
-const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
-const reLinkStatementWithSingleArgVerb = 
-/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
-const reParseLinkStatement = 
-/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reTraditional = 
 /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 interface UseLinkStatement {

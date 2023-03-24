@@ -73,7 +73,6 @@ Refer             |Pass weak reference of the property.
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age props after subtracting 20. //TODO
         Link age property of host to age property of adorned element after subtracting 20.
     '></daughter-heather>
 </paul-mccartney>
@@ -82,14 +81,14 @@ Refer             |Pass weak reference of the property.
 #### as ... [Done]
 
 ```html
-<input type=number value=37></input>
+<input type=number value=37>
 
 <paul-mccartney be-linked='
     Link value property as number of previous element sibling to age property of adorned element.
 '></paul-mccartney>
 ```
 
-Options:  as number, as date, as object, as string, as reg exp, as string.
+Options:  as number, as date, as object, as string, as reg exp, as url
 
 
 #### Mapping

@@ -10,71 +10,14 @@ export class BeLinked extends EventTarget {
         };
         const { downlinks } = canonicalConfig;
         for (const cc of camelConfigArr) {
-            const { Link, negate } = cc;
-            if (Link !== undefined) {
-                const links = await this.#matchStd(Link);
-                const { linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements } = links;
-                shortDownLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate,
-                        ...link
-                    });
-                });
-                parseLinkStatements.forEach(link => {
-                    downlinks.push({
-                        target: 'local',
-                        negate,
-                        ...link
-                    });
-                });
-                linkStatementsWithSingleArgs.forEach(link => {
-                    const downlink = {
-                        target: 'local',
-                        ...link,
-                    };
-                    const { adjustmentVerb, argument } = link;
-                    switch (adjustmentVerb) {
-                        case 'subtracting':
-                            downlink.translate = -1 * Number(argument);
-                            break;
-                        case 'adding':
-                            downlink.translate = Number(argument);
-                            break;
-                    }
-                    downlinks.push(downlink);
-                });
-                simplestLinkStatements.forEach(link => {
-                    const downlink = {
-                        target: 'local',
-                        downstreamPropPath: link.props,
-                        upstreamCamelQry: 'host',
-                        upstreamPropPath: link.props
-                    };
-                    downlinks.push(downlink);
-                });
-            }
-            const { Negate, Clone, Refer } = cc;
-            if (Negate !== undefined) {
-                await this.#merge(Negate, {
-                    target: 'local',
-                    negate: true
-                }, downlinks);
-            }
-            if (Clone !== undefined) {
-                await this.#merge(Clone, {
-                    target: 'local',
-                    clone: true
-                }, downlinks);
-            }
-            if (Refer !== undefined) {
-                await this.#merge(Refer, {
-                    target: 'local',
-                    refer: true
-                }, downlinks);
+            const { Link, Negate, Clone, Refer } = cc;
+            if (Link || Negate || Clone || Refer !== undefined) {
+                const { doLink } = await import('./doLink.js');
+                await doLink(cc, downlinks);
             }
             const { Use } = cc;
             if (Use !== undefined) {
+                //TODO:  async import
                 const prev = self.previousElementSibling;
                 if (!(prev instanceof HTMLScriptElement))
                     throw 'bL.404';
@@ -104,53 +47,6 @@ export class BeLinked extends EventTarget {
         }
         return {
             canonicalConfig
-        };
-    }
-    async #merge(Links, mergeObj, downlinks) {
-        const links = await this.#matchStd(Links);
-        const { shortDownLinkStatements } = links;
-        shortDownLinkStatements.forEach(link => {
-            downlinks.push({
-                ...mergeObj,
-                ...link
-            });
-        });
-    }
-    async #matchStd(links) {
-        const { tryParse } = await import('be-decorated/cpu.js');
-        const shortDownLinkStatements = [];
-        const linkStatementsWithSingleArgs = [];
-        const parseLinkStatements = [];
-        const simplestLinkStatements = [];
-        for (const linkCamelString of links) {
-            let test = tryParse(linkCamelString, reLinkStatementWithSingleArgVerb);
-            if (test !== null) {
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                linkStatementsWithSingleArgs.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reParseLinkStatement);
-            if (test !== null) {
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                parseLinkStatements.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reShortDownLinkStatement);
-            if (test !== null) {
-                test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-                shortDownLinkStatements.push(test);
-                continue;
-            }
-            test = tryParse(linkCamelString, reSimplest);
-            if (test !== null) {
-                simplestLinkStatements.push(test);
-            }
-        }
-        return {
-            shortDownLinkStatements,
-            linkStatementsWithSingleArgs,
-            parseLinkStatements,
-            simplestLinkStatements,
         };
     }
     #parseVal(val, option) {
@@ -238,10 +134,7 @@ export class BeLinked extends EventTarget {
         return mold;
     }
 }
-const reSimplest = /^(?<props>\w+)Props/;
-const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
-const reLinkStatementWithSingleArgVerb = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
-const reParseLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+//export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 const reTraditional = /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
 const tagName = 'be-linked';
