@@ -79,6 +79,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     nudge?: boolean;
     Skip?: [''];
     skip?: boolean;
+    downlinks?: DownLink<TSrc, TDest>[]
 }
 
 export interface CanonicalConfig{
