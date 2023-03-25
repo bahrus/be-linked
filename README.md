@@ -120,8 +120,8 @@ host-element container has boolean property "readOnly" property.  If readOnly is
                 "falseVal": "off"
             }
         }
-        If read only property of host is true then set checked property of adorned element to true val.
-        If read only property of host is false then set checked property of adorned element to false val.
+        If read only property of host equals true then set checked property of adorned element to true val.
+        If read only property of host equals false then set checked property of adorned element to false val.
     '></toggle-element>
 </host-element>
 ```

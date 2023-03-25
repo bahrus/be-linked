@@ -23,36 +23,31 @@ export class BeLinked extends EventTarget {
                 const { doUse } = await import('./doUse.js');
                 await doUse(pp, cc, downlinks);
             }
+            if (If !== undefined) {
+                const { doIf } = await import('./doIf.js');
+                await doIf(cc, downlinks);
+            }
         }
         return {
             canonicalConfig
         };
     }
-    #parseVal(val, option) {
-        if (option === undefined)
-            return val;
-        debugger;
-        switch (option) {
-            case 'date':
-                return new Date(val);
-            case 'number':
-                return Number(val);
-            case 'object':
-                return JSON.parse(val);
-            case 'string':
-                return JSON.stringify(val);
-            case 'regExp':
-                return new RegExp(val);
-            case 'url':
-                return new URL(val);
+    async onCanonical(pp, mold) {
+        const { canonicalConfig } = pp;
+        const { downlinks } = canonicalConfig;
+        if (downlinks !== undefined) {
+            for (const downlink of downlinks) {
+                await this.#doDownlink(pp, downlink);
+            }
         }
+        return mold;
     }
     async #doDownlink(pp, downlink) {
         const { canonicalConfig, self, proxy } = pp;
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler } = downlink;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
         if (src === null)
@@ -63,6 +58,12 @@ export class BeLinked extends EventTarget {
                 val = !val;
             if (translate)
                 val = Number(val) + translate;
+            if (conditionValue !== undefined) {
+                if (val.toString() !== conditionValue.toString())
+                    return;
+                if (newValue !== undefined)
+                    val = newValue;
+            }
             if (downstreamPropPath !== undefined) {
                 await setProp(targetObj, downstreamPropPath, val);
             }
@@ -102,15 +103,24 @@ export class BeLinked extends EventTarget {
             await doPass();
         });
     }
-    async onCanonical(pp, mold) {
-        const { canonicalConfig } = pp;
-        const { downlinks } = canonicalConfig;
-        if (downlinks !== undefined) {
-            for (const downlink of downlinks) {
-                await this.#doDownlink(pp, downlink);
-            }
+    #parseVal(val, option) {
+        if (option === undefined)
+            return val;
+        debugger;
+        switch (option) {
+            case 'date':
+                return new Date(val);
+            case 'number':
+                return Number(val);
+            case 'object':
+                return JSON.parse(val);
+            case 'string':
+                return JSON.stringify(val);
+            case 'regExp':
+                return new RegExp(val);
+            case 'url':
+                return new URL(val);
         }
-        return mold;
     }
 }
 //export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;

@@ -26,6 +26,10 @@ export class BeLinked extends EventTarget implements Actions{
                 const {doUse} = await import('./doUse.js');
                 await doUse(pp, cc, downlinks);
             }
+            if(If !== undefined){
+                const {doIf} = await import('./doIf.js');
+                await doIf(cc, downlinks);
+            }
         }
         
         return {
@@ -33,31 +37,17 @@ export class BeLinked extends EventTarget implements Actions{
         };
     }
 
+    async onCanonical(pp: PP, mold: PPP): PPPP {
+        const {canonicalConfig} = pp;
+        const {downlinks} = canonicalConfig!;
+        if(downlinks !== undefined){
+            for(const downlink of downlinks){
+                await this.#doDownlink(pp, downlink);
+            }
 
-
-
-
-
-
-    #parseVal(val: any, option?: ParseOptions){
-        if(option === undefined) return val;
-        debugger;
-        switch(option){
-            case 'date':
-                return new Date(val);
-            case 'number':
-                return Number(val);
-            case 'object': 
-                return JSON.parse(val);
-            case 'string':
-                return JSON.stringify(val);
-            case 'regExp':
-                return new RegExp(val);
-            case 'url':
-                return new URL(val);
         }
+        return mold;
     }
-
 
     async #doDownlink(pp: PP, downlink: DownLink, ){
         const {canonicalConfig, self, proxy} = pp;
@@ -66,7 +56,8 @@ export class BeLinked extends EventTarget implements Actions{
         const {setProp} = await import('trans-render/lib/setProp.js');
         const {
             upstreamCamelQry, skipInit, upstreamPropPath, target, 
-            downstreamPropPath, negate, translate, parseOption, handler
+            downstreamPropPath, negate, translate, parseOption, handler,
+            conditionValue, newValue
         } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
@@ -75,6 +66,10 @@ export class BeLinked extends EventTarget implements Actions{
             let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
             if(negate) val = !val;
             if(translate) val = Number(val) + translate;
+            if(conditionValue !== undefined){
+                if(val.toString() !== conditionValue.toString()) return;
+                if(newValue !== undefined) val = newValue;
+            }
             if(downstreamPropPath !== undefined){
                 await setProp(targetObj, downstreamPropPath, val);
             }else if(handler !== undefined){
@@ -115,16 +110,25 @@ export class BeLinked extends EventTarget implements Actions{
             await doPass();
         });
     }
-    async onCanonical(pp: PP, mold: PPP): PPPP {
-        const {canonicalConfig} = pp;
-        const {downlinks} = canonicalConfig!;
-        if(downlinks !== undefined){
-            for(const downlink of downlinks){
-                await this.#doDownlink(pp, downlink);
-            }
 
+
+    #parseVal(val: any, option?: ParseOptions){
+        if(option === undefined) return val;
+        debugger;
+        switch(option){
+            case 'date':
+                return new Date(val);
+            case 'number':
+                return Number(val);
+            case 'object': 
+                return JSON.parse(val);
+            case 'string':
+                return JSON.stringify(val);
+            case 'regExp':
+                return new RegExp(val);
+            case 'url':
+                return new URL(val);
         }
-        return mold;
     }
 }
 

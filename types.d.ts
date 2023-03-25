@@ -10,16 +10,16 @@ export interface VirtualProps extends EndUserProps, MinimalProxy{
 }
 
 export type propName = string;
-export type upstreamPropPath = string;
-export type downstreamPropPath = string;
-export type upstreamCamelQry = camelQry;
-export type downstreamCamelQry = camelQry;
+export type UpstreamPropPath = string;
+export type DownstreamPropPath = string;
+export type UpstreamCamelQry = camelQry;
+export type DownstreamCamelQry = camelQry;
 
 export type SuperShortLinkStatement = `${propName}Props`;
 
 export type TargetOptions = 'AdornedElement' | 'Decorator'
 
-export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetOptions}`;
+export type ShortDownLinkStatement = `${UpstreamPropPath}Of${UpstreamCamelQry}To${DownstreamPropPath}Of${TargetOptions}`;
 
 export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
@@ -27,12 +27,12 @@ export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
 export type ExportSymbol = string;
 
-export type UseStatement = `${ExportSymbol}ImportToManage${upstreamPropPath}PropertyChangesTo${upstreamCamelQry}`;
+export type UseStatement = `${ExportSymbol}ImportToManage${UpstreamPropPath}PropertyChangesTo${UpstreamCamelQry}`;
 
-export type Condition = string;
-export type Value = string;
+export type ConditionValue = string | number | boolean;
+export type NewValue = string;
 
-export type IfStatement = `${upstreamPropPath}Of${upstreamCamelQry}Is${Condition}ThenSet${downstreamPropPath}Of${TargetOptions}To${Value}`;
+export type IfStatement = `${UpstreamPropPath}Of${UpstreamCamelQry}Is${ConditionValue}ThenSet${DownstreamPropPath}Of${TargetOptions}To${NewValue}`;
 
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 //export type ParseStatement = `As${ParseOptions}`;
@@ -49,6 +49,8 @@ export interface Link<TSrc = any, TDest = any>{
     nudge?: boolean,
     translate?: number,
     parseOption?: ParseOptions,
+    conditionValue?: ConditionValue,
+    newValue?: NewValue,
     on?: string,
     of?: camelQry,
     clone?: boolean,
@@ -64,10 +66,10 @@ export interface HandlerArg {
 }
 
 export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
-    upstreamPropPath: string, 
+    upstreamPropPath: UpstreamPropPath, 
     upstreamPropName?: string & keyof TSrc,
     upstreamCamelQry: Scope,
-    downstreamPropPath?: string,
+    downstreamPropPath?: DownstreamPropPath,
     downstreamPropName?: string & keyof TDest,
 }
 
