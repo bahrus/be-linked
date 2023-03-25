@@ -9,18 +9,18 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-decorated": "0.0.235",
-    "be-exportable": "0.0.66",
-    "be-having": "0.0.13",
-    "be-propagating": "0.0.3",
+    "be-decorated": "0.0.237",
+    "be-exportable": "0.0.67",
+    "be-having": "0.0.14",
+    "be-propagating": "0.0.4",
     "be-hive": "0.0.82",
     "trans-render": "0.0.671"
   },
   "devDependencies": {
-    "be-scoped": "0.0.6",
+    "be-scoped": "0.0.7",
     "may-it-serve": "0.0.5",
     "@skypack/package-check": "0.2.2",
-    "@playwright/test": "1.31.2"
+    "@playwright/test": "1.32.1"
   },
   "main": "index.js",
 
