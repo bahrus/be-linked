@@ -13,7 +13,7 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link, Negate, Clone, Refer, downlinks: cc_downlinks} = cc;
+            const {Link, Negate, Clone, Refer, Use, If, downlinks: cc_downlinks} = cc;
             if(cc_downlinks !== undefined){
                 downlinks.concat(...cc_downlinks);
             }
@@ -21,8 +21,6 @@ export class BeLinked extends EventTarget implements Actions{
                 const {doLink} = await import('./doLink.js');
                 await doLink(cc, downlinks);
             }
-
-            const {Use} = cc;
             if(Use !== undefined){
                 //TODO:  async import
                 const {doUse} = await import('./doUse.js');
