@@ -17,9 +17,9 @@ export type downstreamCamelQry = camelQry;
 
 export type SuperShortLinkStatement = `${propName}Props`;
 
-export type TargetStatement = 'AdornedElement' | 'Decorator'
+export type TargetOptions = 'AdornedElement' | 'Decorator'
 
-export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
+export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetOptions}`;
 
 export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
@@ -28,6 +28,11 @@ export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 export type ExportSymbol = string;
 
 export type UseStatement = `${ExportSymbol}ImportToManage${upstreamPropPath}PropertyChangesTo${upstreamCamelQry}`;
+
+export type Condition = string;
+export type Value = string;
+
+export type IfStatement = `${upstreamPropPath}Of${upstreamCamelQry}Is${Condition}ThenSet${downstreamPropPath}Of${TargetOptions}To${Value}`;
 
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 //export type ParseStatement = `As${ParseOptions}`;
@@ -74,7 +79,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Use?: UseStatement[];
-
+    If?: IfStatement[];
     Nudge?: [''];
     nudge?: boolean;
     Skip?: [''];
