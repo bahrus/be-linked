@@ -13,7 +13,7 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link, Negate, Clone, Refer, Use, If, downlinks: cc_downlinks} = cc;
+            const {Link, Negate, Clone, Refer, Use, If, On, downlinks: cc_downlinks} = cc;
             if(cc_downlinks !== undefined){
                 cc_downlinks.forEach(link => downlinks.push(link))
             }
@@ -29,6 +29,10 @@ export class BeLinked extends EventTarget implements Actions{
             if(If !== undefined){
                 const {doIf} = await import('./doIf.js');
                 await doIf(cc, downlinks);
+            }
+            if(On !== undefined){
+                const {doOn} = await import('./doOn.js');
+                await doOn(cc, downlinks);
             }
         }
         
@@ -57,7 +61,7 @@ export class BeLinked extends EventTarget implements Actions{
         const {
             upstreamCamelQry, skipInit, upstreamPropPath, target, 
             downstreamPropPath, negate, translate, parseOption, handler,
-            conditionValue, newValue
+            conditionValue, newValue, on
         } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
@@ -89,26 +93,33 @@ export class BeLinked extends EventTarget implements Actions{
             upstreamPropName = upstreamPropPath.split('.')[0];
             downlink.upstreamPropName = upstreamPropName;
         }
-        let propagator: EventTarget | null = null;
-        if(!(<any>src)._isPropagating){
-            const aSrc = src as any;
-            if(!aSrc?.beDecorated?.propagating){
-                const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-                import('be-propagating/be-propagating.js');
-                await doBeHavings(src as any as Element, [{
-                    be: 'propagating',
-                    waitForResolved: true,
-                }]);
-            }
-            propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
-            
-            //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
+        if(on !== undefined){
+            src.addEventListener(on, async e => {
+                await doPass();
+            });
         }else{
-            propagator = src;
+            let propagator: EventTarget | null = null;
+            if(!(<any>src)._isPropagating){
+                const aSrc = src as any;
+                if(!aSrc?.beDecorated?.propagating){
+                    const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
+                    import('be-propagating/be-propagating.js');
+                    await doBeHavings(src as any as Element, [{
+                        be: 'propagating',
+                        waitForResolved: true,
+                    }]);
+                }
+                propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
+                
+                //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
+            }else{
+                propagator = src;
+            }
+            propagator.addEventListener(upstreamPropName, async e => {
+                await doPass();
+            });
         }
-        propagator.addEventListener(upstreamPropName, async e => {
-            await doPass();
-        });
+
     }
 
 

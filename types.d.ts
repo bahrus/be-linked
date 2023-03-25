@@ -34,7 +34,7 @@ export type ConditionValue = string | number | boolean;
 export type NewValue = string;
 
 export type IfStatement = `${UpstreamPropPath}Of${UpstreamCamelQry}Is${ConditionValue}ThenSet${DownstreamPropPath}Of${TargetOptions}To${NewValue}`;
-export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}DoPass${UpstreamPropPath}To${DownstreamPropPath}Of${TargetOptions}`;
+export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}To${DownstreamPropPath}Of${TargetOptions}`;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 //export type ParseStatement = `As${ParseOptions}`;

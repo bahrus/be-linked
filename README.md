@@ -236,16 +236,16 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container>
 ```
 
-## Traditional Element Events [TODO]
+## Traditional Element Events [Partially Done]
 
 ```html
 <my-light-weight-container>
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element sibling do pass value to cm property of adorned element. 
-        Debug.
-        Fire changed event.
+        On value changed event of previous element sibling pass value to cm property of adorned element. 
+        Debug
+        Fire changed event. 
         Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.
         Skip initialization. //"initialization" is ignored commentary.
         ```
@@ -258,7 +258,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element do increment local cm property. 
+        On value changed event of previous element increment local cm property. 
         Debug.
         Fire changed event.
         Nudge previous element.
