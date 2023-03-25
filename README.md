@@ -191,8 +191,7 @@ Pass number value of previous element to local cm property.
     <div data-d=7></div>
     <metric-units be-linked='
         ```
-        Copy dataset:d property of previous element to local cm property.
-        Parse as number the copy.
+        Copy dataset:d property as number of previous element to local cm property.
         ```
     '></metric-units>
 </div>
@@ -202,21 +201,6 @@ NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy.
 
 Maybe this should be a separate decorator?
 
-
-
-Ambient Verbs:
-
-Key               |Meaning                                                |Notes
-------------------|-------------------------------------------------------|-----
-Clone.            |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
-Parse.            |Parse value as number or date or regExp or Object, whichever works.
-Stringify.        |Do a JSON.stringify.
-Reference.        |Pass weak reference of the property.
-Negate.           |
-Minus by.         |Parse as number if needed and subtract this number.
-Plus by.
-Increment.
-Increment by.
 
 ### Leaning on server rendering [Done]
 
