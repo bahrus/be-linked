@@ -143,4 +143,4 @@ const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)Property
 const reLinkStatementWithSingleArgVerb = 
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = 
-/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyAs(?<parseOption>Number|Date|String|Object|Url|RegExp)Of(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;

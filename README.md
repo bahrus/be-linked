@@ -84,7 +84,7 @@ Refer             |Pass weak reference of the property.
 <input type=number value=37>
 
 <paul-mccartney be-linked='
-    Link value property as number of previous element sibling to age property of adorned element.
+    Link value property of previous element sibling as number to age property of adorned element.
 '></paul-mccartney>
 ```
 
