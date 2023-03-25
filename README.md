@@ -174,9 +174,9 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 ```html
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
-        <span be-linked='
-            Count changes to value property of previous element and pass it to text content property of adorned element.
-        '></span>
+        <my-counter be-linked='
+            When value property of previous element changes increment count property of adorned element.
+        '></my-counter>
 </my-light-weight-container>
 ```
 
