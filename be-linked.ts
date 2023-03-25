@@ -15,7 +15,7 @@ export class BeLinked extends EventTarget implements Actions{
         for(const cc of camelConfigArr){
             const {Link, Negate, Clone, Refer, Use, If, downlinks: cc_downlinks} = cc;
             if(cc_downlinks !== undefined){
-                downlinks.concat(...cc_downlinks);
+                cc_downlinks.forEach(link => downlinks.push(link))
             }
             if(Link || Negate || Clone || Refer !== undefined){
                 const {doLink} = await import('./doLink.js');

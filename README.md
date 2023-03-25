@@ -19,11 +19,29 @@ host-element container has boolean property "readOnly".  Inner element wants to 
 
 which is shorthand for [Done]:
 
+###### Hemingway Notation
+
 ```html
 <host-element>
     #shadow
     <input be-linked='
         Link read only property of host to read only property of adorned element.
+    '>
+</host-element>
+```
+
+##### JavaScriptObjectNotation
+
+```html
+<host-element>
+    #shadow
+    <input be-linked='
+        "downlinks":[{
+            "downstreamPropPath": "readOnly",
+            "target": "local",
+            "upstreamCamelQry": "host",
+            "upstreamPropPath": "readOnly"
+        }]
     '>
 </host-element>
 ```
@@ -104,7 +122,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-##### Declarative mapping scenario [Done]
+##### Declarative mapping scenario [Partially Done]
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 

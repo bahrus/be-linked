@@ -9,9 +9,15 @@
 <body>
     <div>
         <input readonly>
-        <input be-linked='
-            Link read only property of previous element sibling to read only property of adorned element.
-        '>
+        <input be-linked='{
+            "downlinks":[{
+                "downstreamPropPath": "readOnly",
+                "target": "local",
+                "upstreamCamelQry": "previousElementSibling",
+                "upstreamPropName": "readOnly",
+                "upstreamPropPath": "readOnly"
+            }]
+        }'>
     </div>
     <script type=importmap>
         {
