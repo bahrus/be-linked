@@ -9,7 +9,7 @@ export async function doIf(cc, downlinks) {
                 target: 'local',
                 upstreamCamelQry,
                 upstreamPropPath,
-                downstreamPropPath,
+                downstreamPropPath: downstreamPropPath.replaceAll(':', '.'),
                 conditionValue,
                 newValue,
             });

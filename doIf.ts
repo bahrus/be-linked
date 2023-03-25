@@ -15,7 +15,7 @@ export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
                 target: 'local',
                 upstreamCamelQry,
                 upstreamPropPath,
-                downstreamPropPath,
+                downstreamPropPath: downstreamPropPath.replaceAll(':', '.'),
                 conditionValue,
                 newValue,
             });
