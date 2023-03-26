@@ -246,7 +246,7 @@ If the server is able to apply the initial round of rendering / passing, then we
         On value changed event of previous element sibling pass value to cm property of adorned element. 
         Debug. //Done.
         Fire changed event. 
-        Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.
+        Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
         Skip initialization. //"initialization" is ignored commentary.
         ```
     '></metric-units>
