@@ -156,7 +156,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        Assign result of read only handler into adorned element when read only property of host changes.
+        Assign result of read only handler to adorned element when read only property of host changes.
     '></toggle-element>
 </host-element>
 ```
@@ -294,7 +294,7 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
             }
         </script>
         <input be-linked='
-            Assign result of input event handler into host on input event of adorned element.
+            Assign result of input event handler to host on input event of adorned element.
         '>
 </host-element>
 ```
