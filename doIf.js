@@ -6,8 +6,8 @@ export async function doIf(cc, downlinks) {
         if (test !== null) {
             const { upstreamCamelQry, upstreamPropPath, downstreamPropPath, conditionValue, newValue } = test;
             downlinks.push({
-                target: 'local',
-                passDirection: 'down',
+                localInstance: 'local',
+                passDirection: 'towards',
                 debug,
                 nudge,
                 skipInit: skip,

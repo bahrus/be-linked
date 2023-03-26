@@ -21,14 +21,14 @@ export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
         if(test !== null){
             const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
             const downlink: DownLink = {
-                target: 'local',
+                localInstance: 'local',
                 nudge,
                 debug,
                 skipInit: skip,
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
-                passDirection: 'down'
+                passDirection: 'towards'
             };
             downlinks.push(downlink);
         }

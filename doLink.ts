@@ -3,8 +3,8 @@ import {CamelConfig, DownLink, LinkStatement} from './types';
 export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     const {Link, negate, debug, nudge, skip} = cc;
     const defaultDownlink = {
-        target: 'local',
-        passDirection: 'down',
+        localInstance: 'local',
+        passDirection: 'towards',
         negate,
         debug,
         nudge,
@@ -43,7 +43,7 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
         });
         simplestLinkStatements.forEach(link => {
             const downlink = {
-                target: 'local',
+                localInstance: 'local',
                 downstreamPropPath: link.props,
                 upstreamCamelQry: 'host',
                 upstreamPropPath: link.props
@@ -53,19 +53,19 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
         const {Negate, Clone, Refer} = cc;
         if(Negate !== undefined){
             await merge(Negate, {
-                target: 'local',
+                localInstance: 'local',
                 negate: true
             } as Partial<DownLink>, downlinks);
         }
         if(Clone !== undefined){
             await merge(Clone, {
-                target: 'local',
+                localInstance: 'local',
                 clone: true
             }, downlinks);
         }
         if(Refer !== undefined){
             await merge(Refer,  {
-                target: 'local',
+                localInstance: 'local',
                 refer: true
                 
             }, downlinks);

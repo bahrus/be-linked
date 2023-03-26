@@ -46,7 +46,7 @@ export type TranslateStatement = `By${NumericString}`;
 
 export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
-    target: 'local' | 'proxy',
+    localInstance: 'local' | 'proxy',
     negate?: boolean,
     nudge?: boolean,
     translate?: number,
@@ -59,7 +59,7 @@ export interface Link<TSrc = any, TDest = any>{
     refer?: boolean,
     skipInit?: boolean,
     debug?: boolean,
-    passDirection?: 'up' | 'down' | 'sync', //default to down
+    passDirection?: 'away' | 'towards' | 'sync', //default to down
     handler?: (arg: HandlerArg) => any,
     increment?: boolean,
 }

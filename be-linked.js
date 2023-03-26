@@ -51,9 +51,27 @@ export class BeLinked extends EventTarget {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment } = downlink;
-        const src = await findRealm(self, upstreamCamelQry);
-        const targetObj = target === 'local' ? self : proxy;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection } = downlink;
+        let src = null;
+        let dest;
+        let srcPropPath;
+        let destPropPath;
+        const upstreamRealm = await findRealm(self, upstreamCamelQry);
+        const downstreamInstance = localInstance === 'local' ? self : proxy;
+        switch (passDirection) {
+            case 'towards':
+                src = upstreamRealm;
+                dest = downstreamInstance;
+                srcPropPath = upstreamPropPath;
+                destPropPath = downstreamPropPath;
+                break;
+            case 'away':
+                src = downstreamInstance;
+                srcPropPath = downstreamPropPath;
+                destPropPath = upstreamPropPath;
+                dest = upstreamRealm;
+                break;
+        }
         if (src === null)
             throw 'bL.404';
         const doPass = async () => {
@@ -63,7 +81,7 @@ export class BeLinked extends EventTarget {
                 //TODO
             }
             else {
-                let val = this.#parseVal(await getVal({ host: src }, upstreamPropPath), parseOption);
+                let val = this.#parseVal(await getVal({ host: src }, srcPropPath), parseOption);
                 if (negate)
                     val = !val;
                 if (translate)
@@ -74,14 +92,14 @@ export class BeLinked extends EventTarget {
                     if (newValue !== undefined)
                         val = newValue;
                 }
-                if (downstreamPropPath !== undefined) {
-                    await setProp(targetObj, downstreamPropPath, val);
+                if (destPropPath !== undefined) {
+                    await setProp(dest, destPropPath, val);
                 }
                 else if (handler !== undefined) {
-                    const objToMerge = await handler({
+                    const objToAssign = await handler({
                         remoteInstance: src
                     });
-                    Object.assign(targetObj, objToMerge);
+                    Object.assign(dest, objToAssign);
                 }
             }
         };
@@ -94,7 +112,8 @@ export class BeLinked extends EventTarget {
             downlink.upstreamPropName = upstreamPropName;
         }
         if (on !== undefined) {
-            src.addEventListener(on, async (e) => {
+            const eventTarget = passDirection === 'towards' ? src : self;
+            eventTarget.addEventListener(on, async (e) => {
                 await doPass();
             });
         }

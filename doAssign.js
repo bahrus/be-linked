@@ -18,14 +18,14 @@ export async function doAssign(pp, cc, downlinks) {
         if (test !== null) {
             const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
             const downlink = {
-                target: 'local',
+                localInstance: 'local',
                 nudge,
                 debug,
                 skipInit: skip,
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
-                passDirection: 'down'
+                passDirection: 'towards'
             };
             downlinks.push(downlink);
         }

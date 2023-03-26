@@ -12,8 +12,8 @@ export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
                 downstreamPropPath, conditionValue, newValue}
             = test;
             downlinks.push({
-                target: 'local',
-                passDirection: 'down',
+                localInstance: 'local',
+                passDirection: 'towards',
                 debug,
                 nudge,
                 skipInit: skip,
