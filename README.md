@@ -244,7 +244,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <metric-units be-linked='
         ```
         On value changed event of previous element sibling pass value to cm property of adorned element. 
-        Debug
+        Debug. //Done.
         Fire changed event. 
         Nudge previous element. //"previous element" is ignored commentary.  Always nudges the source element.
         Skip initialization. //"initialization" is ignored commentary.

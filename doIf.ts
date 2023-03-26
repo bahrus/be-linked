@@ -2,7 +2,7 @@ import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPro
 import {Scope} from 'trans-render/lib/types';
 
 export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
-    const {If} = cc;
+    const {If, debug, nudge, skip} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const ifString of If!){
         const test = tryParse(ifString, reIfStatement) as IfStatement | null;
@@ -13,6 +13,9 @@ export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
             = test;
             downlinks.push({
                 target: 'local',
+                debug,
+                nudge,
+                skipInit: skip,
                 upstreamCamelQry,
                 upstreamPropPath,
                 downstreamPropPath: downstreamPropPath.replaceAll(':', '.'),

@@ -1,25 +1,30 @@
 export async function doLink(cc, downlinks) {
-    const { Link, negate } = cc;
+    const { Link, negate, debug, nudge, skip } = cc;
+    const defaultDownlink = {
+        target: 'local',
+        negate,
+        debug,
+        nudge,
+        skipInit: skip,
+    };
     if (Link !== undefined) {
         const links = await matchStd(Link);
         const { linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements } = links;
         shortDownLinkStatements.forEach(link => {
             downlinks.push({
-                target: 'local',
-                negate,
+                ...defaultDownlink,
                 ...link
             });
         });
         parseLinkStatements.forEach(link => {
             downlinks.push({
-                target: 'local',
-                negate,
+                ...defaultDownlink,
                 ...link
             });
         });
         linkStatementsWithSingleArgs.forEach(link => {
             const downlink = {
-                target: 'local',
+                ...defaultDownlink,
                 ...link,
             };
             const { adjustmentVerb, argument } = link;

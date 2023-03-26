@@ -51,12 +51,14 @@ export class BeLinked extends EventTarget {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on } = downlink;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
         if (src === null)
             throw 'bL.404';
         const doPass = async () => {
+            if (debug)
+                debugger;
             let val = this.#parseVal(await getVal({ host: src }, upstreamPropPath), parseOption);
             if (negate)
                 val = !val;
@@ -113,6 +115,10 @@ export class BeLinked extends EventTarget {
                 await doPass();
             });
         }
+        if (nudge && src instanceof Element) {
+            const { nudge } = await import('trans-render/lib/nudge.js');
+            nudge(src);
+        }
     }
     #parseVal(val, option) {
         if (option === undefined)
@@ -149,7 +155,7 @@ define({
             parseAndCamelize: true,
             camelizeOptions: {
                 //TODO
-                booleans: ['Negate', 'Clone']
+                booleans: ['Negate', 'Clone', 'Debug', 'Skip']
             },
             primaryPropReq: true,
         },

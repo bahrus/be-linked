@@ -1,5 +1,5 @@
 export async function doIf(cc, downlinks) {
-    const { If } = cc;
+    const { If, debug, nudge, skip } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const ifString of If) {
         const test = tryParse(ifString, reIfStatement);
@@ -7,6 +7,9 @@ export async function doIf(cc, downlinks) {
             const { upstreamCamelQry, upstreamPropPath, downstreamPropPath, conditionValue, newValue } = test;
             downlinks.push({
                 target: 'local',
+                debug,
+                nudge,
+                skipInit: skip,
                 upstreamCamelQry,
                 upstreamPropPath,
                 downstreamPropPath: downstreamPropPath.replaceAll(':', '.'),

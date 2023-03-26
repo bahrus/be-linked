@@ -1,6 +1,6 @@
 export async function doUse(pp, cc, downlinks) {
     const { self } = pp;
-    const { Use } = cc;
+    const { Use, debug, nudge, skip } = cc;
     const prev = self.previousElementSibling;
     if (!(prev instanceof HTMLScriptElement))
         throw 'bL.404';
@@ -19,6 +19,9 @@ export async function doUse(pp, cc, downlinks) {
             const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
             const downlink = {
                 target: 'local',
+                nudge,
+                debug,
+                skipInit: skip,
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],

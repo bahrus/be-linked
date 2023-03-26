@@ -1,27 +1,32 @@
 import {CamelConfig, DownLink, LinkStatement} from './types';
 
 export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
-    const {Link, negate} = cc;
+    const {Link, negate, debug, nudge, skip} = cc;
+    const defaultDownlink = {
+        target: 'local',
+        negate,
+        debug,
+        nudge,
+        skipInit: skip,
+    } as DownLink;
     if(Link !== undefined){
         const links = await matchStd(Link);
         const {linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements} = links;
         shortDownLinkStatements.forEach(link => {
             downlinks.push({
-                target: 'local',
-                negate,
+                ...defaultDownlink,
                 ...link
             } as DownLink);
         });
         parseLinkStatements.forEach(link => {
             downlinks.push({
-                target: 'local',
-                negate,
+                ...defaultDownlink,
                 ...link
             } as DownLink);
         });
         linkStatementsWithSingleArgs.forEach(link => {
             const downlink = {
-                target: 'local',
+                ...defaultDownlink,
                 ...link,
             } as DownLink;
             const {adjustmentVerb, argument} = link;

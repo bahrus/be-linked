@@ -40,7 +40,7 @@ export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 
 //export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
 
-
+export type DebugStatement = string;
 
 export type TranslateStatement = `By${NumericString}`;
 
@@ -58,6 +58,7 @@ export interface Link<TSrc = any, TDest = any>{
     clone?: boolean,
     refer?: boolean,
     skipInit?: boolean,
+    debug?: boolean,
     passDirection?: 'up' | 'down' | 'sync', //default to down
     handler?: (arg: HandlerArg) => any,
 
@@ -80,6 +81,8 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     //link?: DownLink<TSrc, TDest>[];
     negate?: boolean;
     Negate?: LinkStatement[];
+    Debug?: [DebugStatement];
+    debug?: boolean;
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Use?: UseStatement[];

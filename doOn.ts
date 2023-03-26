@@ -2,7 +2,7 @@ import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPro
 import {Scope} from 'trans-render/lib/types';
 
 export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
-    const {On} = cc;
+    const {On, debug, nudge, skip} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){
         const test = tryParse(onString, reOnPassStatement) as OnPassStatement | null;
@@ -13,7 +13,10 @@ export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
                 upstreamCamelQry,
                 upstreamPropPath,
                 on: eventName,
-                downstreamPropPath
+                downstreamPropPath,
+                debug,
+                nudge,
+                skipInit: skip,
             })
         }
     }

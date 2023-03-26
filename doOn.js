@@ -1,5 +1,5 @@
 export async function doOn(cc, downlinks) {
-    const { On } = cc;
+    const { On, debug, nudge, skip } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const onString of On) {
         const test = tryParse(onString, reOnPassStatement);
@@ -10,7 +10,10 @@ export async function doOn(cc, downlinks) {
                 upstreamCamelQry,
                 upstreamPropPath,
                 on: eventName,
-                downstreamPropPath
+                downstreamPropPath,
+                debug,
+                nudge,
+                skipInit: skip,
             });
         }
     }

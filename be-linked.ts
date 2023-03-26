@@ -61,12 +61,13 @@ export class BeLinked extends EventTarget implements Actions{
         const {
             upstreamCamelQry, skipInit, upstreamPropPath, target, 
             downstreamPropPath, negate, translate, parseOption, handler,
-            conditionValue, newValue, on
+            conditionValue, newValue, on, debug, nudge
         } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
         if(src === null) throw 'bL.404';
         const doPass = async () => {
+            if(debug) debugger;
             let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
             if(negate) val = !val;
             if(translate) val = Number(val) + translate;
@@ -85,7 +86,6 @@ export class BeLinked extends EventTarget implements Actions{
         }
         if(!skipInit){
             await doPass();
-            
         }
 
         let upstreamPropName = downlink.upstreamPropName;
@@ -118,6 +118,10 @@ export class BeLinked extends EventTarget implements Actions{
             propagator.addEventListener(upstreamPropName, async e => {
                 await doPass();
             });
+        }
+        if(nudge && src instanceof Element){
+            const {nudge} = await import('trans-render/lib/nudge.js');
+            nudge(src);
         }
 
     }
@@ -165,7 +169,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions, CamelConfig>, Actions>({
             parseAndCamelize: true,
             camelizeOptions: {
                 //TODO
-                booleans: ['Negate', 'Clone']
+                booleans: ['Negate', 'Clone', 'Debug', 'Skip']
             },
             primaryPropReq: true,
         },

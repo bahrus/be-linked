@@ -4,7 +4,7 @@ import {Scope} from 'trans-render/lib/types';
 
 export async function doUse(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
     const {self} = pp;
-    const {Use} = cc!;
+    const {Use, debug, nudge, skip} = cc!;
     const prev = self.previousElementSibling as HTMLScriptElement;
     if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
     const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
@@ -22,6 +22,9 @@ export async function doUse(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
             const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
             const downlink: DownLink = {
                 target: 'local',
+                nudge,
+                debug,
+                skipInit: skip,
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
