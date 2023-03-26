@@ -156,7 +156,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        Merge result of read only handler into adorned element when read only property of host changes.
+        Assign result of read only handler into adorned element when read only property of host changes.
     '></toggle-element>
 </host-element>
 ```
@@ -289,12 +289,12 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 <host-element>
     #shadow
         <script nomodule>
-            export const inputEventHandler = () => {
+            export const inputEventHandler = ({remoteInstance, adornedElement}) => {
 
             }
         </script>
         <input be-linked='
-            Merge result of input event handler into host on input event of adorned element.
+            Assign result of input event handler into host on input event of adorned element.
         '>
 </host-element>
 ```
