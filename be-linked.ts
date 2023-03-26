@@ -61,28 +61,33 @@ export class BeLinked extends EventTarget implements Actions{
         const {
             upstreamCamelQry, skipInit, upstreamPropPath, target, 
             downstreamPropPath, negate, translate, parseOption, handler,
-            conditionValue, newValue, on, debug, nudge
+            conditionValue, newValue, on, debug, nudge, increment
         } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
         if(src === null) throw 'bL.404';
         const doPass = async () => {
             if(debug) debugger;
-            let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
-            if(negate) val = !val;
-            if(translate) val = Number(val) + translate;
-            if(conditionValue !== undefined){
-                if(val.toString() !== conditionValue.toString()) return;
-                if(newValue !== undefined) val = newValue;
+            if(increment){
+                //TODO
+            }else{
+                let val = this.#parseVal( await getVal({host: src}, upstreamPropPath), parseOption);
+                if(negate) val = !val;
+                if(translate) val = Number(val) + translate;
+                if(conditionValue !== undefined){
+                    if(val.toString() !== conditionValue.toString()) return;
+                    if(newValue !== undefined) val = newValue;
+                }
+                if(downstreamPropPath !== undefined){
+                    await setProp(targetObj, downstreamPropPath, val);
+                }else if(handler !== undefined){
+                    const objToMerge = await handler({
+                        remoteInstance: src
+                    });
+                    Object.assign(targetObj, objToMerge);
+                }
             }
-            if(downstreamPropPath !== undefined){
-                await setProp(targetObj, downstreamPropPath, val);
-            }else if(handler !== undefined){
-                const objToMerge = await handler({
-                    remoteInstance: src
-                });
-                Object.assign(targetObj, objToMerge);
-            }
+
         }
         if(!skipInit){
             await doPass();

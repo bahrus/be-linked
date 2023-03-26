@@ -13,6 +13,7 @@ export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
             = test;
             downlinks.push({
                 target: 'local',
+                passDirection: 'down',
                 debug,
                 nudge,
                 skipInit: skip,

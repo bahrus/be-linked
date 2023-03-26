@@ -28,6 +28,7 @@ export async function doUse(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
+                passDirection: 'down'
             };
             downlinks.push(downlink);
         }

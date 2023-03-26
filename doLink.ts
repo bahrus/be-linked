@@ -4,6 +4,7 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     const {Link, negate, debug, nudge, skip} = cc;
     const defaultDownlink = {
         target: 'local',
+        passDirection: 'down',
         negate,
         debug,
         nudge,

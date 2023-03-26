@@ -51,7 +51,7 @@ export class BeLinked extends EventTarget {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge } = downlink;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, target, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment } = downlink;
         const src = await findRealm(self, upstreamCamelQry);
         const targetObj = target === 'local' ? self : proxy;
         if (src === null)
@@ -59,25 +59,30 @@ export class BeLinked extends EventTarget {
         const doPass = async () => {
             if (debug)
                 debugger;
-            let val = this.#parseVal(await getVal({ host: src }, upstreamPropPath), parseOption);
-            if (negate)
-                val = !val;
-            if (translate)
-                val = Number(val) + translate;
-            if (conditionValue !== undefined) {
-                if (val.toString() !== conditionValue.toString())
-                    return;
-                if (newValue !== undefined)
-                    val = newValue;
+            if (increment) {
+                //TODO
             }
-            if (downstreamPropPath !== undefined) {
-                await setProp(targetObj, downstreamPropPath, val);
-            }
-            else if (handler !== undefined) {
-                const objToMerge = await handler({
-                    remoteInstance: src
-                });
-                Object.assign(targetObj, objToMerge);
+            else {
+                let val = this.#parseVal(await getVal({ host: src }, upstreamPropPath), parseOption);
+                if (negate)
+                    val = !val;
+                if (translate)
+                    val = Number(val) + translate;
+                if (conditionValue !== undefined) {
+                    if (val.toString() !== conditionValue.toString())
+                        return;
+                    if (newValue !== undefined)
+                        val = newValue;
+                }
+                if (downstreamPropPath !== undefined) {
+                    await setProp(targetObj, downstreamPropPath, val);
+                }
+                else if (handler !== undefined) {
+                    const objToMerge = await handler({
+                        remoteInstance: src
+                    });
+                    Object.assign(targetObj, objToMerge);
+                }
             }
         };
         if (!skipInit) {

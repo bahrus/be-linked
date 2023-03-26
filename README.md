@@ -144,7 +144,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [Done]
+##### Using JavaScript for more complex scenarios [TODO]
 
 
 ```html
@@ -156,7 +156,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        Use read only handler import to manage read only property changes of host.
+        Merge result of read only handler into adorned element when read only property of host changes.
     '></toggle-element>
 </host-element>
 ```
@@ -236,7 +236,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container>
 ```
 
-## Traditional Element Events [Partially Done]
+## Traditional Element Events [Done]
 
 ```html
 <my-light-weight-container>
@@ -245,7 +245,7 @@ If the server is able to apply the initial round of rendering / passing, then we
         ```
         On value changed event of previous element sibling pass value to cm property of adorned element. 
         Debug. //Done.
-        Fire changed event. 
+        Fire changed event.  //TODO
         Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
         Skip initialization. //"initialization" is ignored commentary.
         ```
@@ -258,7 +258,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element increment local cm property. 
+        On value changed event of previous element increment cm property of adorned element. //TODO
         Debug.
         Fire changed event.
         Nudge previous element.
@@ -278,12 +278,44 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 <host-element>
     #shadow
         <input be-linked='
-            On input event of adorned element do pass value up to greeting property of host.
+            Set greeting property of host to value property of adorned element on input event.
         '>
 </host-element>
 ```
 
-So the big difference in the syntax is use of "up".  
+## Upstream scripting [TODO]
+
+```html
+<host-element>
+    #shadow
+        <script nomodule>
+            export const inputEventHandler = () => {
+
+            }
+        </script>
+        <input be-linked='
+            Merge result of input event handler into host on input event of adorned element.
+        '>
+</host-element>
+```
+
+If host-element has method "hostMethod":
+
+```html
+<host-element>
+    #shadow
+        <script nomodule>
+            export const inputEventHandler = () => {
+
+            }
+        </script>
+        <input be-linked='
+            Invoke host method on input event of adorned element.
+        '>
+</host-element>
+```
+
+ 
 
 ### Sidewise linking [TODO]
 
@@ -292,11 +324,11 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
 ```html
 <host-element>
     #shadow
-        <input be-linked='
-            On input event of adorned element do pass value to greeting property of downstream target id.
+        <input type=number be-linked='
+            Set slide index property of slide show id to value as number property of adorned element on input event.
         '>
         ...
-        <my-carousel id=downstream-target></my-carousel>
+        <my-carousel id=slide-show></my-carousel>
 </host-element>
 ```
 

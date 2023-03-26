@@ -2,6 +2,7 @@ export async function doLink(cc, downlinks) {
     const { Link, negate, debug, nudge, skip } = cc;
     const defaultDownlink = {
         target: 'local',
+        passDirection: 'down',
         negate,
         debug,
         nudge,

@@ -25,6 +25,7 @@ export async function doUse(pp, cc, downlinks) {
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
+                passDirection: 'down'
             };
             downlinks.push(downlink);
         }

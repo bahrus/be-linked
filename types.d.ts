@@ -61,7 +61,7 @@ export interface Link<TSrc = any, TDest = any>{
     debug?: boolean,
     passDirection?: 'up' | 'down' | 'sync', //default to down
     handler?: (arg: HandlerArg) => any,
-
+    increment?: boolean,
 }
 
 export interface HandlerArg {
@@ -78,7 +78,6 @@ export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
 
 export interface CamelConfig<TSrc=any, TDest=any>{
     Link?: LinkStatement[];
-    //link?: DownLink<TSrc, TDest>[];
     negate?: boolean;
     Negate?: LinkStatement[];
     Debug?: [DebugStatement];
@@ -92,7 +91,8 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     nudge?: boolean;
     Skip?: [''];
     skip?: boolean;
-    downlinks?: DownLink<TSrc, TDest>[]
+    downlinks?: DownLink<TSrc, TDest>[],
+    
 }
 
 export interface CanonicalConfig{
