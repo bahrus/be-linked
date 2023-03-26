@@ -278,7 +278,7 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 <host-element>
     #shadow
         <input be-linked='
-            On input event of adorned element pass value to greeting property of host.
+            On input event of adorned element pass value property to greeting property of host.
         '>
 </host-element>
 ```
