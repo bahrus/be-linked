@@ -1,6 +1,6 @@
-export async function doUse(pp, cc, downlinks) {
+export async function doAssign(pp, cc, downlinks) {
     const { self } = pp;
-    const { Use, debug, nudge, skip } = cc;
+    const { Assign, debug, nudge, skip } = cc;
     const prev = self.previousElementSibling;
     if (!(prev instanceof HTMLScriptElement))
         throw 'bL.404';
@@ -13,8 +13,8 @@ export async function doUse(pp, cc, downlinks) {
         }]);
     const exports = prevScriptElement._modExport;
     const { tryParse } = await import('be-decorated/cpu.js');
-    for (const useStatement of Use) {
-        const test = tryParse(useStatement, reUseStatement);
+    for (const assignStatement of Assign) {
+        const test = tryParse(assignStatement, reDownstreamAssignStatement);
         if (test !== null) {
             const { upstreamCamelQry, upstreamPropPath, exportSymbol } = test;
             const downlink = {
@@ -31,4 +31,4 @@ export async function doUse(pp, cc, downlinks) {
         }
     }
 }
-const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
+const reDownstreamAssignStatement = /^resultOf(?<exportSymbol>\w+)(?<!\\)ToAdornedElementWhen(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)Changes/;

@@ -28,7 +28,7 @@ export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
 export type ExportSymbol = string;
 
-export type UseStatement = `${ExportSymbol}ImportToManage${UpstreamPropPath}PropertyChangesTo${UpstreamCamelQry}`;
+export type DownstreamAssignStatement = `ResultOf${ExportSymbol}ToAdornedElementWhen${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Changes`;
 
 export type ConditionValue = string | number | boolean;
 export type NewValue = string;
@@ -84,7 +84,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     debug?: boolean;
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
-    Use?: UseStatement[];
+    Assign?: DownstreamAssignStatement[];
     If?: IfStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];

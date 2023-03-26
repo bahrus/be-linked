@@ -144,14 +144,14 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [TODO]
+##### Using JavaScript for more complex scenarios [Done]
 
 
 ```html
 <host-element>
     #shadow
     <script nomodule>
-        export const readOnlyHandler = ({remoteInstance}) => ({
+        export const readOnlyHandler = ({remoteInstance, adornedElement}) => ({
             checked: remoteInstance.readOnly ? 'on' : 'off',
         });
     </script>

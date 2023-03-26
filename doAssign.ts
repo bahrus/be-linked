@@ -2,9 +2,9 @@ import {CamelConfig, DownLink, PP} from './types';
 import {ExportableScript} from 'be-exportable/types';
 import {Scope} from 'trans-render/lib/types';
 
-export async function doUse(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
+export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
     const {self} = pp;
-    const {Use, debug, nudge, skip} = cc!;
+    const {Assign, debug, nudge, skip} = cc!;
     const prev = self.previousElementSibling as HTMLScriptElement;
     if(!(prev instanceof HTMLScriptElement)) throw 'bL.404';
     const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
@@ -16,8 +16,8 @@ export async function doUse(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
     }]);
     const exports = prevScriptElement._modExport;
     const {tryParse} = await import('be-decorated/cpu.js');
-    for(const useStatement of Use!){
-        const test = tryParse(useStatement, reUseStatement) as UseLinkStatement;
+    for(const assignStatement of Assign!){
+        const test = tryParse(assignStatement, reDownstreamAssignStatement) as UseLinkStatement;
         if(test !== null){
             const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
             const downlink: DownLink = {
@@ -40,4 +40,4 @@ interface UseLinkStatement {
     upstreamCamelQry: Scope,
     exportSymbol: string,
 }
-const reUseStatement = /^(?<exportSymbol>\w+)ImportToManage(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyChangesOf(?<upstreamCamelQry>\w+)/;
+const reDownstreamAssignStatement = /^resultOf(?<exportSymbol>\w+)(?<!\\)ToAdornedElementWhen(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)Changes/;
