@@ -10,12 +10,13 @@
     <div>
         <input readonly>
         <input be-linked='{
-            "downlinks":[{
+            "links":[{
                 "downstreamPropPath": "readOnly",
                 "target": "local",
                 "upstreamCamelQry": "previousElementSibling",
                 "upstreamPropName": "readOnly",
-                "upstreamPropPath": "readOnly"
+                "upstreamPropPath": "readOnly",
+                "passDirection": "towards"
             }]
         }'>
     </div>

@@ -5,7 +5,6 @@ export async function doOn(cc, downlinks) {
         debug,
         nudge,
         skipInit: skip,
-        //passDirection: 'down',
     };
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const onString of On) {

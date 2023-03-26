@@ -36,11 +36,12 @@ which is shorthand for [Done]:
 <host-element>
     #shadow
     <input be-linked='
-        "downlinks":[{
+        "links":[{
             "downstreamPropPath": "readOnly",
             "target": "local",
             "upstreamCamelQry": "host",
-            "upstreamPropPath": "readOnly"
+            "upstreamPropPath": "readOnly",
+            "passDirection": "towards"
         }]
     '>
 </host-element>
@@ -161,30 +162,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-<!--
 
-```html
-<host-element>
-    #shadow
-    <script nomodule>
-        export const readOnlyHandler = async ({upstreamElement, downstreamElement, ctx}) => ({
-            checked: upstreamElement.readOnly ? 'on' : 'off';
-        })
-    <script>
-    <toggle-element be-linked='
-        {
-            "import": {
-                "symbol": "readOnlyHandler",
-                "as": "readOnlyHandler", //default, optional
-                "from": "previousElementSibling", //default
-            }
-        }
-        Use imported read only mediator to manage read only property changes of host.
-    '></toggle-element>
-</host-element>
-```
-
--->
 
 
 #### Counting Scenario [TODO]
@@ -270,7 +248,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 The use of the three tick marks here, by the way, is there just to mention another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
-## Upstream linking [TODO]
+## Upstream linking [Done]
 
 Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should shoulder the responsibility that this is triggered almost exclusively by user initiated events.
 

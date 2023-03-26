@@ -9,7 +9,6 @@ export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
         debug,
         nudge,
         skipInit: skip,
-        //passDirection: 'down',
     } as DownLink;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){

@@ -13,7 +13,7 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link, Negate, Clone, Refer, Assign, If, On, downlinks: cc_downlinks} = cc;
+            const {Link, Negate, Clone, Refer, Assign, If, On, links: cc_downlinks} = cc;
             if(cc_downlinks !== undefined){
                 cc_downlinks.forEach(link => downlinks.push(link))
             }
