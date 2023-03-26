@@ -9,7 +9,7 @@ export async function doOn(cc, downlinks) {
     };
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const onString of On) {
-        const onPassStatement = tryParse(onString, reOnPassStatement);
+        const onPassStatement = tryParse(onString, reOnPassDownstreamStatement);
         if (onPassStatement !== null) {
             const { eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath } = onPassStatement;
             downlinks.push({
@@ -34,5 +34,6 @@ export async function doOn(cc, downlinks) {
         }
     }
 }
-const reOnPassStatement = /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Pass(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyTo(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+const reOnPassDownstreamStatement = /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Pass(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyTo(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+const reOnPassUpstreamStatement = /^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
 const reOnIncrementStatement = /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Increment(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;

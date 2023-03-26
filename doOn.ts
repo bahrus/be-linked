@@ -12,7 +12,7 @@ export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
     } as DownLink;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){
-        const onPassStatement = tryParse(onString, reOnPassStatement) as OnPassStatement | null;
+        const onPassStatement = tryParse(onString, reOnPassDownstreamStatement) as OnPassStatement | null;
         if(onPassStatement !== null){
             const {eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath} = onPassStatement;
             downlinks.push({
@@ -45,8 +45,11 @@ interface OnPassStatement {
     downstreamPropPath: DownstreamPropPath
 }
 
-const reOnPassStatement = 
+const reOnPassDownstreamStatement = 
 /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Pass(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyTo(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+
+const reOnPassUpstreamStatement = 
+/^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
 
 interface OnIncrementStatement {
     eventName: EventName,
