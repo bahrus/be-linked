@@ -261,7 +261,7 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 </host-element>
 ```
 
-## Upstream scripting [TODO]
+## Upstream scripting [Done]
 
 ```html
 <host-element>
@@ -295,7 +295,7 @@ If host-element has method "hostMethod":
 
  
 
-### Sidewise linking [TODO]
+### Sidewise linking [WIP]
 
 It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That is by specifying the id:
 
@@ -303,7 +303,7 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
 <host-element>
     #shadow
         <input type=number be-linked='
-            Set slide index property of slide show id to value as number property of adorned element on input event.
+        On input event of adorned element pass value property as number to slide index property of  slide show id element in realm of adorned element. //TODO:  as number
         '>
         ...
         <my-carousel id=slide-show></my-carousel>
