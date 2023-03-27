@@ -295,15 +295,19 @@ If host-element has method "hostMethod":
 
  
 
-### Sidewise linking [WIP]
+### Sidewise linking [TODO]
 
-It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That is by specifying the id:
+It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That can be done by specifying the id (but other css matches can be used instead.  The one restriction is we can only target one element with each statement, the first element that matches the instructions):
 
 ```html
 <host-element>
     #shadow
         <input type=number be-linked='
-        On input event of adorned element pass value property as number to slide index property of  slide show id element in realm of adorned element. //TODO:  as number
+            On input event of adorned element 
+            pass value property as number 
+            to slide index property 
+            of slide show id 
+            in realm of adorned element. //TODO:  as number
         '>
         ...
         <my-carousel id=slide-show></my-carousel>
