@@ -16,28 +16,56 @@ export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
     }]);
     const exports = prevScriptElement._modExport;
     const {tryParse} = await import('be-decorated/cpu.js');
+    const defltLink = {
+        localInstance: 'local',
+        nudge,
+        debug,
+        skipInit: skip
+    } as DownLink;
     for(const assignStatement of Assign!){
-        const test = tryParse(assignStatement, reDownstreamAssignStatement) as UseLinkStatement;
-        if(test !== null){
-            const {upstreamCamelQry, upstreamPropPath, exportSymbol} = test;
+        const towardScriptWhenStatement = tryParse(assignStatement, reTowardsScriptResult) as TowardsScriptWhenStatement | null;
+        if(towardScriptWhenStatement !== null){
+            const {upstreamCamelQry, upstreamPropPath, exportSymbol} = towardScriptWhenStatement;
             const downlink: DownLink = {
-                localInstance: 'local',
-                nudge,
-                debug,
-                skipInit: skip,
+                ...defltLink,
                 upstreamPropPath,
                 upstreamCamelQry,
                 handler: exports[exportSymbol],
                 passDirection: 'towards'
             };
             downlinks.push(downlink);
+            continue;
+        }
+        const awayScriptOnStatement = tryParse(assignStatement, reAwayScriptOnResult) as AwayScriptOnStatement | null;
+        if(awayScriptOnStatement !== null){
+            const {eventName, exportSymbol, upstreamCamelQry} = awayScriptOnStatement;
+            const downlink: DownLink = {
+                ...defltLink,
+                passDirection: 'away',
+                upstreamCamelQry,
+                handler: exports[exportSymbol],
+                on: eventName,
+            };
+            downlinks.push(downlink);
+
         }
     }
 }
 
-interface UseLinkStatement {
+interface TowardsScriptWhenStatement {
     upstreamPropPath: string,
     upstreamCamelQry: Scope,
     exportSymbol: string,
 }
-const reDownstreamAssignStatement = /^resultOf(?<exportSymbol>\w+)(?<!\\)ToAdornedElementWhen(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)Changes/;
+
+interface AwayScriptOnStatement {
+    exportSymbol: string,
+    upstreamCamelQry: Scope,
+    eventName: string,
+
+}
+const reTowardsScriptResult = /^resultOf(?<exportSymbol>\w+)(?<!\\)ToAdornedElementWhen(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)Changes/;
+
+const reAwayScriptOnResult = /^resultOf(?<exportSymbol>\w+)(?<!\\)To(?<upstreamCamelQry>\w+)(?<!\\)On(?<eventName>\w+)(?<!\\)Event(?<!\\)OfAdornedElement/;
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id=dest>
+    <script nomodule>
+        export const myHandler = ({remoteInstance, adornedElement}) => ({
+            value: adornedElement.value
+        });
+    </script>
+    <input id=src be-linked='
+        Assign result of my handler to previous input element on input event of adorned element.
+    '>
+    <script type=importmap>
+        {
+            "imports": {
+                "be-decorated/": "../node_modules/be-decorated/",
+                "be-exportable/": "../node_modules/be-exportable/",
+                "be-hive/": "../node_modules/be-hive/",
+                "be-propagating/": "../node_modules/be-propagating/",
+                "be-scoped/": "../node_modules/be-scoped/",
+                "trans-render/": "../node_modules/trans-render/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../be-linked.js';
+    </script>
+</body>
+</html>

@@ -80,6 +80,13 @@ export class BeLinked extends EventTarget {
             if (increment) {
                 //TODO
             }
+            else if (handler !== undefined) {
+                const objToAssign = await handler({
+                    remoteInstance: upstreamRealm,
+                    adornedElement: self,
+                });
+                Object.assign(dest, objToAssign);
+            }
             else {
                 let val = this.#parseVal(await getVal({ host: src }, srcPropPath), parseOption);
                 if (negate)
@@ -95,19 +102,13 @@ export class BeLinked extends EventTarget {
                 if (destPropPath !== undefined) {
                     await setProp(dest, destPropPath, val);
                 }
-                else if (handler !== undefined) {
-                    const objToAssign = await handler({
-                        remoteInstance: src
-                    });
-                    Object.assign(dest, objToAssign);
-                }
             }
         };
         if (!skipInit) {
             await doPass();
         }
         let upstreamPropName = downlink.upstreamPropName;
-        if (upstreamPropName === undefined) {
+        if (upstreamPropName === undefined && upstreamPropPath !== undefined) {
             upstreamPropName = upstreamPropPath.split('.')[0];
             downlink.upstreamPropName = upstreamPropName;
         }

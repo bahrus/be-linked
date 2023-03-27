@@ -246,11 +246,11 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container
 ```
 
-The use of the three tick marks here, by the way, is there just to mention another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
+The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
 ## Upstream linking [Done]
 
-Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should shoulder the responsibility that this is triggered almost exclusively by user initiated events.
+Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated events.
 
 ```html
 <host-element>
@@ -267,12 +267,12 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 <host-element>
     #shadow
         <script nomodule>
-            export const inputEventHandler = ({remoteInstance, adornedElement}) => {
+            export const myHandler = ({remoteInstance, adornedElement}) => ({
 
-            }
+            })
         </script>
         <input be-linked='
-            Assign result of input event handler to host on input event of adorned element.
+            Assign result of my handler to host on input event of adorned element.
         '>
 </host-element>
 ```

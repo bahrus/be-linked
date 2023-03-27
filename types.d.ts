@@ -66,6 +66,7 @@ export interface Link<TSrc = any, TDest = any>{
 
 export interface HandlerArg {
     remoteInstance: EventTarget,
+    adornedElement: Element,
 }
 
 export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
