@@ -307,7 +307,7 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
             pass value property as number 
             to slide index property 
             of slide show id 
-            in realm of adorned element. //TODO:  as number
+            within this realm. //TODO:  as number
         '>
         ...
         <my-carousel id=slide-show></my-carousel>
