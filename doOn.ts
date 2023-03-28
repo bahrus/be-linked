@@ -27,7 +27,7 @@ export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
         }
         const onPassUpStatement = tryParse(onString, reOnPassAwayStatement) as OnPassStatement | null;
         if(onPassUpStatement !== null){
-            const {eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath} = onPassUpStatement;
+            const {eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath, optionalAs} = onPassUpStatement;
             downlinks.push({
                 ...defaultDownlink,
                 upstreamCamelQry,
@@ -55,7 +55,8 @@ interface OnPassStatement {
     eventName: EventName,
     upstreamCamelQry: Scope & string,
     upstreamPropPath: UpstreamPropPath,
-    downstreamPropPath: DownstreamPropPath
+    downstreamPropPath: DownstreamPropPath,
+    optionalAs: string,
 }
 
 
@@ -71,6 +72,6 @@ const reOnPassTowardsStatement =
 /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Pass(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyTo(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 
 const reOnPassAwayStatement = 
-/^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)PropertyTo(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
+/^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)Property(?<optionalAs>AsNumber|)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
 
 

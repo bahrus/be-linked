@@ -23,7 +23,7 @@ export async function doOn(cc, downlinks) {
         }
         const onPassUpStatement = tryParse(onString, reOnPassAwayStatement);
         if (onPassUpStatement !== null) {
-            const { eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath } = onPassUpStatement;
+            const { eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath, optionalAs } = onPassUpStatement;
             downlinks.push({
                 ...defaultDownlink,
                 upstreamCamelQry,
@@ -48,4 +48,4 @@ export async function doOn(cc, downlinks) {
 }
 const reOnIncrementStatement = /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Increment(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reOnPassTowardsStatement = /^(?<eventName>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)(?<!\\)Pass(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyTo(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
-const reOnPassAwayStatement = /^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)PropertyTo(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
+const reOnPassAwayStatement = /^(?<eventName>\w+)(?<!\\)EventOfAdornedElementPass(?<downstreamPropPath>[\w\\\:]+)Property(?<optionalAs>AsNumber|)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)/;
