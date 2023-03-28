@@ -12,14 +12,18 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     } as DownLink;
     if(Link !== undefined){
         const links = await matchStd(Link);
-        const {linkStatementsWithSingleArgs, shortDownLinkStatements, parseLinkStatements, simplestLinkStatements} = links;
-        shortDownLinkStatements.forEach(link => {
-            downlinks.push({
-                ...defaultDownlink,
-                ...link
-            } as DownLink);
-        });
+        const {linkStatementsWithSingleArgs, parseLinkStatements, simplestLinkStatements} = links;
+        // shortDownLinkStatements.forEach(link => {
+        //     downlinks.push({
+        //         ...defaultDownlink,
+        //         ...link
+        //     } as DownLink);
+        // });
         parseLinkStatements.forEach(link => {
+            const {asParseOption} = link;
+            if(asParseOption){
+                debugger;
+            }
             downlinks.push({
                 ...defaultDownlink,
                 ...link
@@ -76,7 +80,7 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
 
 async function matchStd(links: LinkStatement[]){
     const {tryParse} = await import('be-decorated/cpu.js');
-    const shortDownLinkStatements: ShortDownLinkStatementGroup[] = [];
+    //const shortDownLinkStatements: ShortDownLinkStatementGroup[] = [];
     const linkStatementsWithSingleArgs: LinkStatementWithSingleArgVerbGroup[] = [];
     const parseLinkStatements: ParseLinkStatement[] = [];
     const simplestLinkStatements: SimplestStatementGroup[] = [];
@@ -93,19 +97,19 @@ async function matchStd(links: LinkStatement[]){
             parseLinkStatements.push(test);
             continue;
         }
-        test = tryParse(linkCamelString, reShortDownLinkStatement) as ShortDownLinkStatementGroup | null;
-        if(test !== null) {
-            test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
-            shortDownLinkStatements.push(test);
-            continue;
-        }
+        // test = tryParse(linkCamelString, reShortDownLinkStatement) as ShortDownLinkStatementGroup | null;
+        // if(test !== null) {
+        //     test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
+        //     shortDownLinkStatements.push(test);
+        //     continue;
+        // }
         test = tryParse(linkCamelString, reSimplest) as SimplestStatementGroup | null;
         if(test !== null){
             simplestLinkStatements.push(test);
         }
     }
     return {
-        shortDownLinkStatements,
+        //shortDownLinkStatements,
         linkStatementsWithSingleArgs,
         parseLinkStatements,
         simplestLinkStatements,
@@ -114,8 +118,8 @@ async function matchStd(links: LinkStatement[]){
 
 async function merge(Links: LinkStatement[], mergeObj: Partial<DownLink>, downlinks: DownLink[]){
     const links = await matchStd(Links);
-    const {shortDownLinkStatements} = links;
-    shortDownLinkStatements.forEach(link => {
+    const {parseLinkStatements} = links;
+    parseLinkStatements.forEach(link => {
         downlinks.push({
             ...mergeObj,
             ...link
@@ -137,7 +141,8 @@ interface LinkStatementWithSingleArgVerbGroup extends ShortDownLinkStatementGrou
 }
 
 interface ParseLinkStatement extends ShortDownLinkStatementGroup {
-    parseOption: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp',
+    asParseOption: 'asNumber' | 'asDate' | 'asString' | 'asObject' | 'asUrl' | 'asRegExp' | '',
+    parseOption: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp'
 }
 
 interface SimplestStatementGroup {
@@ -145,8 +150,9 @@ interface SimplestStatementGroup {
 }
 
 const reSimplest = /^(?<props>\w+)Props/;
-const reShortDownLinkStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+// const reShortDownLinkStatement = 
+// /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
 const reLinkStatementWithSingleArgVerb = 
 /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementAfter(?<adjustmentVerb>Subtracting|Adding|ParsingAs|MultiplyingBy|DividingBy|Mod)(?<argument>\w+)/;
 const reParseLinkStatement = 
-/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
+/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)(?<asParseOption>AsNumber|AsDate|AsString|AsObject|AsUrl|AsRegExp|)To(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElement/;
