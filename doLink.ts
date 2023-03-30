@@ -14,7 +14,8 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     if(Link !== undefined){
         const links = await match(Link);
         for(const link of links){
-            downlinks.push(toDownLink(link, defaultDownlink));
+            const downloadLink = await toDownLink(link, defaultDownlink);
+            downlinks.push(downloadLink);
         }
         // const {linkStatementsWithSingleArgs, parseLinkStatements, simplestLinkStatements} = links;
         // // shortDownLinkStatements.forEach(link => {
