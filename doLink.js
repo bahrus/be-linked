@@ -11,12 +11,12 @@ export async function doLink(cc, downlinks) {
     if (Link !== undefined) {
         const links = await match(Link);
         for (const link of links) {
-            const downloadLink = await toDownLink(link, defaultDownlink);
+            const downloadLink = toDownLink(link, defaultDownlink);
             downlinks.push(downloadLink);
         }
     }
 }
-async function toDownLink(lsg, defaultDownlink) {
+function toDownLink(lsg, defaultDownlink) {
     const { downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption } = lsg;
     const downLink = {
         ...defaultDownlink,

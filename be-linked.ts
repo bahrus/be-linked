@@ -141,7 +141,7 @@ export class BeLinked extends EventTarget implements Actions{
             }else{
                 propagator = src;
             }
-            propagator.addEventListener(upstreamPropName, async e => {
+            propagator.addEventListener(upstreamPropName!, async e => {
                 await doPass();
             });
         }

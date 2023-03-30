@@ -14,14 +14,14 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     if(Link !== undefined){
         const links = await match(Link);
         for(const link of links){
-            const downloadLink = await toDownLink(link, defaultDownlink);
+            const downloadLink = toDownLink(link, defaultDownlink);
             downlinks.push(downloadLink);
         }
     }
 
 }
 
-async function toDownLink(lsg: LinkStatementGroup, defaultDownlink: DownLink): DownLink{
+function toDownLink(lsg: LinkStatementGroup, defaultDownlink: DownLink): DownLink{
     const {downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption} = lsg;
     const downLink: DownLink = {
         ...defaultDownlink,
