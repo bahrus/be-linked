@@ -86,13 +86,13 @@ Clone             |Do a structured clone of the value before passing it.  |Makes
 Stringify         |Do a JSON.stringify.
 Refer             |Pass weak reference of the property.
 
-#### Translate scenario [Done]
+#### Translate scenario [TODO]
 
 ```html
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age property of host to age property of adorned element after subtracting 20.
+        Link age property of host - 20 to age property of adorned element.
     '></daughter-heather>
 </paul-mccartney>
 ```
