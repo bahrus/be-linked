@@ -9,10 +9,20 @@ export async function doLink(cc, downlinks) {
         skipInit: skip,
     };
     if (Link !== undefined) {
-        const links = await match(Link);
-        for (const link of links) {
+        const linkStatementGroups = await matchLSGs(Link);
+        for (const link of linkStatementGroups) {
             const downloadLink = toDownLink(link, defaultDownlink);
             downlinks.push(downloadLink);
+        }
+        const simpleStatementGroups = await matchSSGs(Link);
+        for (const link of simpleStatementGroups) {
+            const { props } = link;
+            downlinks.push({
+                ...defaultDownlink,
+                upstreamPropPath: props,
+                downstreamPropPath: props,
+                upstreamCamelQry: 'host',
+            });
         }
     }
 }
@@ -39,15 +49,26 @@ function toDownLink(lsg, defaultDownlink) {
     }
     return downLink;
 }
-async function match(links) {
+async function matchLSGs(links) {
     const { tryParse } = await import('be-decorated/cpu.js');
     const returnObj = [];
     for (const linkCamelString of links) {
-        let test = tryParse(linkCamelString, reArr);
+        const test = tryParse(linkCamelString, reArr);
         if (test !== null) {
             test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
             returnObj.push(test);
             continue;
+        }
+    }
+    return returnObj;
+}
+async function matchSSGs(links) {
+    const { tryParse } = await import('be-decorated/cpu.js');
+    const returnObj = [];
+    for (const linkCamelString of links) {
+        const test = tryParse(linkCamelString, reSimplest);
+        if (test !== null) {
+            returnObj.push(test);
         }
     }
     return returnObj;

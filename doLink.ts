@@ -12,10 +12,20 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
         skipInit: skip,
     } as DownLink;
     if(Link !== undefined){
-        const links = await match(Link);
-        for(const link of links){
+        const linkStatementGroups = await matchLSGs(Link);
+        for(const link of linkStatementGroups){
             const downloadLink = toDownLink(link, defaultDownlink);
             downlinks.push(downloadLink);
+        }
+        const simpleStatementGroups = await matchSSGs(Link);
+        for(const link of simpleStatementGroups){
+            const {props} = link;
+            downlinks.push({
+                ...defaultDownlink,
+                upstreamPropPath: props,
+                downstreamPropPath: props,
+                upstreamCamelQry: 'host',
+            } as DownLink)
         }
     }
 
@@ -45,15 +55,28 @@ function toDownLink(lsg: LinkStatementGroup, defaultDownlink: DownLink): DownLin
     return downLink;
 }
 
-async function match(links: LinkStatement[]){
+async function matchLSGs(links: LinkStatement[]){
     const {tryParse} = await import('be-decorated/cpu.js');
     const returnObj: LinkStatementGroup[] = []; 
     for(const linkCamelString of links){
-        let test = tryParse(linkCamelString, reArr);
+        const test = tryParse(linkCamelString, reArr);
         if(test !== null){
             test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
             returnObj.push(test);
             continue;
+        }
+        
+    }
+    return returnObj;
+}
+
+async function matchSSGs(links: LinkStatement[]){
+    const {tryParse} = await import('be-decorated/cpu.js');
+    const returnObj: SimplestStatementGroup[] = [];
+    for(const linkCamelString of links){
+        const test = tryParse(linkCamelString, reSimplest);
+        if(test !== null){
+            returnObj.push(test);
         }
     }
     return returnObj;
