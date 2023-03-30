@@ -33,10 +33,11 @@ export type DownstreamAssignStatement = `ResultOf${ExportSymbol}ToAdornedElement
 export type ConditionValue = string | number | boolean;
 export type NewValue = string;
 
-export type IfStatement = `${UpstreamPropPath}Of${UpstreamCamelQry}Is${ConditionValue}ThenSet${DownstreamPropPath}Of${TargetOptions}To${NewValue}`;
-export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}To${DownstreamPropPath}Of${TargetOptions}`;
+export type IfStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Is${ConditionValue}ThenSet${DownstreamPropPath}PropertyOf${TargetOptions}To${NewValue}`;
+export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}PropertyTo${DownstreamPropPath}PropertyOf${TargetOptions}`;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
+export type WhenStatement = `${UpstreamPropPath}Property`
 //export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
 

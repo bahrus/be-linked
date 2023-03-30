@@ -20,4 +20,4 @@ export async function doIf(cc, downlinks) {
         }
     }
 }
-const reIfStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)Of(?<upstreamCamelQry>\w+)(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)OfAdornedElementTo(?<newValue>\w+)/;
+const reIfStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementTo(?<newValue>\w+)/;
