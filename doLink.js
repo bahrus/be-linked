@@ -58,8 +58,8 @@ const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Objec
 const downstream = String.raw `To(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
 const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
 const reArr = [
+    new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${downstream}`),
     new RegExp(String.raw `${upstream}${parseOption}${downstream}`),
     new RegExp(String.raw `${upstream}${mathOpArg}${downstream}`),
-    new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${downstream}`),
     new RegExp(String.raw `${upstream}${downstream}`)
 ];
