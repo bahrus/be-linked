@@ -83,7 +83,6 @@ In place of "Negate" above, we can use the following verbs:
 Key               |Meaning                                                |Notes
 ------------------|-------------------------------------------------------|-----
 Clone             |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
-Stringify         |Do a JSON.stringify.
 Refer             |Pass weak reference of the property.
 
 #### Translate scenario [Done]

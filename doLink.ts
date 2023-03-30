@@ -1,8 +1,8 @@
-import {CamelConfig, DownLink, LinkStatement} from './types';
+import {CamelConfig, DownLink, Link, LinkStatement} from './types';
 import {Scope} from 'trans-render/lib/types';
 
 export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
-    const {Link, negate, debug, nudge, skip} = cc;
+    const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
     const defaultDownlink = {
         localInstance: 'local',
         passDirection: 'towards',
@@ -12,23 +12,33 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
         skipInit: skip,
     } as DownLink;
     if(Link !== undefined){
-        const linkStatementGroups = await matchLSGs(Link);
-        for(const link of linkStatementGroups){
-            const downloadLink = toDownLink(link, defaultDownlink);
-            downlinks.push(downloadLink);
-        }
-        const simpleStatementGroups = await matchSSGs(Link);
-        for(const link of simpleStatementGroups){
-            const {props} = link;
-            downlinks.push({
-                ...defaultDownlink,
-                upstreamPropPath: props,
-                downstreamPropPath: props,
-                upstreamCamelQry: 'host',
-            } as DownLink)
-        }
+        processLinkStatements(Link, defaultDownlink, downlinks);
+    }
+    if(Clone !== undefined){
+        processLinkStatements(Clone, {...defaultDownlink, clone: true}, downlinks);
+    }
+    if(Refer !== undefined){
+        processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks);
     }
 
+}
+
+async function processLinkStatements(Link: LinkStatement[], defaultDownlink: DownLink, downlinks: DownLink[]){
+    const linkStatementGroups = await matchLSGs(Link);
+    for(const link of linkStatementGroups){
+        const downloadLink = toDownLink(link, defaultDownlink);
+        downlinks.push(downloadLink);
+    }
+    const simpleStatementGroups = await matchSSGs(Link);
+    for(const link of simpleStatementGroups){
+        const {props} = link;
+        downlinks.push({
+            ...defaultDownlink,
+            upstreamPropPath: props,
+            downstreamPropPath: props,
+            upstreamCamelQry: 'host',
+        } as DownLink)
+    }
 }
 
 function toDownLink(lsg: LinkStatementGroup, defaultDownlink: DownLink): DownLink{

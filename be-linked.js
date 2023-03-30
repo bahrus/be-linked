@@ -180,7 +180,7 @@ define({
             parseAndCamelize: true,
             camelizeOptions: {
                 //TODO
-                booleans: ['Negate', 'Clone', 'Debug', 'Skip']
+                booleans: ['Debug', 'Skip', 'Nudge']
             },
             primaryPropReq: true,
         },

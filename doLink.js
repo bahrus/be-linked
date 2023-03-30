@@ -1,5 +1,5 @@
 export async function doLink(cc, downlinks) {
-    const { Link, negate, debug, nudge, skip } = cc;
+    const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
         localInstance: 'local',
         passDirection: 'towards',
@@ -9,21 +9,30 @@ export async function doLink(cc, downlinks) {
         skipInit: skip,
     };
     if (Link !== undefined) {
-        const linkStatementGroups = await matchLSGs(Link);
-        for (const link of linkStatementGroups) {
-            const downloadLink = toDownLink(link, defaultDownlink);
-            downlinks.push(downloadLink);
-        }
-        const simpleStatementGroups = await matchSSGs(Link);
-        for (const link of simpleStatementGroups) {
-            const { props } = link;
-            downlinks.push({
-                ...defaultDownlink,
-                upstreamPropPath: props,
-                downstreamPropPath: props,
-                upstreamCamelQry: 'host',
-            });
-        }
+        processLinkStatements(Link, defaultDownlink, downlinks);
+    }
+    if (Clone !== undefined) {
+        processLinkStatements(Clone, { ...defaultDownlink, clone: true }, downlinks);
+    }
+    if (Refer !== undefined) {
+        processLinkStatements(Refer, { ...defaultDownlink, refer: true }, downlinks);
+    }
+}
+async function processLinkStatements(Link, defaultDownlink, downlinks) {
+    const linkStatementGroups = await matchLSGs(Link);
+    for (const link of linkStatementGroups) {
+        const downloadLink = toDownLink(link, defaultDownlink);
+        downlinks.push(downloadLink);
+    }
+    const simpleStatementGroups = await matchSSGs(Link);
+    for (const link of simpleStatementGroups) {
+        const { props } = link;
+        downlinks.push({
+            ...defaultDownlink,
+            upstreamPropPath: props,
+            downstreamPropPath: props,
+            upstreamCamelQry: 'host',
+        });
     }
 }
 function toDownLink(lsg, defaultDownlink) {
