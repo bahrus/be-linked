@@ -1,6 +1,6 @@
 import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, parseOption, downstream} from './be-linked.js';
+import {upstream, parseOption, toDownstream} from './be-linked.js';
 
 export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
     const {If, debug, nudge, skip} = cc;

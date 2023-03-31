@@ -11,6 +11,7 @@ export async function doWhen(cc: CamelConfig, downlinks: DownLink[]){
             downlinks.push({
                 localInstance: 'local',
                 passDirection: 'towards',
+                increment: true,
                 ...test,
             });
         }

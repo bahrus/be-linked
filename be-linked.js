@@ -10,7 +10,7 @@ export class BeLinked extends EventTarget {
         };
         const { downlinks } = canonicalConfig;
         for (const cc of camelConfigArr) {
-            const { Link, Negate, Clone, Refer, Assign, If, On, links: cc_downlinks } = cc;
+            const { Link, Negate, Clone, Refer, Assign, If, On, When, links: cc_downlinks } = cc;
             if (cc_downlinks !== undefined) {
                 cc_downlinks.forEach(link => downlinks.push(link));
             }
@@ -30,6 +30,10 @@ export class BeLinked extends EventTarget {
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
                 await doOn(cc, downlinks);
+            }
+            if (When !== undefined) {
+                const { doWhen } = await import('./doWhen.js');
+                await doWhen(cc, downlinks);
             }
         }
         return {
@@ -78,7 +82,8 @@ export class BeLinked extends EventTarget {
             if (debug)
                 debugger;
             if (increment) {
-                //TODO
+                const val = await getVal({ host: dest }, destPropPath);
+                await setProp(dest, destPropPath, val + 1);
             }
             else if (handler !== undefined) {
                 const objToAssign = await handler({
@@ -201,4 +206,5 @@ define({
 register(ifWantsToBe, upgrade, tagName);
 export const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
 export const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-export const downstream = String.raw `To(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
+export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
+export const toDownstream = String.raw `To${downstream}`;
