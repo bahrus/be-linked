@@ -8,6 +8,7 @@ export async function doWhen(cc, downlinks) {
             downlinks.push({
                 localInstance: 'local',
                 passDirection: 'towards',
+                skipInit: true,
                 increment: true,
                 ...test,
             });

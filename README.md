@@ -164,7 +164,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 
 
 
-#### Counting Scenario [TODO]
+#### Counting Scenario [Done]
 
 ```html
 <my-light-weight-container>
