@@ -1,3 +1,4 @@
+import { upstream } from './be-linked.js';
 export async function doIf(cc, downlinks) {
     const { If, debug, nudge, skip } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
@@ -20,4 +21,4 @@ export async function doIf(cc, downlinks) {
         }
     }
 }
-const reIfStatement = /^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementTo(?<newValue>\w+)/;
+const reIfStatement = new RegExp(String.raw `${upstream}(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementTo(?<newValue>\w+)`);

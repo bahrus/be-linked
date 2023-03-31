@@ -1,5 +1,6 @@
 import {CamelConfig, DownLink, Link, LinkStatement} from './types';
 import {Scope} from 'trans-render/lib/types';
+import {upstream, parseOption, downstream} from './be-linked.js';
 
 export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
@@ -118,9 +119,8 @@ interface SimplestStatementGroup {
 
 const reSimplest = /^(?<props>\w+)Props/;
 
-const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
-const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-const downstream = String.raw `To(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
+
+
 const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
 
 const reArr = [

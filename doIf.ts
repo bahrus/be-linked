@@ -1,5 +1,6 @@
 import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue} from './types';
 import {Scope} from 'trans-render/lib/types';
+import {upstream, parseOption, downstream} from './be-linked.js';
 
 export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
     const {If, debug, nudge, skip} = cc;
@@ -34,5 +35,6 @@ interface IfStatement {
     downstreamPropPath: DownstreamPropPath,
     newValue: NewValue,
 }
-const reIfStatement = 
-/^(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementTo(?<newValue>\w+)/;
+const reIfStatement = new RegExp(String.raw
+    `${upstream}(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)ThenSet(?<downstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOfAdornedElementTo(?<newValue>\w+)`
+);

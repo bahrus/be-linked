@@ -1,3 +1,4 @@
+import { upstream, parseOption, downstream } from './be-linked.js';
 export async function doLink(cc, downlinks) {
     const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
@@ -83,9 +84,6 @@ async function matchSSGs(links) {
     return returnObj;
 }
 const reSimplest = /^(?<props>\w+)Props/;
-const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
-const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-const downstream = String.raw `To(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
 const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
 const reArr = [
     new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${downstream}`),
