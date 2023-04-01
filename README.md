@@ -246,7 +246,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
 </host-element>
 ```
 
-## Upstream scripting [Done]
+## Upstream scripting [~~Done~~]
 
 ```html
 <host-element>
@@ -257,7 +257,8 @@ Suppose we want to pass information in the opposite direction -- from the adorne
             })
         </script>
         <input be-linked='
-            Assign result of my handler to host on input event of adorned element.
+            Assign result of my handler to host on input event of adorned element. //Deprecated.
+            On input event of adorned element assign result of my handler to host. //TODO.
         '>
 </host-element>
 ```
@@ -267,13 +268,8 @@ If host-element has method "hostMethod": [TODO]
 ```html
 <host-element>
     #shadow
-        <script nomodule>
-            export const inputEventHandler = () => {
-
-            }
-        </script>
         <input be-linked='
-            Invoke host method on input event of adorned element.
+            On input event of adorned element invoke host method of host.
         '>
 </host-element>
 ```
