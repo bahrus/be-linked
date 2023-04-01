@@ -10,7 +10,7 @@
     <paul-mccartney>
         <template>
             <div be-linked='
-                If age property of host equals 64 then set dataset:is sixty four property of adorned element to true.
+                When age property of host equals 64 assign true to dataset:is sixty four property of adorned element.
             '></div>
             <be-hive></be-hive>
         </template>
@@ -18,17 +18,17 @@
     <script type=importmap>
         {
             "imports": {
-                "be-decorated/": "../be-decorated/",
-                "be-hive/": "../node_modules/be-hive/",
-                "be-propagating/": "../node_modules/be-propagating/",
-                "be-scoped/": "../node_modules/be-scoped/",
-                "trans-render/": "../node_modules/trans-render/"
+                "be-decorated/": "../../be-decorated/",
+                "be-hive/": "../../node_modules/be-hive/",
+                "be-propagating/": "../../node_modules/be-propagating/",
+                "be-scoped/": "../../node_modules/be-scoped/",
+                "trans-render/": "../../node_modules/trans-render/"
             }
         }
     </script>
     <script type=module>
-        import '../be-linked.js';
-        import './paul-mccartney.js';
+        import '../../be-linked.js';
+        import '../paul-mccartney.js';
     </script>
 </body>
 </html>

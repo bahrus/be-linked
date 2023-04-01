@@ -138,7 +138,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
                 "falseVal": "off"
             }
         }
-        When read only property of host equals true set checked property of adorned element to true val. //TODO
+        When read only property of host equals true assign true val to checked property of adorned element. //TODO
         When read only property of host equals false set checked property of adorned element to false val.
     '></toggle-element>
 </host-element>
@@ -233,7 +233,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
-## Upstream linking [Done]
+## Upstream linking [~~Done~~]
 
 Suppose we want to pass information in the opposite direction -- from the adorned element to an upstream element like the host container element?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes ("setter subscribing") is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated actions.
 
