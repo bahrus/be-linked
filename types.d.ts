@@ -70,6 +70,7 @@ export interface Link<TSrc = any, TDest = any>{
     debug?: boolean,
     passDirection?: 'away' | 'towards' | 'sync', //default to down
     handler?: (arg: HandlerArg) => any,
+    exportSymbol?: string,
     increment?: boolean,
     upstreamPropPath: UpstreamPropPath, 
     upstreamPropName?: string & keyof TSrc,

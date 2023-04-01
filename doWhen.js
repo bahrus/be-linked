@@ -1,11 +1,12 @@
-import { upstream, downstream, toDownstream } from './be-linked.js';
-export async function doWhen(cc, downlinks) {
+import { upstream, downstream, toDownstream, adjustLink } from './be-linked.js';
+export async function doWhen(cc, downlinks, pp) {
     const { When } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const whenStatement of When) {
         const test = tryParse(whenStatement, reWhens);
-        test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
+        //test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
         if (test !== null) {
+            await adjustLink(test, pp);
             downlinks.push({
                 ...test,
             });

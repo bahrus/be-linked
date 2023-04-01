@@ -18,18 +18,18 @@ export class BeLinked extends EventTarget {
                 const { doLink } = await import('./doLink.js');
                 await doLink(cc, downlinks);
             }
-            if (Assign !== undefined) {
-                //TODO:  async import
-                const { doAssign } = await import('./doAssign.js');
-                await doAssign(pp, cc, downlinks);
-            }
+            // if(Assign !== undefined){
+            //     //TODO:  async import
+            //     const {doAssign} = await import('./doAssign.js');
+            //     await doAssign(pp, cc, downlinks);
+            // }
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
                 await doOn(cc, downlinks);
             }
             if (When !== undefined) {
                 const { doWhen } = await import('./doWhen.js');
-                await doWhen(cc, downlinks);
+                await doWhen(cc, downlinks, pp);
             }
         }
         return {
@@ -166,6 +166,17 @@ export class BeLinked extends EventTarget {
     }
 }
 //export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
+export async function adjustLink(link, pp) {
+    const { downstreamPropPath, upstreamPropPath, exportSymbol } = link;
+    if (downstreamPropPath !== undefined)
+        link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
+    if (upstreamPropPath !== undefined)
+        link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
+    if (exportSymbol !== undefined && pp !== undefined) {
+        const { getExportSym } = await import('./getExportSym.js');
+        link.handler = await getExportSym(pp, exportSymbol);
+    }
+}
 const reTraditional = /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
