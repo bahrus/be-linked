@@ -1,8 +1,8 @@
-import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue} from './types';
+import {CamelConfig, Link, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue} from './types';
 import {Scope} from 'trans-render/lib/types';
 import {upstream, parseOption, toDownstream} from './be-linked.js';
 
-export async function doIf(cc: CamelConfig, downlinks: DownLink[]){
+export async function doIf(cc: CamelConfig, downlinks: Link[]){
     const {If, debug, nudge, skip} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const ifString of If!){

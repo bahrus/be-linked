@@ -27,7 +27,7 @@ const reWhens = [
         }
     },
     {
-        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<assignFrom>\w+)${toDownstream}`),
+        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<exportSymbol>\w+)${toDownstream}`),
         defaultVals: {
             ...defaultVal1
         }

@@ -1,6 +1,6 @@
 import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
-import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, DownLink, LinkStatement, ParseOptions} from './types';
+import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, Link, LinkStatement, ParseOptions} from './types';
 
 
 export class BeLinked extends EventTarget implements Actions{
@@ -53,7 +53,7 @@ export class BeLinked extends EventTarget implements Actions{
         return mold;
     }
 
-    async #doDownlink(pp: PP, downlink: DownLink, ){
+    async #doDownlink(pp: PP, downlink: Link, ){
         const {canonicalConfig, self, proxy} = pp;
         const {findRealm} = await import('trans-render/lib/findRealm.js');
         const {getVal} = await import('trans-render/lib/getVal.js');

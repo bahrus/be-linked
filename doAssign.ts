@@ -1,8 +1,8 @@
-import {CamelConfig, DownLink, PP} from './types';
+import {CamelConfig, Link, PP} from './types';
 import {ExportableScript} from 'be-exportable/types';
 import {Scope} from 'trans-render/lib/types';
 
-export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
+export async function doAssign(pp: PP, cc: CamelConfig, downlinks: Link[]){
     const {self} = pp;
     const {Assign, debug, nudge, skip} = cc!;
     const prev = self.previousElementSibling as HTMLScriptElement;
@@ -21,12 +21,12 @@ export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
         nudge,
         debug,
         skipInit: skip
-    } as DownLink;
+    } as Link;
     for(const assignStatement of Assign!){
         const towardScriptWhenStatement = tryParse(assignStatement, reTowardsScriptResult) as TowardsScriptWhenStatement | null;
         if(towardScriptWhenStatement !== null){
             const {upstreamCamelQry, upstreamPropPath, exportSymbol} = towardScriptWhenStatement;
-            const downlink: DownLink = {
+            const downlink: Link = {
                 ...defltLink,
                 upstreamPropPath,
                 upstreamCamelQry,
@@ -39,7 +39,7 @@ export async function doAssign(pp: PP, cc: CamelConfig, downlinks: DownLink[]){
         const awayScriptOnStatement = tryParse(assignStatement, reAwayScriptOnResult) as AwayScriptOnStatement | null;
         if(awayScriptOnStatement !== null){
             const {eventName, exportSymbol, upstreamCamelQry} = awayScriptOnStatement;
-            const downlink: DownLink = {
+            const downlink: Link = {
                 ...defltLink,
                 passDirection: 'away',
                 upstreamCamelQry,

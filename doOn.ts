@@ -1,17 +1,17 @@
-import {CamelConfig, DownLink, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue, EventName, ParseOptions, MathOp} from './types';
+import {CamelConfig, Link, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, ConditionValue, NewValue, EventName, ParseOptions, MathOp} from './types';
 import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 import {downstream, toDownstream, parseOption, mathOpArg} from './be-linked.js';
 
 
-export async function doOn(cc: CamelConfig, downlinks: DownLink[]){
+export async function doOn(cc: CamelConfig, downlinks: Link[]){
     const {On, debug, nudge, skip} = cc;
     const defaultDownlink = {
         localInstance: 'local',
         debug,
         nudge,
         skipInit: skip,
-    } as DownLink;
+    } as Link;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){
         const onPassDownStatement = tryParse(onString, reOnPassTowardsStatements) as OnPassStatement | null;

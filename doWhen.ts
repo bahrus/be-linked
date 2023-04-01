@@ -1,9 +1,9 @@
-import {CamelConfig, ConditionValue, DownLink, Link, LinkStatement, NewValue} from './types';
+import {CamelConfig, ConditionValue, Link, Link, LinkStatement, NewValue, ExportSymbol} from './types';
 import {Scope} from 'trans-render/lib/types';
 import {upstream, downstream, toDownstream} from './be-linked.js';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
-export async function doWhen(cc: CamelConfig, downlinks: DownLink[]){
+export async function doWhen(cc: CamelConfig, downlinks: Link[]){
     const {When} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const whenStatement of When!){
@@ -24,7 +24,7 @@ interface WhenStatementGroup {
     increment?: boolean,
     localInstance?: 'local' | 'proxy',
     passDirection?: 'away' | 'towards',
-    assignFrom?: string,
+    exportSymbol?: ExportSymbol,
     conditionValue?: ConditionValue,
     newValue?: NewValue,
 }
@@ -47,7 +47,7 @@ const reWhens : RegExpOrRegExpExt<PWSG>[] = [
         }
     },
     {
-        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<assignFrom>\w+)${toDownstream}`),
+        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<exportSymbol>\w+)${toDownstream}`),
         defaultVals: {
             ...defaultVal1
         }

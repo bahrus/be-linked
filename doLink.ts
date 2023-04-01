@@ -1,8 +1,8 @@
-import {CamelConfig, DownLink, Link, LinkStatement, ParseOptions, MathOp} from './types';
+import {CamelConfig, Link, Link, LinkStatement, ParseOptions, MathOp} from './types';
 import {Scope} from 'trans-render/lib/types';
 import {upstream, parseOption, toDownstream, mathOpArg} from './be-linked.js';
 
-export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
+export async function doLink(cc: CamelConfig, downlinks: Link[]){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
     const defaultDownlink = {
         localInstance: 'local',
@@ -11,7 +11,7 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
         debug,
         nudge,
         skipInit: skip,
-    } as DownLink;
+    } as Link;
     if(Link !== undefined){
         processLinkStatements(Link, defaultDownlink, downlinks);
     }
@@ -24,7 +24,7 @@ export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
 
 }
 
-async function processLinkStatements(Link: LinkStatement[], defaultDownlink: DownLink, downlinks: DownLink[]){
+async function processLinkStatements(Link: LinkStatement[], defaultDownlink: Link, downlinks: Link[]){
     const linkStatementGroups = await matchLSGs(Link);
     for(const link of linkStatementGroups){
         const downloadLink = toDownLink(link, defaultDownlink);
@@ -38,13 +38,13 @@ async function processLinkStatements(Link: LinkStatement[], defaultDownlink: Dow
             upstreamPropPath: props,
             downstreamPropPath: props,
             upstreamCamelQry: 'host',
-        } as DownLink)
+        } as Link)
     }
 }
 
-function toDownLink(lsg: LinkStatementGroup, defaultDownlink: DownLink): DownLink{
+function toDownLink(lsg: LinkStatementGroup, defaultDownlink: Link): Link{
     const {downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption} = lsg;
-    const downLink: DownLink = {
+    const downLink: Link = {
         ...defaultDownlink,
         downstreamPropPath,
         upstreamCamelQry,

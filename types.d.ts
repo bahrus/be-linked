@@ -46,6 +46,13 @@ export type DebugStatement = string;
 
 export type TranslateStatement = `By${NumericString}`;
 
+
+
+export interface HandlerArg {
+    remoteInstance: EventTarget,
+    adornedElement: Element,
+}
+
 export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
     localInstance: 'local' | 'proxy',
@@ -64,14 +71,6 @@ export interface Link<TSrc = any, TDest = any>{
     passDirection?: 'away' | 'towards' | 'sync', //default to down
     handler?: (arg: HandlerArg) => any,
     increment?: boolean,
-}
-
-export interface HandlerArg {
-    remoteInstance: EventTarget,
-    adornedElement: Element,
-}
-
-export interface DownLink<TSrc = any, TDest = any> extends Link<TSrc, TDest>{
     upstreamPropPath: UpstreamPropPath, 
     upstreamPropName?: string & keyof TSrc,
     upstreamCamelQry: Scope,
@@ -94,13 +93,13 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     nudge?: boolean;
     Skip?: [''];
     skip?: boolean;
-    links?: DownLink<TSrc, TDest>[],
+    links?: Link<TSrc, TDest>[],
     When?: WhenStatement[];
     
 }
 
 export interface CanonicalConfig{
-    downlinks: DownLink[];
+    downlinks: Link[];
 }
 
 export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;
