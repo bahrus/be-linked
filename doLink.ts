@@ -1,6 +1,6 @@
-import {CamelConfig, DownLink, Link, LinkStatement} from './types';
+import {CamelConfig, DownLink, Link, LinkStatement, ParseOptions, MathOp} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, parseOption, toDownstream} from './be-linked.js';
+import {upstream, parseOption, toDownstream, mathOpArg} from './be-linked.js';
 
 export async function doLink(cc: CamelConfig, downlinks: DownLink[]){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
@@ -97,9 +97,9 @@ interface LinkStatementGroup {
     upstreamPropPath: string,
     upstreamCamelQry: Scope & string,
     downstreamPropPath: string,
-    mathOp?: '+' | '-' | '*' | '/' | '%',
+    mathOp?: MathOp,
     mathArg?: string,
-    parseOption?: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp'
+    parseOption?: ParseOptions, 
 }
 
 
@@ -109,9 +109,9 @@ interface LinkStatementWithSingleArgVerbGroup extends LinkStatementGroup{
     argument: string,
 }
 
-interface ParseLinkStatement extends LinkStatementGroup {
-    parseOption: 'number' | 'date' | 'string' | 'object' | 'url' | 'regExp'
-}
+// interface ParseLinkStatement extends LinkStatementGroup {
+//     parseOption: ParseOptions
+// }
 
 interface SimplestStatementGroup {
     props: string;
@@ -121,7 +121,7 @@ const reSimplest = /^(?<props>\w+)Props/;
 
 
 
-const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
+
 
 const reArr = [
     new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),

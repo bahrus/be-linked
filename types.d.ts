@@ -37,6 +37,7 @@ export type IfStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Is${C
 export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}PropertyTo${DownstreamPropPath}PropertyOf${TargetOptions}`;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
+export type MathOp = '+' | '-' | '*' | '/' | '%';
 export type WhenStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}ChangesIncrement${DownstreamPropPath}PropertyOf${TargetOptions}`;
 //export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;

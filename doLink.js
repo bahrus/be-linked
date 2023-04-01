@@ -1,4 +1,4 @@
-import { upstream, parseOption, toDownstream } from './be-linked.js';
+import { upstream, parseOption, toDownstream, mathOpArg } from './be-linked.js';
 export async function doLink(cc, downlinks) {
     const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
@@ -84,7 +84,6 @@ async function matchSSGs(links) {
     return returnObj;
 }
 const reSimplest = /^(?<props>\w+)Props/;
-const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
 const reArr = [
     new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),
     new RegExp(String.raw `${upstream}${parseOption}${toDownstream}`),

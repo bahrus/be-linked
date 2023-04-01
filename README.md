@@ -2,7 +2,7 @@
 
 ## Part I Downstream linkage
 
-### Propagating Event Target Subscribing Scenarios
+### Property setter subscription scenarios
 
 #### Simplest scenario. [Done]
 
@@ -117,7 +117,7 @@ However, there may be circumstances where this might not be ideal:
 
 1.  We may be building a "Democratic Organism" web component, where the "brains" of the component is a non visual "component as a service" sitting within the outer web component skin.
 2.  We may need to interact with sibling elements, where we cannot go in and add computed properties.
-3.  Even if we are using a more traditional model with a robust host container element filled with computed property logic, some of the binding rules contained within the component may seem overly tightly coupled to the UI, and can detract from the central meaning of the host container element.
+3.  Even if we are using a more traditional model with a robust host container element filled with computed property logic, some of the that computed property logic contained within the host container may seem overly tightly coupled to the UI, and can detract from the central meaning of the host container element.
 4.  Constantly switching context between the UI Markup and the host element's computed properties might make sense when the requirements are very well understood, and the desire is to make the host element highly reusable.  But before that happens, it might be easier on the developer if the computed properties are defined as close to where they are used as possible.  I would suggest that this argument provides some of the reasoning behind why template engines with full access to the JavaScript runtime engine (tagged template literals and/or JSX) seem quite popular.
 
 So we provide two ways of adding the equivalent of computed properties:  
@@ -144,7 +144,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [Done]
+##### Using JavaScript for more complex scenarios [~~Done~~]
 
 
 ```html
@@ -156,7 +156,8 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        Assign result of read only handler to adorned element when read only property of host changes.
+        Assign result of read only handler to adorned element when read only property of host changes. //Deprecated
+        When read only property of host changes assign result of read only handler to adorned element.  //TODO
     '></toggle-element>
 </host-element>
 ```
@@ -170,7 +171,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
         <my-counter be-linked='
-            When value property of previous element changes increment count property of adorned element.
+            When value property of previous element sibling changes increment count property of adorned element.
         '></my-counter>
 </my-light-weight-container>
 ```
@@ -220,7 +221,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element sibling pass value to cm property of adorned element. 
+        On value changed event of previous element sibling pass value property to cm property of adorned element. 
         Debug. //Done.
         Fire changed event.  //TODO
         Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
@@ -230,26 +231,11 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container
 ```
 
-```html
-<my-light-weight-container>
-    <number-generator></number-generator>
-    <metric-units be-linked='
-        ```
-        On value changed event of previous element increment cm property of adorned element. //TODO
-        Debug.
-        Fire changed event.
-        Nudge previous element.
-        Skip initialization.
-        ```
-    '></metric-units>
-</my-light-weight-container
-```
-
 The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
 ## Upstream linking [Done]
 
-Suppose we want to pass information in the opposite direction?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated events.
+Suppose we want to pass information in the opposite direction -- from the adorned element to an upstream element like the host container element?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes ("setter subscribing") is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated actions.
 
 ```html
 <host-element>
@@ -276,7 +262,7 @@ Suppose we want to pass information in the opposite direction?  If we are not ca
 </host-element>
 ```
 
-If host-element has method "hostMethod":
+If host-element has method "hostMethod": [TODO]
 
 ```html
 <host-element>
