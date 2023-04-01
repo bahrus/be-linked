@@ -24,4 +24,4 @@ interface WhenStatementGroup {
     upstreamCamelQry: Scope & string,
     downstreamPropPath: string,
 }
-const reWhen = new RegExp(String.raw `${upstream}ChangesIncrement${downstream}`)
+const reWhen = new RegExp(String.raw `${upstream}ChangesIncrement${downstream}`);
