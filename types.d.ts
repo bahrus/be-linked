@@ -88,7 +88,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Assign?: DownstreamAssignStatement[];
-    If?: IfStatement[];
+    //If?: IfStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];
     nudge?: boolean;
