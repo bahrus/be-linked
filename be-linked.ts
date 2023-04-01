@@ -155,7 +155,7 @@ export class BeLinked extends EventTarget implements Actions{
 
 
     #parseVal(val: any, option?: ParseOptions){
-        if(option === undefined) return val;
+        if(!option) return val;
         switch(option){
             case 'date':
                 return new Date(val);

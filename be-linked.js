@@ -147,7 +147,7 @@ export class BeLinked extends EventTarget {
         }
     }
     #parseVal(val, option) {
-        if (option === undefined)
+        if (!option)
             return val;
         switch (option) {
             case 'date':

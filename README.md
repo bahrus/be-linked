@@ -143,7 +143,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [~~Done~~]
+##### Using JavaScript for more complex scenarios [Done]
 
 
 ```html
@@ -155,7 +155,6 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        Assign result of read only handler to adorned element when read only property of host changes. //Deprecated
         When read only property of host changes assign result of read only handler to adorned element.  //TODO
     '></toggle-element>
 </host-element>
