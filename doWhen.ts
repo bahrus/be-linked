@@ -1,6 +1,6 @@
 import {CamelConfig, ConditionValue, Link, LinkStatement, NewValue, ExportSymbol, PP} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, downstream, toDownstream, adjustLink} from './be-linked.js';
+import {upstream, downstream, toDownstream, adjustLink, toAdorned} from './be-linked.js';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: PP){
@@ -48,7 +48,7 @@ const reWhens : RegExpOrRegExpExt<PWSG>[] = [
         }
     },
     {
-        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<exportSymbol>\w+)${toDownstream}`),
+        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<exportSymbol>\w+)${toAdorned}`),
         defaultVals: {
             ...defaultVal1
         }
