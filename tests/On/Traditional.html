@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id=input1 id=src>
+    <input id=input2 be-linked='
+        On input event of previous element sibling pass value property to value property of adorned element.
+    '>
+    <div id=target></div>
+    <script type=importmap>
+        {
+            "imports": {
+                "be-decorated/": "../../node_modules/be-decorated/",
+                "be-hive/": "../../node_modules/be-hive/",
+                "be-propagating/": "../../node_modules/be-propagating/",
+                "be-scoped/": "../../node_modules/be-scoped/",
+                "trans-render/": "../../node_modules/trans-render/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../../be-linked.js';
+    </script>
+        <script>
+            function runTest(){
+                input1.value = 'hello';
+                input1.dispatchEvent(new Event('input'));
+                setTimeout(() => {
+                    if(input2.value === 'hello'){
+                        target.setAttribute('mark', 'good')
+                    }
+                }, 200)
+            }
+            setTimeout(() => {
+                runTest();
+            }, 4000)
+        </script>
+</body>
+</html>
