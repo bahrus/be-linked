@@ -8,11 +8,12 @@
 </head>
 <body>
     <div>
-        <input readonly>
-        <input be-linked='
+        <input id=input1 readonly>
+        <input id=input2 be-linked='
             Link read only property of previous element sibling to read only property of adorned element.
         '>
     </div>
+    <div id=target></div>
     <script type=importmap>
         {
             "imports": {
@@ -26,6 +27,20 @@
     </script>
     <script type=module>
         import '../../be-linked.js';
+    </script>
+    <script>
+        function runTest(){
+            if(!input2.readOnly) return;
+            input1.readOnly = false;
+            setTimeout(() => {
+                if(!input2.readOnly){
+                    target.setAttribute('mark', 'good')
+                }
+            }, 200)
+        }
+        setTimeout(() => {
+            runTest();
+        }, 1000)
     </script>
 </body>
 </html>
