@@ -6,7 +6,10 @@ import {
 } from './types';
 import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
-import {downstream, toDownstream, parseOption, mathOpArg, adjustLink} from './be-linked.js';
+import {
+    downstream, toDownstream, parseOption, mathOpArg, adjustLink,
+    assResOf
+} from './be-linked.js';
 
 
 export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
@@ -84,7 +87,8 @@ const upstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\
 const downstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOfAdornedElement`;
 const passUpstreamProp = String.raw `(?<!\\)Pass(?<upstreamPropPath>[\w\:]+)(?<!\\)Property`;
 const passDownstreamProp = String.raw `Pass(?<downstreamPropPath>[\w\\\:]+)Property`;
-const toUpstreamProp = String.raw `To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
+const toUpstreamProp = String.raw `(?<!\\)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
+const toUpstreamCQ = String.raw `(?<!\\)To(?<upstreamCamelQry>\w+)`
 //const reOnIncrementStatement = new RegExp(String.raw `${upstreamEvent}(?<!\\)Increment${downstream}`);
 
 //const reOnPassTowardsStatement = new RegExp(String.raw `${upstreamEvent}${passProp}${toDownstream}`);
@@ -121,6 +125,13 @@ const reOnPassStatements : RegExpOrRegExpExt<POPS>[] = [
     },
     {
         regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${toUpstreamProp}`),
+        defaultVals: {
+            ...defaultVal1,
+            passDirection: 'away'
+        }
+    },
+    {
+        regExp: new RegExp(String.raw `${downstreamEvent}${assResOf}${toUpstreamCQ}`),
         defaultVals: {
             ...defaultVal1,
             passDirection: 'away'

@@ -1,4 +1,4 @@
-import { upstream, downstream, toDownstream, adjustLink, toAdorned } from './be-linked.js';
+import { upstream, downstream, toDownstream, adjustLink, toAdorned, assResOf } from './be-linked.js';
 export async function doWhen(cc, downlinks, pp) {
     const { When } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
@@ -28,7 +28,7 @@ const reWhens = [
         }
     },
     {
-        regExp: new RegExp(String.raw `${upstream}${changes}AssignResultOf(?<exportSymbol>\w+)${toAdorned}`),
+        regExp: new RegExp(String.raw `${upstream}${changes}${assResOf}${toAdorned}`),
         defaultVals: {
             ...defaultVal1
         }
