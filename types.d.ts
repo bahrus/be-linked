@@ -46,7 +46,9 @@ export type DebugStatement = string;
 
 export type TranslateStatement = `By${NumericString}`;
 
+export type PassDirection = 'away' | 'towards' | 'sync';
 
+export type LocalInstance = 'local' | 'proxy';
 
 export interface HandlerArg {
     remoteInstance: EventTarget,
@@ -55,7 +57,7 @@ export interface HandlerArg {
 
 export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
-    localInstance: 'local' | 'proxy',
+    localInstance: LocalInstance,
     negate?: boolean,
     nudge?: boolean,
     translate?: number,
@@ -68,7 +70,7 @@ export interface Link<TSrc = any, TDest = any>{
     refer?: boolean,
     skipInit?: boolean,
     debug?: boolean,
-    passDirection?: 'away' | 'towards' | 'sync', //default to down
+    passDirection?: PassDirection, //default to down
     handler?: (arg: HandlerArg) => any,
     exportSymbol?: string,
     increment?: boolean,

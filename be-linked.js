@@ -25,7 +25,7 @@ export class BeLinked extends EventTarget {
             // }
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
-                await doOn(cc, downlinks);
+                await doOn(cc, downlinks, pp);
             }
             if (When !== undefined) {
                 const { doWhen } = await import('./doWhen.js');
