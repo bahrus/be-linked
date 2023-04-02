@@ -21,11 +21,6 @@ export class BeLinked extends EventTarget implements Actions{
                 const {doLink} = await import('./doLink.js');
                 await doLink(cc, downlinks);
             }
-            // if(Assign !== undefined){
-            //     //TODO:  async import
-            //     const {doAssign} = await import('./doAssign.js');
-            //     await doAssign(pp, cc, downlinks);
-            // }
             if(On !== undefined){
                 const {doOn} = await import('./doOn.js');
                 await doOn(cc, downlinks, pp);
@@ -61,7 +56,8 @@ export class BeLinked extends EventTarget implements Actions{
         const {
             upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
             downstreamPropPath, negate, translate, parseOption, handler,
-            conditionValue, newValue, on, debug, nudge, increment, passDirection
+            conditionValue, newValue, on, debug, nudge, increment, passDirection,
+            invoke
         } = downlink;
         let src: EventTarget | null = null;
         let dest: Element;
@@ -84,7 +80,7 @@ export class BeLinked extends EventTarget implements Actions{
                 break;
         }
         if(src === null) throw 'bL.404';
-        const doPass = async () => {
+        const doPass = async (e?: Event) => {
             if(debug) debugger;
             if(increment){
                 const val = await getVal({host: dest}, destPropPath!);
@@ -93,9 +89,11 @@ export class BeLinked extends EventTarget implements Actions{
                 const objToAssign = await handler({
                     remoteInstance: upstreamRealm!,
                     adornedElement: self,
-                    
+                    event: e,
                 });
                 Object.assign(dest, objToAssign);
+            }else if(invoke !== undefined){
+                (<any>dest)[invoke](dest, src, e)
             }else{
                 let val = this.#parseVal( await getVal({host: src}, srcPropPath), parseOption);
                 if(negate) val = !val;

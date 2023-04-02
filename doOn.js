@@ -15,40 +15,16 @@ export async function doOn(cc, links, pp) {
             links.push({
                 ...test,
             });
-            // const {eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath} = onPassDownStatement;
-            // downlinks.push({
-            //     ...defaultDownlink,
-            //     upstreamCamelQry,
-            //     upstreamPropPath,
-            //     on: eventName,
-            //     downstreamPropPath,
-            //     passDirection: 'towards'
-            // });
-            //continue;
         }
-        // const onPassUpStatement = tryParse(onString, reOnPassAwayStatement) as OnPassStatement | null;
-        // if(onPassUpStatement !== null){
-        //     const {eventName, upstreamCamelQry, upstreamPropPath, downstreamPropPath, parseOption} = onPassUpStatement;
-        //     downlinks.push({
-        //         ...defaultDownlink,
-        //         upstreamCamelQry,
-        //         upstreamPropPath,
-        //         on: eventName,
-        //         downstreamPropPath,
-        //         passDirection: 'away',
-        //         parseOption,
-        //     });
-        // }
     }
 }
-// interface OnIncrementStatement {
-//     eventName: EventName,
-//     upstreamCamelQry: Scope & string,
-//     downstreamPropPath: DownstreamPropPath,
-// }
-const defaultVal1 = {
+const defaultTowards = {
     passDirection: 'towards',
     localInstance: 'local',
+};
+const defaultAway = {
+    passDirection: 'away',
+    localInstance: 'local'
 };
 const upstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)`;
 const downstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOfAdornedElement`;
@@ -56,51 +32,55 @@ const passUpstreamProp = String.raw `(?<!\\)Pass(?<upstreamPropPath>[\w\:]+)(?<!
 const passDownstreamProp = String.raw `Pass(?<downstreamPropPath>[\w\\\:]+)Property`;
 const toUpstreamProp = String.raw `(?<!\\)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
 const toUpstreamCQ = String.raw `(?<!\\)To(?<upstreamCamelQry>\w+)`;
-//const reOnIncrementStatement = new RegExp(String.raw `${upstreamEvent}(?<!\\)Increment${downstream}`);
-//const reOnPassTowardsStatement = new RegExp(String.raw `${upstreamEvent}${passProp}${toDownstream}`);
+const upstreamInvoke = String.raw `(?<!\\)InvokeMethod(?<invoke>\w+)(?<!\\)Of(?<upstreamCamelQry>\w+)`;
 const reOnPassStatements = [
     {
         regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${mathOpArg}${toDownstream}`),
-        defaultVals: { ...defaultVal1 }
+        defaultVals: { ...defaultTowards }
     },
     {
         regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${toDownstream}`),
-        defaultVals: { ...defaultVal1 }
+        defaultVals: { ...defaultTowards }
     },
     {
         regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${mathOpArg}${toDownstream}`),
-        defaultVals: { ...defaultVal1 }
+        defaultVals: { ...defaultTowards }
     },
     {
         regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${toDownstream}`),
-        defaultVals: { ...defaultVal1 }
+        defaultVals: { ...defaultTowards }
     },
     {
         regExp: new RegExp(String.raw `${upstreamEvent}(?<!\\)Increment${downstream}`),
         defaultVals: {
-            ...defaultVal1,
+            ...defaultTowards,
             increment: true,
         }
     },
     {
         regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${parseOption}${toUpstreamProp}`),
         defaultVals: {
-            ...defaultVal1,
+            ...defaultTowards,
             passDirection: 'away'
         }
     },
     {
         regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${toUpstreamProp}`),
         defaultVals: {
-            ...defaultVal1,
+            ...defaultTowards,
             passDirection: 'away'
         }
     },
     {
         regExp: new RegExp(String.raw `${downstreamEvent}${assResOf}${toUpstreamCQ}`),
         defaultVals: {
-            ...defaultVal1,
-            passDirection: 'away'
+            ...defaultAway,
+        }
+    },
+    {
+        regExp: new RegExp(String.raw `${downstream}${upstreamInvoke}`),
+        defaultVals: {
+            ...defaultAway
         }
     }
 ];

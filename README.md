@@ -231,7 +231,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
-## Upstream linking [~~Done~~]
+## Upstream linking [Done]
 
 Suppose we want to pass information in the opposite direction -- from the adorned element to an upstream element like the host container element?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes ("setter subscribing") is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated actions.
 
@@ -244,7 +244,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
 </host-element>
 ```
 
-## Upstream scripting [~~Done~~]
+## Upstream scripting [Done]
 
 ```html
 <host-element>
@@ -255,26 +255,25 @@ Suppose we want to pass information in the opposite direction -- from the adorne
             })
         </script>
         <input be-linked='
-            Assign result of my handler to host on input event of adorned element. //Deprecated.
             On input event of adorned element assign result of my handler to host. //TODO.
         '>
 </host-element>
 ```
 
-If host-element has method "hostMethod": [TODO]
+If host-element has method "doSomething": [Untested]
 
 ```html
 <host-element>
     #shadow
         <input be-linked='
-            On input event of adorned element invoke host method of host.
+            On input event of adorned element invoke method do something of host.
         '>
 </host-element>
 ```
 
  
 
-### Sidewise linking [TODO]
+### Sidewise linking [Untested]
 
 It is possible to employ either downstream or upstream syntax, if targeting a peer element of the adorned element, within the Shadow DOM realm, wherever it may exist.  That can be done by specifying the id (but other css matches can be used instead.  The one restriction is we can only target one element with each statement, the first element that matches the instructions):
 

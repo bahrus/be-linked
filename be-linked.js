@@ -18,11 +18,6 @@ export class BeLinked extends EventTarget {
                 const { doLink } = await import('./doLink.js');
                 await doLink(cc, downlinks);
             }
-            // if(Assign !== undefined){
-            //     //TODO:  async import
-            //     const {doAssign} = await import('./doAssign.js');
-            //     await doAssign(pp, cc, downlinks);
-            // }
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
                 await doOn(cc, downlinks, pp);
@@ -51,7 +46,7 @@ export class BeLinked extends EventTarget {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection } = downlink;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, invoke } = downlink;
         let src = null;
         let dest;
         let srcPropPath;
@@ -74,7 +69,7 @@ export class BeLinked extends EventTarget {
         }
         if (src === null)
             throw 'bL.404';
-        const doPass = async () => {
+        const doPass = async (e) => {
             if (debug)
                 debugger;
             if (increment) {
@@ -85,8 +80,12 @@ export class BeLinked extends EventTarget {
                 const objToAssign = await handler({
                     remoteInstance: upstreamRealm,
                     adornedElement: self,
+                    event: e,
                 });
                 Object.assign(dest, objToAssign);
+            }
+            else if (invoke !== undefined) {
+                dest[invoke](dest, src, e);
             }
             else {
                 let val = this.#parseVal(await getVal({ host: src }, srcPropPath), parseOption);
