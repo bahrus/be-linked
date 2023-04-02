@@ -1,7 +1,7 @@
 {
   "name": "be-linked",
   "version": "0.0.0",
-  "description": "",
+  "description": "Connect (web) components together.",
   "keywords": [
     "web-components",
     "web-component",
@@ -22,8 +22,16 @@
     "@skypack/package-check": "0.2.2",
     "@playwright/test": "1.32.1"
   },
-  "main": "index.js",
-
+  "main": "be-linked.js",
+  "module": "be-linked.js",
+  "exports": {
+    ".": "./be-linked.js",
+    "./be-linked.js": "./be-linked.js"
+  },
+  "files": [
+    "*.*"
+  ],
+  "types": "./types.d.ts",
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
     "package-check": "package-check",

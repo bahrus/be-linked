@@ -1,4 +1,6 @@
-# be-linked [WIP]
+# be-linked
+
+Connect (web) components together.
 
 ## Part I Downstream linkage
 
