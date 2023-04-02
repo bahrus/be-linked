@@ -7,11 +7,16 @@
     <title>Document</title>
 </head>
 <body>
-    <input id=input1 id=src>
-    <input id=input2 be-linked='
-        On input event of previous element sibling pass value property to value property of adorned element.
-    '>
+    <paul-mccartney>
+        <template>
+            <paul-mccartney be-linked='
+                When age property of host changes increment age property of adorned element.
+            '></paul-mccartney>
+            <be-hive></be-hive>
+        </template>
+    </paul-mccartney>
     <div id=target></div>
+    
     <script type=importmap>
         {
             "imports": {
@@ -25,13 +30,15 @@
     </script>
     <script type=module>
         import '../../be-linked.js';
+        import '../../demo/paul-mccartney.js';
     </script>
     <script>
         function runTest(){
-            input1.value = 'hello';
-            input1.dispatchEvent(new Event('input'));
+            const outerPM = document.querySelector('paul-mccartney');
+            outerPM.age = 14;
             setTimeout(() => {
-                if(input2.value === 'hello'){
+                const innerPM = outerPM.shadowRoot.querySelector('paul-mccartney');
+                if(innerPM.age === 81){
                     target.setAttribute('mark', 'good')
                 }
             }, 200)

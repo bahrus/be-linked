@@ -28,6 +28,7 @@ interface WhenStatementGroup {
     exportSymbol?: ExportSymbol,
     conditionValue?: ConditionValue,
     newValue?: NewValue,
+    skipInit?: boolean,
 }
 type PWSG = Partial<WhenStatementGroup>;
 //const reWhen = new RegExp(String.raw `${upstream}(?<!\\)ChangesIncrement${downstream}`);
@@ -44,6 +45,7 @@ const reWhens : RegExpOrRegExpExt<PWSG>[] = [
         regExp: new RegExp(String.raw `${upstream}${changes}Increment${downstream}`),
         defaultVals: {
             increment: true,
+            skipInit: true,
             ...defaultVal1
         }
     },

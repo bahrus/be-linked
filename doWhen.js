@@ -24,6 +24,7 @@ const reWhens = [
         regExp: new RegExp(String.raw `${upstream}${changes}Increment${downstream}`),
         defaultVals: {
             increment: true,
+            skipInit: true,
             ...defaultVal1
         }
     },
