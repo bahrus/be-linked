@@ -6,6 +6,7 @@ import {Actions, PP, PPP, PPPP, Proxy, CamelConfig, CanonicalConfig, Link, LinkS
 export class BeLinked extends EventTarget implements Actions{
     async camelToCanonical(pp: PP): PPPP {
         const {camelConfig, self} = pp;
+        
         const {arr} = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
@@ -13,7 +14,11 @@ export class BeLinked extends EventTarget implements Actions{
         };
         const {downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
-            const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks} = cc;
+            const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire} = cc;
+            if(Fire !== undefined){
+                const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
+                cc.fire = Fire.map(s => camelToLisp(s));
+            }
             if(cc_downlinks !== undefined){
                 cc_downlinks.forEach(link => downlinks.push(link))
             }
@@ -41,15 +46,16 @@ export class BeLinked extends EventTarget implements Actions{
         const {downlinks} = canonicalConfig!;
         if(downlinks !== undefined){
             for(const downlink of downlinks){
-                await this.#doDownlink(pp, downlink);
+                await this.#doLink(pp, downlink);
             }
 
         }
         return mold;
     }
 
-    async #doDownlink(pp: PP, downlink: Link, ){
+    async #doLink(pp: PP, downlink: Link, ){
         const {canonicalConfig, self, proxy} = pp;
+        
         const {findRealm} = await import('trans-render/lib/findRealm.js');
         const {getVal} = await import('trans-render/lib/getVal.js');
         const {setProp} = await import('trans-render/lib/setProp.js');
@@ -57,7 +63,7 @@ export class BeLinked extends EventTarget implements Actions{
             upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
             downstreamPropPath, negate, translate, parseOption, handler,
             conditionValue, newValue, on, debug, nudge, increment, passDirection,
-            invoke
+            invoke, fire
         } = downlink;
         let src: EventTarget | null = null;
         let dest: Element;
@@ -106,7 +112,11 @@ export class BeLinked extends EventTarget implements Actions{
                     await setProp(dest, destPropPath, val);
                 }
             }
-
+            if(fire !== undefined){
+                for(const fireInstance of fire){
+                    dest.dispatchEvent(new Event(fireInstance));
+                }
+            }
         }
         if(!skipInit){
             await doPass();
@@ -175,9 +185,13 @@ export class BeLinked extends EventTarget implements Actions{
 
 
 export async function adjustLink(link: Link, pp?: PP){
-    const {downstreamPropPath, upstreamPropPath, exportSymbol} = link;
+    const {downstreamPropPath, upstreamPropPath, exportSymbol, on} = link;
     if(downstreamPropPath !== undefined) link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
     if(upstreamPropPath !== undefined) link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
+    if(on !== undefined){
+        const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
+        link.on = await camelToLisp(on);
+    }
     if(exportSymbol !== undefined && pp !== undefined){
         const {getExportSym} = await import('./getExportSym.js');
         link.handler = await getExportSym(pp, exportSymbol);

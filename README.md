@@ -155,7 +155,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        When read only property of host changes assign result of read only handler to adorned element.  //TODO
+        When read only property of host changes assign result of read only handler to adorned element. 
     '></toggle-element>
 </host-element>
 ```
@@ -176,7 +176,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 
 
 
-#### Copying [TODO]
+<!--#### Copying [TODO]
 
 Pass number value of previous element to local cm property.
 
@@ -190,6 +190,7 @@ Pass number value of previous element to local cm property.
     '></metric-units>
 </div>
 ```
+-->
 
 NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy. 
 
@@ -221,7 +222,7 @@ If the server is able to apply the initial round of rendering / passing, then we
         ```
         On value changed event of previous element sibling pass value property to cm property of adorned element. 
         Debug. //Done.
-        Fire changed event.  //TODO
+        Fire changed event.  //Done.
         Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
         Skip initialization. //"initialization" is ignored commentary.
         ```
@@ -255,7 +256,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
             })
         </script>
         <input be-linked='
-            On input event of adorned element assign result of my handler to host. //TODO.
+            On input event of adorned element assign result of my handler to host.
         '>
 </host-element>
 ```
@@ -285,7 +286,7 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
             pass value property as number 
             to slide index property 
             of slide show id 
-            within root node. //TODO:  as number
+            within root node.
         '>
         ...
         <my-carousel id=slide-show></my-carousel>

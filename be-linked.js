@@ -10,7 +10,11 @@ export class BeLinked extends EventTarget {
         };
         const { downlinks } = canonicalConfig;
         for (const cc of camelConfigArr) {
-            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks } = cc;
+            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire } = cc;
+            if (Fire !== undefined) {
+                const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
+                cc.fire = Fire.map(s => camelToLisp(s));
+            }
             if (cc_downlinks !== undefined) {
                 cc_downlinks.forEach(link => downlinks.push(link));
             }
@@ -36,17 +40,17 @@ export class BeLinked extends EventTarget {
         const { downlinks } = canonicalConfig;
         if (downlinks !== undefined) {
             for (const downlink of downlinks) {
-                await this.#doDownlink(pp, downlink);
+                await this.#doLink(pp, downlink);
             }
         }
         return mold;
     }
-    async #doDownlink(pp, downlink) {
+    async #doLink(pp, downlink) {
         const { canonicalConfig, self, proxy } = pp;
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const { getVal } = await import('trans-render/lib/getVal.js');
         const { setProp } = await import('trans-render/lib/setProp.js');
-        const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, invoke } = downlink;
+        const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, invoke, fire } = downlink;
         let src = null;
         let dest;
         let srcPropPath;
@@ -101,6 +105,11 @@ export class BeLinked extends EventTarget {
                 }
                 if (destPropPath !== undefined) {
                     await setProp(dest, destPropPath, val);
+                }
+            }
+            if (fire !== undefined) {
+                for (const fireInstance of fire) {
+                    dest.dispatchEvent(new Event(fireInstance));
                 }
             }
         };
@@ -166,11 +175,15 @@ export class BeLinked extends EventTarget {
 }
 //export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 export async function adjustLink(link, pp) {
-    const { downstreamPropPath, upstreamPropPath, exportSymbol } = link;
+    const { downstreamPropPath, upstreamPropPath, exportSymbol, on } = link;
     if (downstreamPropPath !== undefined)
         link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
     if (upstreamPropPath !== undefined)
         link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
+    if (on !== undefined) {
+        const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
+        link.on = await camelToLisp(on);
+    }
     if (exportSymbol !== undefined && pp !== undefined) {
         const { getExportSym } = await import('./getExportSym.js');
         link.handler = await getExportSym(pp, exportSymbol);

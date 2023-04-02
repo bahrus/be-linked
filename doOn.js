@@ -1,11 +1,11 @@
 import { downstream, toDownstream, parseOption, mathOpArg, adjustLink, assResOf } from './be-linked.js';
 export async function doOn(cc, links, pp) {
-    const { On, debug, nudge, skip } = cc;
-    const defaultDownlink = {
-        //localInstance: 'local',
+    const { On, debug, nudge, skip, fire } = cc;
+    const defaultLink = {
         debug,
         nudge,
         skipInit: skip,
+        fire,
     };
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const onString of On) {
@@ -13,6 +13,7 @@ export async function doOn(cc, links, pp) {
         if (test !== null) {
             await adjustLink(test, pp);
             links.push({
+                ...defaultLink,
                 ...test,
             });
         }

@@ -13,12 +13,12 @@ import {
 
 
 export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
-    const {On, debug, nudge, skip} = cc;
-    const defaultDownlink = {
-        //localInstance: 'local',
+    const {On, debug, nudge, skip, fire} = cc;
+    const defaultLink = {
         debug,
         nudge,
         skipInit: skip,
+        fire,
     } as Link;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){
@@ -26,12 +26,10 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
         if(test !== null){
             await adjustLink(test as Link, pp);
             links.push({
+                ...defaultLink,
                 ...test,
             })
-            
         }
-
-
     }
 }
 

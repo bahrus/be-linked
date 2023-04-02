@@ -39,12 +39,11 @@ export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncr
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 export type MathOp = '+' | '-' | '*' | '/' | '%';
 export type WhenStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}ChangesIncrement${DownstreamPropPath}PropertyOf${TargetOptions}`;
-//export type ParseStatement = `As${ParseOptions}`;
 export type NumericString = string;
 
+export type FireStatement = string;
 export type DebugStatement = string;
-
-export type TranslateStatement = `By${NumericString}`;
+//export type TranslateStatement = `By${NumericString}`;
 
 export type PassDirection = 'away' | 'towards' | 'sync';
 
@@ -81,6 +80,7 @@ export interface Link<TSrc = any, TDest = any>{
     upstreamCamelQry: Scope,
     downstreamPropPath?: DownstreamPropPath,
     downstreamPropName?: string & keyof TDest,
+    fire?: string[]
 }
 
 export interface CamelConfig<TSrc=any, TDest=any>{
@@ -92,7 +92,6 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Assign?: DownstreamAssignStatement[];
-    //If?: IfStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];
     nudge?: boolean;
@@ -100,11 +99,13 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     skip?: boolean;
     links?: Link<TSrc, TDest>[],
     When?: WhenStatement[];
-    
+    Fire?: FireStatement[];
+    fire?: string[];
 }
 
 export interface CanonicalConfig{
     downlinks: Link[];
+    
 }
 
 export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;
