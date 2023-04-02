@@ -1,6 +1,6 @@
 import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, parseOption, toDownstream, mathOpArg, adjustLink} from './be-linked.js';
+import {upstream, parseOption, toDownstream, mathOpArg} from './be-linked.js';
 
 export async function doLink(cc: CamelConfig, downlinks: Link[]){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
@@ -70,6 +70,7 @@ function toDownLink(lsg: LinkStatementGroup, defaultDownlink: Link): Link{
 
 async function matchLSGs(links: LinkStatement[]){
     const {tryParse} = await import('be-decorated/cpu.js');
+    const {adjustLink} = await import('./adjustLink.js');
     const returnObj: LinkStatementGroup[] = []; 
     for(const linkCamelString of links){
         const test = tryParse(linkCamelString, reArr);

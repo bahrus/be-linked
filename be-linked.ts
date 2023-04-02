@@ -56,22 +56,7 @@ export class BeLinked extends EventTarget implements Actions{
 
 }
 
-//export type ShortDownLinkStatement = `${upstreamPropPath}Of${upstreamCamelQry}To${downstreamPropPath}Of${TargetStatement}`;
 
-
-export async function adjustLink(link: Link, pp?: PP){
-    const {downstreamPropPath, upstreamPropPath, exportSymbol, on} = link;
-    if(downstreamPropPath !== undefined) link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
-    if(upstreamPropPath !== undefined) link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
-    if(on !== undefined){
-        const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
-        link.on = await camelToLisp(on);
-    }
-    if(exportSymbol !== undefined && pp !== undefined){
-        const {getExportSym} = await import('./getExportSym.js');
-        link.handler = await getExportSym(pp, exportSymbol);
-    }
-}
 
 const reTraditional = 
 /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;

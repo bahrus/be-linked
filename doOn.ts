@@ -7,8 +7,7 @@ import {
 import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 import {
-    downstream, toDownstream, parseOption, mathOpArg, adjustLink,
-    assResOf
+    downstream, toDownstream, parseOption, mathOpArg, assResOf
 } from './be-linked.js';
 
 
@@ -21,6 +20,7 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
         fire,
     } as Link;
     const {tryParse} = await import('be-decorated/cpu.js');
+    const {adjustLink} = await import('./adjustLink.js');
     for(const onString of On!){
         const test = tryParse(onString, reOnPassStatements, declare) as OnPassStatement | null;
         if(test !== null){

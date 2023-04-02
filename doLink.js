@@ -1,4 +1,4 @@
-import { upstream, parseOption, toDownstream, mathOpArg, adjustLink } from './be-linked.js';
+import { upstream, parseOption, toDownstream, mathOpArg } from './be-linked.js';
 export async function doLink(cc, downlinks) {
     const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
@@ -61,6 +61,7 @@ function toDownLink(lsg, defaultDownlink) {
 }
 async function matchLSGs(links) {
     const { tryParse } = await import('be-decorated/cpu.js');
+    const { adjustLink } = await import('./adjustLink.js');
     const returnObj = [];
     for (const linkCamelString of links) {
         const test = tryParse(linkCamelString, reArr);

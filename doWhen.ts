@@ -1,14 +1,14 @@
 import {CamelConfig, ConditionValue, Link, LinkStatement, NewValue, ExportSymbol, PP} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, downstream, toDownstream, adjustLink, toAdorned, assResOf} from './be-linked.js';
+import {upstream, downstream, toDownstream, toAdorned, assResOf} from './be-linked.js';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: PP){
     const {When, declare} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
+    const {adjustLink} = await import('./adjustLink.js');
     for(const whenStatement of When!){
         const test = tryParse(whenStatement, reWhens, declare);
-        //test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
         if(test !== null){
             await adjustLink(test as Link, pp);
             downlinks.push({
