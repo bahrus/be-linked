@@ -9,7 +9,7 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-decorated": "0.0.237",
+    "be-decorated": "0.0.238",
     "be-exportable": "0.0.67",
     "be-having": "0.0.14",
     "be-propagating": "0.0.4",
@@ -33,7 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/bahrus/be-linked.git"
   },
-  "author": "",
+  "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahrus/be-linked/issues"

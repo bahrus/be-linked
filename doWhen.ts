@@ -4,10 +4,10 @@ import {upstream, downstream, toDownstream, adjustLink, toAdorned, assResOf} fro
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: PP){
-    const {When} = cc;
+    const {When, declare} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const whenStatement of When!){
-        const test = tryParse(whenStatement, reWhens);
+        const test = tryParse(whenStatement, reWhens, declare);
         //test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
         if(test !== null){
             await adjustLink(test as Link, pp);

@@ -1,4 +1,4 @@
-import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
+import {BeDecoratedProps, MinimalProxy, Declarations} from 'be-decorated/types';
 import {QueryInfo, Scope, camelQry, JSONObject} from 'trans-render/lib/types';
 
 export interface EndUserProps {
@@ -80,7 +80,7 @@ export interface Link<TSrc = any, TDest = any>{
     upstreamCamelQry: Scope,
     downstreamPropPath?: DownstreamPropPath,
     downstreamPropName?: string & keyof TDest,
-    fire?: string[]
+    fire?: string[],
 }
 
 export interface CamelConfig<TSrc=any, TDest=any>{
@@ -101,6 +101,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     When?: WhenStatement[];
     Fire?: FireStatement[];
     fire?: string[];
+    declare: Declarations,
 }
 
 export interface CanonicalConfig{

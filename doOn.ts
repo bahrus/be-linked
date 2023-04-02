@@ -13,7 +13,7 @@ import {
 
 
 export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
-    const {On, debug, nudge, skip, fire} = cc;
+    const {On, debug, nudge, skip, fire, declare} = cc;
     const defaultLink = {
         debug,
         nudge,
@@ -22,7 +22,7 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
     } as Link;
     const {tryParse} = await import('be-decorated/cpu.js');
     for(const onString of On!){
-        const test = tryParse(onString, reOnPassStatements) as OnPassStatement | null;
+        const test = tryParse(onString, reOnPassStatements, declare) as OnPassStatement | null;
         if(test !== null){
             await adjustLink(test as Link, pp);
             links.push({
