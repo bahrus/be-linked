@@ -11,7 +11,7 @@ Connect (web) components together.
 
 ### Property setter subscription scenarios
 
-#### Simplest scenario. [Done]
+#### Simplest scenario.
 
 host-element container has boolean property "readOnly".  Inner element wants to match the value with the same property name.
 
@@ -24,7 +24,7 @@ host-element container has boolean property "readOnly".  Inner element wants to 
 </host-element>
 ```
 
-which is shorthand for [Done]:
+which is shorthand for:
 
 ###### Hemingway Notation
 
@@ -54,7 +54,7 @@ which is shorthand for [Done]:
 </host-element>
 ```
 
-#### Negation scenario [Done].
+#### Negation scenario.
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
@@ -69,7 +69,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 
 
 
-Alternative [Done]:
+Alternative:
 
 ```html
 <host-element>
@@ -92,7 +92,7 @@ Key               |Meaning                                                |Notes
 Clone             |Do a structured clone of the value before passing it.  |Makes it almost impossible to experience unexpected side effects from passing an object from one component to another.
 Refer             |Pass weak reference of the property.
 
-#### Translate scenario [Done]
+#### Translate scenario
 
 ```html
 <paul-mccartney age=64>
@@ -103,7 +103,7 @@ Refer             |Pass weak reference of the property.
 </paul-mccartney>
 ```
 
-#### as ... [Done]
+#### as number (or other data formats)
 
 ```html
 <input type=number value=37>
@@ -129,7 +129,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-##### Declarative mapping scenario [Done]
+##### Declarative mapping scenario
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 
@@ -150,8 +150,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-##### Using JavaScript for more complex scenarios [Done]
-
+##### Using JavaScript for more complex scenarios
 
 ```html
 <host-element>
@@ -167,10 +166,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 </host-element>
 ```
 
-
-
-
-#### Counting Scenario [Done]
+#### Counting Scenario
 
 ```html
 <my-light-weight-container>
@@ -204,7 +200,7 @@ NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy.
 Maybe this should be a separate decorator?
 
 
-### Leaning on server rendering [Done]
+### Leaning on server rendering
 
 If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
@@ -220,7 +216,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container>
 ```
 
-## Traditional Element Events [Done]
+## Traditional Element Events 
 
 ```html
 <my-light-weight-container>
@@ -239,7 +235,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
 
-## Upstream linking [Done]
+## Upstream linking 
 
 Suppose we want to pass information in the opposite direction -- from the adorned element to an upstream element like the host container element?  If we are not careful, this can easily result in infinite loops.  To help prevent this, no support for property changes ("setter subscribing") is supported.  Only events.  The developer should lean heavily on the practice of only allowing data to flow in this direction when it is triggered (directly or indirectly) by user initiated actions.
 
@@ -252,7 +248,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
 </host-element>
 ```
 
-## Upstream scripting [Done]
+## Upstream scripting 
 
 ```html
 <host-element>
