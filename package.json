@@ -10,14 +10,14 @@
   ],
   "dependencies": {
     "be-decorated": "0.0.238",
-    "be-exportable": "0.0.67",
-    "be-having": "0.0.14",
-    "be-propagating": "0.0.4",
+    "be-exportable": "0.0.68",
+    "be-having": "0.0.15",
+    "be-propagating": "0.0.5",
     "be-hive": "0.0.82",
     "trans-render": "0.0.671"
   },
   "devDependencies": {
-    "be-scoped": "0.0.7",
+    "be-scoped": "0.0.8",
     "may-it-serve": "0.0.5",
     "@skypack/package-check": "0.2.2",
     "@playwright/test": "1.32.1"
