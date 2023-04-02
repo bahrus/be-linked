@@ -296,7 +296,7 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
 </host-element>
 ```
 
-If the enters something in the input field before the my-carousel element has streamed to the browser, tough luck!
+If the user enters something in the input field before the my-carousel element has streamed to the browser, tough luck!
 
 To avoid this possibility maybe it would make more sense to add a be-linked attribute to my-carousel?
 

@@ -105,7 +105,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
 }
 
 export interface CanonicalConfig{
-    downlinks: Link[];
+    links: Link[];
     
 }
 

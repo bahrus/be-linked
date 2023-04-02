@@ -1,9 +1,9 @@
 import { upstream, downstream, toDownstream, adjustLink, toAdorned, assResOf } from './be-linked.js';
 export async function doWhen(cc, downlinks, pp) {
-    const { When } = cc;
+    const { When, declare } = cc;
     const { tryParse } = await import('be-decorated/cpu.js');
     for (const whenStatement of When) {
-        const test = tryParse(whenStatement, reWhens);
+        const test = tryParse(whenStatement, reWhens, declare);
         //test.downstreamPropPath = test.downstreamPropPath.replaceAll(':', '.');
         if (test !== null) {
             await adjustLink(test, pp);

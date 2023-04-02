@@ -10,9 +10,9 @@ export class BeLinked extends EventTarget implements Actions{
         const {arr} = await import('be-decorated/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
-            downlinks: []
+            links: []
         };
-        const {downlinks} = canonicalConfig;
+        const {links: downlinks} = canonicalConfig;
         for(const cc of camelConfigArr){
             const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire} = cc;
             if(Fire !== undefined){
@@ -43,7 +43,7 @@ export class BeLinked extends EventTarget implements Actions{
 
     async onCanonical(pp: PP, mold: PPP): PPPP {
         const {canonicalConfig} = pp;
-        const {downlinks} = canonicalConfig!;
+        const {links: downlinks} = canonicalConfig!;
         if(downlinks !== undefined){
             for(const downlink of downlinks){
                 await this.#doLink(pp, downlink);
