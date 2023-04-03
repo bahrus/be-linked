@@ -7,16 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <paul-mccartney>
-        <template>
-            <paul-mccartney be-linked='
-                When age property of host changes increment age property of adorned element.
-            '></paul-mccartney>
-            <be-hive></be-hive>
-        </template>
-    </paul-mccartney>
+    <paul-mccartney></paul-mccartney>
+
+    <div id=linked be-linked='
+        Link age property of previous element sibling - 20 to text content property of adorned element.
+    '></div>
     <div id=target></div>
-    
     <script type=importmap>
         {
             "imports": {
@@ -30,15 +26,15 @@
     </script>
     <script type=module>
         import '../../be-linked.js';
-        import '../../demo/paul-mccartney.js';
+        import '../../demo/paul-mccartney.js'
     </script>
     <script>
         function runTest(){
             const outerPM = document.querySelector('paul-mccartney');
-            outerPM.age = 14;
+            outerPM.age = 64;
             setTimeout(() => {
-                const innerPM = outerPM.shadowRoot.querySelector('paul-mccartney');
-                if(innerPM.age === 81){
+                
+                if(linked.textContent === '44'){
                     target.setAttribute('mark', 'good')
                 }
             }, 200);

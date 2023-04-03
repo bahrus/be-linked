@@ -7,20 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <paul-mccartney>
-        <template>
-            <paul-mccartney be-linked='
-                When age property of host changes increment age property of adorned element.
-            '></paul-mccartney>
-            <be-hive></be-hive>
-        </template>
-    </paul-mccartney>
+    <input id=input1>
+    <script nomodule>
+        export const myHandler = ({remoteInstance, adornedElement}) => ({
+            value: adornedElement.value
+        });
+    </script>
+    <input id=input2 be-linked='
+        On input event of adorned element assign result of my handler to previous input element.
+    '>
     <div id=target></div>
-    
     <script type=importmap>
         {
             "imports": {
                 "be-decorated/": "../../node_modules/be-decorated/",
+                "be-exportable/": "../../node_modules/be-exportable/",
                 "be-hive/": "../../node_modules/be-hive/",
                 "be-propagating/": "../../node_modules/be-propagating/",
                 "be-scoped/": "../../node_modules/be-scoped/",
@@ -30,22 +31,20 @@
     </script>
     <script type=module>
         import '../../be-linked.js';
-        import '../../demo/paul-mccartney.js';
     </script>
-    <script>
-        function runTest(){
-            const outerPM = document.querySelector('paul-mccartney');
-            outerPM.age = 14;
+        <script>
+            function runTest(){
+                input2.value = 'hello';
+                input2.dispatchEvent(new Event('input'));
+                setTimeout(() => {
+                    if(input1.value === 'hello'){
+                        target.setAttribute('mark', 'good')
+                    }
+                }, 200)
+            }
             setTimeout(() => {
-                const innerPM = outerPM.shadowRoot.querySelector('paul-mccartney');
-                if(innerPM.age === 81){
-                    target.setAttribute('mark', 'good')
-                }
-            }, 200);
-        }
-        setTimeout(() => {
-            runTest();
-        }, 4000);
-    </script>
+                runTest();
+            }, 4000)
+        </script>
 </body>
 </html>
