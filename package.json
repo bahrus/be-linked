@@ -26,10 +26,13 @@
   "module": "be-linked.js",
   "exports": {
     ".": "./be-linked.js",
-    "./be-linked.js": "./be-linked.js"
+    "./be-linked.js": "./be-linked.js",
+    "./reCommon.js": "./reCommon.js",
+    "./reOn.js": "./reOn.js"
   },
   "files": [
-    "*.*"
+    "*.js",
+    "types.d.ts"
   ],
   "types": "./types.d.ts",
   "scripts": {

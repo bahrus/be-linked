@@ -8,7 +8,7 @@ export class BeLinked extends EventTarget {
         const canonicalConfig = {
             links: []
         };
-        const { links: downlinks } = canonicalConfig;
+        const { links } = canonicalConfig;
         for (const cc of camelConfigArr) {
             const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire } = cc;
             if (Fire !== undefined) {
@@ -16,19 +16,19 @@ export class BeLinked extends EventTarget {
                 cc.fire = Fire.map(s => camelToLisp(s));
             }
             if (cc_downlinks !== undefined) {
-                cc_downlinks.forEach(link => downlinks.push(link));
+                cc_downlinks.forEach(link => links.push(link));
             }
             if (Link || Negate || Clone || Refer !== undefined) {
                 const { doLink } = await import('./doLink.js');
-                await doLink(cc, downlinks);
+                await doLink(cc, links);
             }
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
-                await doOn(cc, downlinks, pp);
+                await doOn(cc, links, pp);
             }
             if (When !== undefined) {
                 const { doWhen } = await import('./doWhen.js');
-                await doWhen(cc, downlinks, pp);
+                await doWhen(cc, links, pp);
             }
         }
         return {
@@ -81,10 +81,3 @@ define({
     }
 });
 register(ifWantsToBe, upgrade, tagName);
-export const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
-export const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
-export const toDownstream = String.raw `To${downstream}`;
-export const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
-export const toAdorned = String.raw `(?<!\\)ToAdornedElement`;
-export const assResOf = String.raw `AssignResultOf(?<exportSymbol>\w+)`;

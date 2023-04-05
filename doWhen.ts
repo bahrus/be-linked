@@ -1,12 +1,35 @@
 import {CamelConfig, ConditionValue, Link, LinkStatement, NewValue, ExportSymbol, PP} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, downstream, toDownstream, toAdorned, assResOf} from './be-linked.js';
+//import {upstream, downstream, toDownstream, toAdorned, assResOf} from './be-linked.js';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: PP){
     const {When, declare} = cc;
     const {tryParse} = await import('be-decorated/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
+    const {upstream, downstream, assResOf, toAdorned, toDownstream} = await import('./reCommon.js');
+    const reWhens : RegExpOrRegExpExt<PWSG>[] = [
+        {
+            regExp: new RegExp(String.raw `${upstream}${changes}Increment${downstream}`),
+            defaultVals: {
+                increment: true,
+                skipInit: true,
+                ...defaultVal1
+            }
+        },
+        {
+            regExp: new RegExp(String.raw `${upstream}${changes}${assResOf}${toAdorned}`),
+            defaultVals: {
+                ...defaultVal1
+            }
+        },
+        {
+            regExp: new RegExp(String.raw `${upstream}(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)Assign(?<newValue>\w+)${toDownstream}`),
+            defaultVals:{
+                ...defaultVal1
+            }
+        }
+    ]
     for(const whenStatement of When!){
         const test = tryParse(whenStatement, reWhens, declare);
         if(test !== null){
@@ -40,25 +63,3 @@ const defaultVal1: PWSG = {
     localInstance: 'local',
 }
 
-const reWhens : RegExpOrRegExpExt<PWSG>[] = [
-    {
-        regExp: new RegExp(String.raw `${upstream}${changes}Increment${downstream}`),
-        defaultVals: {
-            increment: true,
-            skipInit: true,
-            ...defaultVal1
-        }
-    },
-    {
-        regExp: new RegExp(String.raw `${upstream}${changes}${assResOf}${toAdorned}`),
-        defaultVals: {
-            ...defaultVal1
-        }
-    },
-    {
-        regExp: new RegExp(String.raw `${upstream}(?<!\\)Equals(?<conditionValue>\w+)(?<!\\)Assign(?<newValue>\w+)${toDownstream}`),
-        defaultVals:{
-            ...defaultVal1
-        }
-    }
-]

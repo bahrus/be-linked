@@ -1,6 +1,6 @@
 import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp} from './types';
 import {Scope} from 'trans-render/lib/types';
-import {upstream, parseOption, toDownstream, mathOpArg} from './be-linked.js';
+
 
 export async function doLink(cc: CamelConfig, downlinks: Link[]){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
@@ -13,13 +13,13 @@ export async function doLink(cc: CamelConfig, downlinks: Link[]){
         skipInit: skip,
     } as Link;
     if(Link !== undefined){
-        processLinkStatements(Link, defaultDownlink, downlinks);
+        await processLinkStatements(Link, defaultDownlink, downlinks);
     }
     if(Clone !== undefined){
-        processLinkStatements(Clone, {...defaultDownlink, clone: true}, downlinks);
+        await processLinkStatements(Clone, {...defaultDownlink, clone: true}, downlinks);
     }
     if(Refer !== undefined){
-        processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks);
+        await processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks);
     }
 
 }
@@ -72,6 +72,13 @@ async function matchLSGs(links: LinkStatement[]){
     const {tryParse} = await import('be-decorated/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const returnObj: LinkStatementGroup[] = []; 
+    const {upstream, parseOption, mathOpArg, toDownstream} = await import('./reCommon.js');
+    const reArr = [
+        new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),
+        new RegExp(String.raw `${upstream}${parseOption}${toDownstream}`),
+        new RegExp(String.raw `${upstream}${mathOpArg}${toDownstream}`),
+        new RegExp(String.raw `${upstream}${toDownstream}`)
+    ];
     for(const linkCamelString of links){
         const test = tryParse(linkCamelString, reArr);
         if(test !== null){
@@ -126,9 +133,4 @@ const reSimplest = /^(?<props>\w+)Props/;
 
 
 
-const reArr = [
-    new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),
-    new RegExp(String.raw `${upstream}${parseOption}${toDownstream}`),
-    new RegExp(String.raw `${upstream}${mathOpArg}${toDownstream}`),
-    new RegExp(String.raw `${upstream}${toDownstream}`)
-];
+
