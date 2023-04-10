@@ -38,6 +38,7 @@ export async function pass(pp: PP, downlink: Link): Promise<ET>{
         if(increment){
             const val = await getVal({host: dest}, destPropPath!);
             await setProp(dest, destPropPath!, val + 1);
+            et.value = val;
         }else if(handler !== undefined){
             const objToAssign = await handler({
                 remoteInstance: upstreamRealm!,
@@ -45,6 +46,7 @@ export async function pass(pp: PP, downlink: Link): Promise<ET>{
                 event: e,
             });
             Object.assign(dest, objToAssign);
+            et.value = objToAssign;
         }else if(invoke !== undefined){
             (<any>dest)[invoke](dest, src, e)
         }else{

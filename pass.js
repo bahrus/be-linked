@@ -33,6 +33,7 @@ export async function pass(pp, downlink) {
         if (increment) {
             const val = await getVal({ host: dest }, destPropPath);
             await setProp(dest, destPropPath, val + 1);
+            et.value = val;
         }
         else if (handler !== undefined) {
             const objToAssign = await handler({
@@ -41,6 +42,7 @@ export async function pass(pp, downlink) {
                 event: e,
             });
             Object.assign(dest, objToAssign);
+            et.value = objToAssign;
         }
         else if (invoke !== undefined) {
             dest[invoke](dest, src, e);
