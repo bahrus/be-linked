@@ -119,9 +119,7 @@ interface LinkStatementWithSingleArgVerbGroup extends LinkStatementGroup{
     argument: string,
 }
 
-// interface ParseLinkStatement extends LinkStatementGroup {
-//     parseOption: ParseOptions
-// }
+
 
 interface SimplestStatementGroup {
     props: string;
