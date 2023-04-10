@@ -58,6 +58,8 @@ export class BeLinked extends EventTarget implements Actions{
 
 
 
+
+
 // const reTraditional = 
 // /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 

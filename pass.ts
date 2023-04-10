@@ -1,5 +1,6 @@
 import {PP, Link} from './types';
-export async function pass(pp: PP, downlink: Link){
+export async function pass(pp: PP, downlink: Link): Promise<ET>{
+    const et = new ET();
     const {canonicalConfig, self, proxy} = pp;
         
     const {findRealm} = await import('trans-render/lib/findRealm.js');
@@ -61,6 +62,7 @@ export async function pass(pp: PP, downlink: Link){
             if(destPropPath !== undefined){
                 await setProp(dest, destPropPath, val);
             }
+            et.value = val;
         }
         if(fire !== undefined){
             for(const fireInstance of fire){
@@ -107,5 +109,15 @@ export async function pass(pp: PP, downlink: Link){
     if(nudge && src instanceof Element){
         const {nudge} = await import('trans-render/lib/nudge.js');
         nudge(src);
+    }
+    return et;
+}
+
+class ET extends EventTarget{
+    #value: any;
+    get value(){return this.#value;}
+    set value(nv: any){
+        this.#value = nv;
+        this.dispatchEvent(new Event('value'));
     }
 }
