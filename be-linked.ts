@@ -58,8 +58,8 @@ export class BeLinked extends EventTarget implements Actions{
 
 
 
-const reTraditional = 
-/^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
+// const reTraditional = 
+// /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
@@ -75,7 +75,6 @@ define<Proxy & BeDecoratedProps<Proxy, Actions, CamelConfig>, Actions>({
             primaryProp: 'camelConfig',
             parseAndCamelize: true,
             camelizeOptions: {
-                //TODO
                 booleans: ['Debug', 'Skip', 'Nudge']
             },
             primaryPropReq: true,

@@ -81,6 +81,7 @@ export interface Link<TSrc = any, TDest = any>{
     downstreamPropPath?: DownstreamPropPath,
     downstreamPropName?: string & keyof TDest,
     fire?: string[],
+    memKey?: string,
 }
 
 export interface CamelConfig<TSrc=any, TDest=any>{

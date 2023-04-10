@@ -26,6 +26,7 @@
   "module": "be-linked.js",
   "exports": {
     ".": "./be-linked.js",
+    "./adjustLink.js": "./adjustLink.js",
     "./be-linked.js": "./be-linked.js",
     "./reCommon.js": "./reCommon.js",
     "./reOn.js": "./reOn.js"

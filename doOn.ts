@@ -7,7 +7,7 @@ import {
 import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
-
+let reOnPassStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 
 export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
     const {On, debug, nudge, skip, fire, declare} = cc;
@@ -21,59 +21,62 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
     const {adjustLink} = await import('./adjustLink.js');
     const {upstreamEvent, passDownstreamProp, downstreamEvent, passUpstreamProp, toUpstreamCQ, toUpstreamProp, upstreamInvoke} = await import('./reOn.js');
     const {parseOption, mathOpArg, toDownstream, assResOf, downstream} = await import('./reCommon.js');
-    const reOnPassStatements : RegExpOrRegExpExt<POPS>[] = [
-        {
-            regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${mathOpArg}${toDownstream}`),
-            defaultVals: {...defaultTowards}
-        },
-        {
-            regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${toDownstream}`),
-            defaultVals: {...defaultTowards}
-        },
-        {
-            regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${mathOpArg}${toDownstream}`),
-            defaultVals: {...defaultTowards}
-        },
-        {
-            regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${toDownstream}`),
-            defaultVals: {...defaultTowards}
-        },
-        {
-            regExp: new RegExp(String.raw `${upstreamEvent}(?<!\\)Increment${downstream}`),
-            defaultVals: {
-                ...defaultTowards,
-                increment: true,
+    if(reOnPassStatements === undefined){
+        reOnPassStatements = [
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${mathOpArg}${toDownstream}`),
+                defaultVals: {...defaultTowards}
+            },
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${toDownstream}`),
+                defaultVals: {...defaultTowards}
+            },
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${mathOpArg}${toDownstream}`),
+                defaultVals: {...defaultTowards}
+            },
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${toDownstream}`),
+                defaultVals: {...defaultTowards}
+            },
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}(?<!\\)Increment${downstream}`),
+                defaultVals: {
+                    ...defaultTowards,
+                    increment: true,
+                }
+            },
+            {
+                regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${parseOption}${toUpstreamProp}`),
+                defaultVals: {
+                    ...defaultTowards,
+                    passDirection: 'away'
+                }
+            },
+            {
+                regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${toUpstreamProp}`),
+                defaultVals: {
+                    ...defaultTowards,
+                    passDirection: 'away'
+                }
+            },
+            {
+                regExp: new RegExp(String.raw `${downstreamEvent}${assResOf}${toUpstreamCQ}`),
+                defaultVals: {
+                    ...defaultAway,
+                    
+                }
+            },
+            {
+                regExp: new RegExp(String.raw `${downstream}${upstreamInvoke}`),
+                defaultVals: {
+                    ...defaultAway
+                }
             }
-        },
-        {
-            regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${parseOption}${toUpstreamProp}`),
-            defaultVals: {
-                ...defaultTowards,
-                passDirection: 'away'
-            }
-        },
-        {
-            regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${toUpstreamProp}`),
-            defaultVals: {
-                ...defaultTowards,
-                passDirection: 'away'
-            }
-        },
-        {
-            regExp: new RegExp(String.raw `${downstreamEvent}${assResOf}${toUpstreamCQ}`),
-            defaultVals: {
-                ...defaultAway,
-                
-            }
-        },
-        {
-            regExp: new RegExp(String.raw `${downstream}${upstreamInvoke}`),
-            defaultVals: {
-                ...defaultAway
-            }
-        }
-        
-    ]
+            
+        ]
+    }
+
     for(const onString of On!){
         const test = tryParse(onString, reOnPassStatements, declare) as OnPassStatement | null;
         if(test !== null){
