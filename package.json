@@ -9,18 +9,17 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-decorated": "0.0.238",
-    "be-exportable": "0.0.68",
-    "be-having": "0.0.15",
-    "be-propagating": "0.0.5",
-    "be-hive": "0.0.82",
-    "trans-render": "0.0.671"
+    "be-enhanced": "0.0.19",
+    "be-exportable": "0.0.72",
+    "be-propagating": "0.0.8",
+    "be-hive": "0.0.94",
+    "trans-render": "0.0.681",
+    "xtal-element": "0.0.561"
   },
   "devDependencies": {
-    "be-scoped": "0.0.8",
+    "be-scoped": "0.0.10",
     "may-it-serve": "0.0.5",
-    "@skypack/package-check": "0.2.2",
-    "@playwright/test": "1.32.1"
+    "@playwright/test": "1.33.0"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",

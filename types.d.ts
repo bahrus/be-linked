@@ -1,11 +1,12 @@
-import {BeDecoratedProps, MinimalProxy, Declarations} from 'be-decorated/types';
+import { ActionOnEventConfigs } from "trans-render/froop/types";
+import {IBE, Declarations} from 'be-enhanced/types';
 import {QueryInfo, Scope, camelQry, JSONObject} from 'trans-render/lib/types';
 
-export interface EndUserProps {
+export interface EndUserProps extends IBE {
     camelConfig?: CamelConfig | CamelConfig[],
 }
 
-export interface VirtualProps extends EndUserProps, MinimalProxy{
+export interface AllProps extends EndUserProps{
     canonicalConfig?: CanonicalConfig;
 }
 
@@ -110,17 +111,18 @@ export interface CanonicalConfig{
     
 }
 
-export type Proxy = (HTMLScriptElement | HTMLTemplateElement) & VirtualProps;
+export interface AllProps extends EndUserProps {}
 
-export interface PP extends VirtualProps{
-    proxy: Proxy
-}
+export type AP = AllProps;
 
-export type PPP = Partial<PP>;
+export type PAP = Partial<AP>;
 
-export type PPPP = Promise<PPP>;
+export type ProPAP = Promise<PAP>;
+
+export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
+
 
 export interface Actions{
-    camelToCanonical(pp: PP): PPPP;
-    onCanonical(pp: PP, mold: PPP): PPPP;
+    camelToCanonical(self: this): ProPAP;
+    onCanonical(self: this): ProPAP;
 }
