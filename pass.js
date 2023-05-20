@@ -95,18 +95,7 @@ export async function pass(pp, downlink) {
             import('be-propagating/be-propagating.js');
             const aSrc = src;
             const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating');
-            debugger;
             propagator = bePropagating.propagators.get('self');
-            // if(!aSrc?.beDecorated?.propagating){
-            //     const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-            //     import('be-propagating/be-propagating.js');
-            //     await doBeHavings(src as any as Element, [{
-            //         be: 'propagating',
-            //         waitForResolved: true,
-            //     }]);
-            // }
-            // propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
-            //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
         }
         else {
             propagator = src;
