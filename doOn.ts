@@ -17,7 +17,7 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
         skipInit: skip,
         fire,
     } as Link;
-    const {tryParse} = await import('be-decorated/cpu.js');
+    const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const {upstreamEvent, passDownstreamProp, downstreamEvent, passUpstreamProp, toUpstreamCQ, toUpstreamProp, upstreamInvoke} = await import('./reOn.js');
     const {parseOption, mathOpArg, toDownstream, assResOf, downstream} = await import('./reCommon.js');
