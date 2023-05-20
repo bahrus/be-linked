@@ -69,7 +69,7 @@ function toDownLink(lsg: LinkStatementGroup, defaultDownlink: Link): Link{
 
 
 async function matchLSGs(links: LinkStatement[]){
-    const {tryParse} = await import('be-decorated/cpu.js');
+    const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const returnObj: LinkStatementGroup[] = []; 
     const {upstream, parseOption, mathOpArg, toDownstream} = await import('./reCommon.js');
@@ -92,7 +92,7 @@ async function matchLSGs(links: LinkStatement[]){
 }
 
 async function matchSSGs(links: LinkStatement[]){
-    const {tryParse} = await import('be-decorated/cpu.js');
+    const {tryParse} = await import('be-enhanced/cpu.js');
     const returnObj: SimplestStatementGroup[] = [];
     for(const linkCamelString of links){
         const test = tryParse(linkCamelString, reSimplest);

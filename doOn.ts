@@ -2,14 +2,14 @@ import {
     CamelConfig, Link, UpstreamPropPath, UpstreamCamelQry, DownstreamPropPath, 
     ConditionValue, NewValue, EventName, ParseOptions, MathOp, PassDirection,
     LocalInstance,
-    PP,
+    AP,
 } from './types';
 import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 let reOnPassStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 
-export async function doOn(cc: CamelConfig, links: Link[], pp: PP){
+export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
     const {On, debug, nudge, skip, fire, declare} = cc;
     const defaultLink = {
         debug,

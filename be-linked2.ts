@@ -22,7 +22,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
     async camelToCanonical(self: this): ProPAP {
         const {camelConfig, enhancedElement} = self;
         
-        const {arr} = await import('be-decorated/cpu.js');
+        const {arr} = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
             links: []

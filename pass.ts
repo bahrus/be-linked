@@ -1,7 +1,7 @@
-import {PP, Link} from './types';
-export async function pass(pp: PP, downlink: Link): Promise<ET>{
+import {AP, Link} from './types';
+export async function pass(pp: AP, downlink: Link): Promise<ET>{
     const et = new ET();
-    const {canonicalConfig, self, proxy} = pp;
+    const {canonicalConfig, enhancedElement} = pp;
         
     const {findRealm} = await import('trans-render/lib/findRealm.js');
     const {getVal} = await import('trans-render/lib/getVal.js');
@@ -16,8 +16,9 @@ export async function pass(pp: PP, downlink: Link): Promise<ET>{
     let dest: Element;
     let srcPropPath: string;
     let destPropPath: string | undefined;
-    const upstreamRealm = await findRealm(self, upstreamCamelQry);
-    const downstreamInstance = localInstance === 'local' ? self : proxy
+    const upstreamRealm = await findRealm(enhancedElement, upstreamCamelQry);
+    //const downstreamInstance = localInstance === 'local' ? enhancedElement : 
+    const downstreamInstance = enhancedElement;
     switch(passDirection){
         case 'towards':
             src = upstreamRealm;
@@ -42,7 +43,7 @@ export async function pass(pp: PP, downlink: Link): Promise<ET>{
         }else if(handler !== undefined){
             const objToAssign = await handler({
                 remoteInstance: upstreamRealm!,
-                adornedElement: self,
+                adornedElement: enhancedElement,
                 event: e,
             });
             Object.assign(dest, objToAssign);
@@ -82,25 +83,17 @@ export async function pass(pp: PP, downlink: Link): Promise<ET>{
         downlink.upstreamPropName = upstreamPropName;
     }
     if(on !== undefined){
-        const eventTarget = passDirection === 'towards' ? src : self;
+        const eventTarget = passDirection === 'towards' ? src : enhancedElement;
         eventTarget.addEventListener(on, async e => {
             await doPass();
         });
     }else{
         let propagator: EventTarget | null = null;
         if(!(<any>src)._isPropagating){
+            import('be-propagating/be-propagating.js');
             const aSrc = src as any;
-            if(!aSrc?.beDecorated?.propagating){
-                const {doBeHavings} = await import('trans-render/lib/doBeHavings.js');
-                import('be-propagating/be-propagating.js');
-                await doBeHavings(src as any as Element, [{
-                    be: 'propagating',
-                    waitForResolved: true,
-                }]);
-            }
-            propagator = aSrc.beDecorated.propagating.propagators.get('self') as EventTarget;
-            
-            //await aSrc.beDecorated.propagating.proxy.controller.addPath('self');
+            const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating');
+            propagator = bePropagating.propagators.get('self') as EventTarget;
         }else{
             propagator = src;
         }

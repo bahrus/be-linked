@@ -59,7 +59,7 @@ function toDownLink(lsg, defaultDownlink) {
     return downLink;
 }
 async function matchLSGs(links) {
-    const { tryParse } = await import('be-decorated/cpu.js');
+    const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');
     const returnObj = [];
     const { upstream, parseOption, mathOpArg, toDownstream } = await import('./reCommon.js');
@@ -80,7 +80,7 @@ async function matchLSGs(links) {
     return returnObj;
 }
 async function matchSSGs(links) {
-    const { tryParse } = await import('be-decorated/cpu.js');
+    const { tryParse } = await import('be-enhanced/cpu.js');
     const returnObj = [];
     for (const linkCamelString of links) {
         const test = tryParse(linkCamelString, reSimplest);

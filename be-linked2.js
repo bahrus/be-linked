@@ -16,7 +16,7 @@ export class BeLinked extends BE {
     }
     async camelToCanonical(self) {
         const { camelConfig, enhancedElement } = self;
-        const { arr } = await import('be-decorated/cpu.js');
+        const { arr } = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig = {
             links: []

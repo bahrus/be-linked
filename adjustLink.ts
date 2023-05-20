@@ -1,5 +1,5 @@
-import {Link, PP} from './types';
-export async function adjustLink(link: Link, pp?: PP){
+import {Link, AP} from './types';
+export async function adjustLink(link: Link, pp?: AP){
     const {downstreamPropPath, upstreamPropPath, exportSymbol, on} = link;
     if(downstreamPropPath !== undefined) link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
     if(upstreamPropPath !== undefined) link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
