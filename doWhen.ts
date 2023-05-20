@@ -6,7 +6,7 @@ import {RegExpOrRegExpExt} from 'be-decorated/types';
 let reWhens: RegExpOrRegExpExt<PWSG>[] | undefined;
 export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: PP){
     const {When, declare} = cc;
-    const {tryParse} = await import('be-decorated/cpu.js');
+    const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const {upstream, downstream, assResOf, toAdorned, toDownstream} = await import('./reCommon.js');
     if(reWhens === undefined){

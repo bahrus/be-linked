@@ -1,7 +1,7 @@
 let reWhens;
 export async function doWhen(cc, downlinks, pp) {
     const { When, declare } = cc;
-    const { tryParse } = await import('be-decorated/cpu.js');
+    const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');
     const { upstream, downstream, assResOf, toAdorned, toDownstream } = await import('./reCommon.js');
     if (reWhens === undefined) {
