@@ -1,9 +1,22 @@
-import { define } from 'be-decorated/DE.js';
-import { register } from "be-hive/register.js";
-export class BeLinked extends EventTarget {
-    async camelToCanonical(pp) {
-        const { camelConfig, self } = pp;
-        const { arr } = await import('be-decorated/cpu.js');
+import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { XE } from 'xtal-element/XE.js';
+import { register } from 'be-hive/register.js';
+export class BeLinked extends BE {
+    static get beConfig() {
+        return {
+            parse: true,
+            primaryProp: 'camelConfig',
+            cache: new Map(),
+            primaryPropReq: true,
+            parseAndCamelize: true,
+            camelizeOptions: {
+                booleans: ['Debug', 'Skip', 'Nudge']
+            },
+        };
+    }
+    async camelToCanonical(self) {
+        const { camelConfig, enhancedElement } = self;
+        const { arr } = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig = {
             links: []
@@ -24,60 +37,50 @@ export class BeLinked extends EventTarget {
             }
             if (On !== undefined) {
                 const { doOn } = await import('./doOn.js');
-                await doOn(cc, links, pp);
+                await doOn(cc, links, self);
             }
             if (When !== undefined) {
                 const { doWhen } = await import('./doWhen.js');
-                await doWhen(cc, links, pp);
+                await doWhen(cc, links, self);
             }
         }
         return {
             canonicalConfig
         };
     }
-    async onCanonical(pp, mold) {
-        const { canonicalConfig } = pp;
+    async onCanonical(self) {
+        const { canonicalConfig } = self;
         const { links } = canonicalConfig;
         if (links !== undefined) {
             const { pass } = await import('./pass.js');
             for (const link of links) {
-                await pass(pp, link);
+                await pass(self, link);
             }
         }
-        return mold;
+        return {
+            resolved: true
+        };
     }
 }
-// const reTraditional = 
-// /^(?<eventName>\w+)Of(?<upstreamCamelQry>\w+)DoPass(?<upstreamPropPath>)To(?<downstreamPropPath>[\w\\\:]+)PropertyOfAdornedElement/;
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';
-define({
+const xe = new XE({
     config: {
         tagName,
         propDefaults: {
-            upgrade,
-            ifWantsToBe,
-            virtualProps: ['camelConfig', 'canonicalConfig'],
-            primaryProp: 'camelConfig',
-            parseAndCamelize: true,
-            camelizeOptions: {
-                booleans: ['Debug', 'Skip', 'Nudge']
-            },
-            primaryPropReq: true,
+            ...propDefaults
+        },
+        propInfo: {
+            ...propInfo
         },
         actions: {
             camelToCanonical: 'camelConfig',
             onCanonical: {
                 ifAllOf: ['canonicalConfig', 'camelConfig'],
-                returnObjMold: {
-                    resolved: true,
-                }
             }
         }
     },
-    complexPropDefaults: {
-        controller: BeLinked
-    }
+    superclass: BeLinked
 });
 register(ifWantsToBe, upgrade, tagName);
