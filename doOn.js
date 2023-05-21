@@ -10,9 +10,13 @@ export async function doOn(cc, links, pp) {
     const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');
     const { upstreamEvent, passDownstreamProp, downstreamEvent, passUpstreamProp, toUpstreamCQ, toUpstreamProp, upstreamInvoke } = await import('./reOn.js');
-    const { parseOption, mathOpArg, toDownstream, assResOf, downstream } = await import('./reCommon.js');
+    const { parseOption, mathOpArg, toDownstream, assResOf, downstream, toDownstreamGateway } = await import('./reCommon.js');
     if (reOnPassStatements === undefined) {
         reOnPassStatements = [
+            {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${toDownstreamGateway}`),
+                defaultVals: { ...defaultTowards }
+            },
             {
                 regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${parseOption}${mathOpArg}${toDownstream}`),
                 defaultVals: { ...defaultTowards }

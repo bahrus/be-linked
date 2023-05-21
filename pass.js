@@ -4,18 +4,19 @@ export async function pass(pp, downlink) {
     const { findRealm } = await import('trans-render/lib/findRealm.js');
     const { getVal } = await import('trans-render/lib/getVal.js');
     const { setProp } = await import('trans-render/lib/setProp.js');
-    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, invoke, fire } = downlink;
+    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire } = downlink;
     let src = null;
     let dest;
     let srcPropPath;
     let destPropPath;
+    //let destEnhancement: string | undefined;
     const upstreamRealm = await findRealm(enhancedElement, upstreamCamelQry);
     //const downstreamInstance = localInstance === 'local' ? enhancedElement : 
     const downstreamInstance = enhancedElement;
     switch (passDirection) {
         case 'towards':
             src = upstreamRealm;
-            dest = downstreamInstance;
+            dest = enhancement === undefined ? downstreamInstance : downstreamInstance.beEnhanced.by[enhancement];
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;
             break;

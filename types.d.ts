@@ -58,6 +58,7 @@ export interface HandlerArg {
 
 export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
+    enhancement?: string,
     localInstance: LocalInstance,
     negate?: boolean,
     nudge?: boolean,

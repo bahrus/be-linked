@@ -9,20 +9,21 @@ export async function pass(pp: AP, downlink: Link): Promise<ET>{
     const {
         upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
         downstreamPropPath, negate, translate, parseOption, handler,
-        conditionValue, newValue, on, debug, nudge, increment, passDirection,
-        invoke, fire
+        conditionValue, newValue, on, debug, nudge, increment, passDirection, 
+        enhancement, invoke, fire
     } = downlink;
     let src: EventTarget | null = null;
     let dest: Element;
     let srcPropPath: string;
     let destPropPath: string | undefined;
+    //let destEnhancement: string | undefined;
     const upstreamRealm = await findRealm(enhancedElement, upstreamCamelQry);
     //const downstreamInstance = localInstance === 'local' ? enhancedElement : 
     const downstreamInstance = enhancedElement;
     switch(passDirection){
         case 'towards':
             src = upstreamRealm;
-            dest = downstreamInstance;
+            dest = enhancement === undefined ? downstreamInstance : (<any>downstreamInstance).beEnhanced.by[enhancement];
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;
             break;
