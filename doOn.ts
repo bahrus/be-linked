@@ -55,7 +55,7 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
                 defaultVals: {
                     ...defaultTowards
                 }
-            }
+            },
             {
                 regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${parseOption}${toUpstreamProp}`),
                 defaultVals: {

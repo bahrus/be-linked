@@ -1,8 +1,8 @@
-import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp} from './types';
+import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps} from './types';
 import {Scope} from 'trans-render/lib/types';
 
 
-export async function doLink(cc: CamelConfig, downlinks: Link[]){
+export async function doLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
     const defaultDownlink = {
         localInstance: 'local',
@@ -13,19 +13,19 @@ export async function doLink(cc: CamelConfig, downlinks: Link[]){
         skipInit: skip,
     } as Link;
     if(Link !== undefined){
-        await processLinkStatements(Link, defaultDownlink, downlinks);
+        await processLinkStatements(Link, defaultDownlink, downlinks, ap);
     }
     if(Clone !== undefined){
-        await processLinkStatements(Clone, {...defaultDownlink, clone: true}, downlinks);
+        await processLinkStatements(Clone, {...defaultDownlink, clone: true}, downlinks, ap);
     }
     if(Refer !== undefined){
-        await processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks);
+        await processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks, ap);
     }
 
 }
 
-async function processLinkStatements(Link: LinkStatement[], defaultDownlink: Link, downlinks: Link[]){
-    const linkStatementGroups = await matchLSGs(Link);
+async function processLinkStatements(Link: LinkStatement[], defaultDownlink: Link, downlinks: Link[], ap: AllProps){
+    const linkStatementGroups = await matchLSGs(Link, ap);
     for(const link of linkStatementGroups){
         const downloadLink = toDownLink(link, defaultDownlink);
         downlinks.push(downloadLink);
@@ -68,7 +68,7 @@ function toDownLink(lsg: LinkStatementGroup, defaultDownlink: Link): Link{
 
 
 
-async function matchLSGs(links: LinkStatement[]){
+async function matchLSGs(links: LinkStatement[], ap: AllProps){
     const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const returnObj: LinkStatementGroup[] = []; 
@@ -82,7 +82,7 @@ async function matchLSGs(links: LinkStatement[]){
     for(const linkCamelString of links){
         const test = tryParse(linkCamelString, reArr);
         if(test !== null){
-            await adjustLink(test as Link);
+            await adjustLink(test as Link, ap);
             returnObj.push(test);
             continue;
         }

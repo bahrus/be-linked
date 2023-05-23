@@ -1,4 +1,4 @@
-export async function doLink(cc, downlinks) {
+export async function doLink(cc, downlinks, ap) {
     const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
         localInstance: 'local',
@@ -9,17 +9,17 @@ export async function doLink(cc, downlinks) {
         skipInit: skip,
     };
     if (Link !== undefined) {
-        await processLinkStatements(Link, defaultDownlink, downlinks);
+        await processLinkStatements(Link, defaultDownlink, downlinks, ap);
     }
     if (Clone !== undefined) {
-        await processLinkStatements(Clone, { ...defaultDownlink, clone: true }, downlinks);
+        await processLinkStatements(Clone, { ...defaultDownlink, clone: true }, downlinks, ap);
     }
     if (Refer !== undefined) {
-        await processLinkStatements(Refer, { ...defaultDownlink, refer: true }, downlinks);
+        await processLinkStatements(Refer, { ...defaultDownlink, refer: true }, downlinks, ap);
     }
 }
-async function processLinkStatements(Link, defaultDownlink, downlinks) {
-    const linkStatementGroups = await matchLSGs(Link);
+async function processLinkStatements(Link, defaultDownlink, downlinks, ap) {
+    const linkStatementGroups = await matchLSGs(Link, ap);
     for (const link of linkStatementGroups) {
         const downloadLink = toDownLink(link, defaultDownlink);
         downlinks.push(downloadLink);
@@ -58,7 +58,7 @@ function toDownLink(lsg, defaultDownlink) {
     }
     return downLink;
 }
-async function matchLSGs(links) {
+async function matchLSGs(links, ap) {
     const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');
     const returnObj = [];
@@ -72,7 +72,7 @@ async function matchLSGs(links) {
     for (const linkCamelString of links) {
         const test = tryParse(linkCamelString, reArr);
         if (test !== null) {
-            await adjustLink(test);
+            await adjustLink(test, ap);
             returnObj.push(test);
             continue;
         }

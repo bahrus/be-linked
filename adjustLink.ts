@@ -1,5 +1,5 @@
 import {Link, AP} from './types';
-export async function adjustLink(link: Link, pp?: AP){
+export async function adjustLink(link: Link, ap: AP){
     const {downstreamPropPath, upstreamPropPath, exportSymbol, on, enhancement, catchAll} = link;
     if(downstreamPropPath !== undefined) link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
     if(upstreamPropPath !== undefined) link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
@@ -12,10 +12,11 @@ export async function adjustLink(link: Link, pp?: AP){
         link.enhancement = lispToCamel(enhancement);
     }
     if(catchAll !== undefined){
-        debugger;
+        const {doSub} = await import('./doSub.js');
+        await doSub(link, ap, catchAll);
     }
-    if(exportSymbol !== undefined && pp !== undefined){
+    if(exportSymbol !== undefined && ap !== undefined){
         const {getExportSym} = await import('./getExportSym.js');
-        link.handler = await getExportSym(pp, exportSymbol);
+        link.handler = await getExportSym(ap, exportSymbol);
     }
 }

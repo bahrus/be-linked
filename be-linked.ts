@@ -45,7 +45,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             }
             if(Link || Negate || Clone || Refer !== undefined){
                 const {doLink} = await import('./doLink.js');
-                await doLink(cc, links);
+                await doLink(cc, links, self);
             }
             if(On !== undefined){
                 const {doOn} = await import('./doOn.js');

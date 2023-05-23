@@ -1,4 +1,4 @@
-export async function adjustLink(link, pp) {
+export async function adjustLink(link, ap) {
     const { downstreamPropPath, upstreamPropPath, exportSymbol, on, enhancement, catchAll } = link;
     if (downstreamPropPath !== undefined)
         link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
@@ -13,10 +13,11 @@ export async function adjustLink(link, pp) {
         link.enhancement = lispToCamel(enhancement);
     }
     if (catchAll !== undefined) {
-        debugger;
+        const { doSub } = await import('./doSub.js');
+        await doSub(link, ap, catchAll);
     }
-    if (exportSymbol !== undefined && pp !== undefined) {
+    if (exportSymbol !== undefined && ap !== undefined) {
         const { getExportSym } = await import('./getExportSym.js');
-        link.handler = await getExportSym(pp, exportSymbol);
+        link.handler = await getExportSym(ap, exportSymbol);
     }
 }
