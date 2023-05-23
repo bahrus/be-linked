@@ -1,7 +1,8 @@
 import {AP, Link} from './types';
-export async function pass(pp: AP, downlink: Link): Promise<ET>{
+import {IBE} from 'be-enhanced/types'
+export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
     const et = new ET();
-    const {canonicalConfig, enhancedElement} = pp;
+    const {enhancedElement} = ibe;
         
     const {findRealm} = await import('trans-render/lib/findRealm.js');
     const {getVal} = await import('trans-render/lib/getVal.js');

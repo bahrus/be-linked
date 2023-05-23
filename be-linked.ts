@@ -20,8 +20,14 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
     }
 
     async camelToCanonical(self: this): ProPAP {
-        const {camelConfig, enhancedElement} = self;
-        
+
+        const {camelConfig, enhancedElement, parsedFrom} = self;
+        if(parsedFrom !== undefined) {
+            const canonicalConfig = cachedCanonicals[parsedFrom];
+            return {
+                canonicalConfig
+            };
+        }
         const {arr} = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig: CanonicalConfig = {
@@ -50,7 +56,9 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 await doWhen(cc, links, self);
             }
         }
-        
+        if(parsedFrom !== undefined){
+            cachedCanonicals[parsedFrom] = canonicalConfig;
+        }
         return {
             canonicalConfig
         };
@@ -70,9 +78,13 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             resolved: true
         };
     }
+
+    
 }
 
 export interface BeLinked extends AllProps{}
+
+const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
 
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';

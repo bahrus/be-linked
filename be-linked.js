@@ -15,7 +15,13 @@ export class BeLinked extends BE {
         };
     }
     async camelToCanonical(self) {
-        const { camelConfig, enhancedElement } = self;
+        const { camelConfig, enhancedElement, parsedFrom } = self;
+        if (parsedFrom !== undefined) {
+            const canonicalConfig = cachedCanonicals[parsedFrom];
+            return {
+                canonicalConfig
+            };
+        }
         const { arr } = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
         const canonicalConfig = {
@@ -44,6 +50,9 @@ export class BeLinked extends BE {
                 await doWhen(cc, links, self);
             }
         }
+        if (parsedFrom !== undefined) {
+            cachedCanonicals[parsedFrom] = canonicalConfig;
+        }
         return {
             canonicalConfig
         };
@@ -62,6 +71,7 @@ export class BeLinked extends BE {
         };
     }
 }
+const cachedCanonicals = {};
 const tagName = 'be-linked';
 const ifWantsToBe = 'linked';
 const upgrade = '*';

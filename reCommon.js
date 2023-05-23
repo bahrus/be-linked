@@ -4,6 +4,7 @@ export const downstreamGateway = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\
 export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
 export const toDownstream = String.raw `To${downstream}`;
 export const toDownstreamGateway = String.raw `To${downstreamGateway}`;
+export const toCatchAll = String.raw `To(?<catchAll>[\w\:]+)`;
 export const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
 export const toAdorned = String.raw `(?<!\\)ToAdornedElement`;
 export const assResOf = String.raw `AssignResultOf(?<exportSymbol>\w+)`;

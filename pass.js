@@ -1,6 +1,6 @@
-export async function pass(pp, downlink) {
+export async function pass(ibe, downlink) {
     const et = new ET();
-    const { canonicalConfig, enhancedElement } = pp;
+    const { enhancedElement } = ibe;
     const { findRealm } = await import('trans-render/lib/findRealm.js');
     const { getVal } = await import('trans-render/lib/getVal.js');
     const { setProp } = await import('trans-render/lib/setProp.js');

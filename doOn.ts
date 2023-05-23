@@ -20,7 +20,7 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
     const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
     const {upstreamEvent, passDownstreamProp, downstreamEvent, passUpstreamProp, toUpstreamCQ, toUpstreamProp, upstreamInvoke} = await import('./reOn.js');
-    const {parseOption, mathOpArg, toDownstream, assResOf, downstream, toDownstreamGateway} = await import('./reCommon.js');
+    const {parseOption, mathOpArg, toDownstream, assResOf, downstream, toDownstreamGateway, toCatchAll} = await import('./reCommon.js');
     if(reOnPassStatements === undefined){
         reOnPassStatements = [
             {
@@ -51,6 +51,12 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
                 }
             },
             {
+                regExp: new RegExp(String.raw `${upstreamEvent}${passUpstreamProp}${toCatchAll}`),
+                defaultVals: {
+                    ...defaultTowards
+                }
+            }
+            {
                 regExp: new RegExp(String.raw `${downstreamEvent}${passDownstreamProp}${parseOption}${toUpstreamProp}`),
                 defaultVals: {
                     ...defaultTowards,
@@ -76,7 +82,8 @@ export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
                 defaultVals: {
                     ...defaultAway
                 }
-            }
+            },
+
             
         ]
     }

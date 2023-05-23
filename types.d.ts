@@ -84,6 +84,7 @@ export interface Link<TSrc = any, TDest = any>{
     downstreamPropName?: string & keyof TDest,
     fire?: string[],
     memKey?: string,
+    catchAll?: string,
 }
 
 export interface CamelConfig<TSrc=any, TDest=any>{
@@ -105,6 +106,8 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Fire?: FireStatement[];
     fire?: string[];
     declare: Declarations,
+    enh: {[key: string] : any},
+
 }
 
 export interface CanonicalConfig{
