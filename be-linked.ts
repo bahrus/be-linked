@@ -24,9 +24,12 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         const {camelConfig, enhancedElement, parsedFrom} = self;
         if(parsedFrom !== undefined) {
             const canonicalConfig = cachedCanonicals[parsedFrom];
-            return {
-                canonicalConfig
-            };
+            if(canonicalConfig !== undefined){
+                return {
+                    canonicalConfig
+                };
+            }
+
         }
         const {arr} = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
