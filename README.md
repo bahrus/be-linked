@@ -5,7 +5,7 @@
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-linked?compression=gzip">
 [![NPM version](https://badge.fury.io/js/be-linked.png)](http://badge.fury.io/js/be-linked)
 
-Connect (web) components together.
+Connect (web) components and custom enhancements together.
 
 ## Part I Downstream linkage
 
@@ -52,6 +52,26 @@ which is shorthand for:
         }]
     '>
 </host-element>
+```
+
+## Special notation for hooking up custom enhancements:
+
+```html
+<input type=search>
+
+<div 
+    be-linked='{
+        "enh": {
+            "beSearching": {
+                "forText": ""
+            }
+        }
+    }
+    On input event of previous element sibling pass value property to forText.
+'>
+<div>
+    supercalifragilisticexpialidocious
+</div>
 ```
 
 #### Negation scenario.
