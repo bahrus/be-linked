@@ -16,7 +16,14 @@ export async function pass(ibe, downlink) {
     switch (passDirection) {
         case 'towards':
             src = upstreamRealm;
-            dest = enhancement === undefined ? downstreamInstance : downstreamInstance.beEnhanced.by[enhancement];
+            if (enhancement === undefined) {
+                dest = downstreamInstance;
+            }
+            else {
+                const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
+                const enh = camelToLisp(enhancement);
+                dest = await downstreamInstance.beEnhanced.whenDefined(enh);
+            }
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;
             break;
