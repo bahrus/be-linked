@@ -73,7 +73,8 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         if(links !== undefined){
             const {pass} = await import('./pass.js');
             for(const link of links){
-                await pass(self, link);
+                //await pass(self, link);
+                pass(self, link); // avoid render blocking
             }
 
         }
