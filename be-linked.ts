@@ -34,11 +34,13 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         }
         const {arr} = await import('be-enhanced/cpu.js');
         const camelConfigArr = arr(camelConfig);
+        let mergedSettings: Settings |  undefined;
         const canonicalConfig: CanonicalConfig = {
-            links: []
+            links: [],
+            settings: mergedSettings,
         };
         const {links} = canonicalConfig;
-        const mergedSettings: Settings = {};
+        
         for(const cc of camelConfigArr){
             const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire, settings} = cc;
             if(Fire !== undefined){
@@ -63,14 +65,17 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             if(settings !== undefined){
                 const {enh} = settings;
                 if(enh !== undefined){
+                    if(mergedSettings === undefined) mergedSettings = {};
                     if(mergedSettings.enh === undefined) mergedSettings.enh = {};
                     Object.assign(mergedSettings.enh, enh);
                 }
             }
         }
+        canonicalConfig.settings = mergedSettings;
         if(parsedFrom !== undefined){
             cachedCanonicals[parsedFrom] = canonicalConfig;
         }
+        
         return {
             canonicalConfig
         };
@@ -89,7 +94,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         }
         if(settings !== undefined){
             const {doSettings} = await import('./doSettings.js');
-
+            doSettings(settings, this.enhancedElement);
         }
         return {
             resolved: true
