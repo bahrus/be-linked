@@ -2,7 +2,7 @@ import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {JSONValue} from 'trans-render/lib/types';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig} from './types';
+import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, Settings} from './types';
 import {register} from 'be-hive/register.js';
 
 export class BeLinked extends BE<AP, Actions> implements Actions{
@@ -22,6 +22,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
     async camelToCanonical(self: this): ProPAP {
 
         const {camelConfig, enhancedElement, parsedFrom} = self;
+
         if(parsedFrom !== undefined) {
             const canonicalConfig = cachedCanonicals[parsedFrom];
             if(canonicalConfig !== undefined){
@@ -37,8 +38,9 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             links: []
         };
         const {links} = canonicalConfig;
+        const mergedSettings: Settings = {};
         for(const cc of camelConfigArr){
-            const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire} = cc;
+            const {Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire, settings} = cc;
             if(Fire !== undefined){
                 const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
                 cc.fire = Fire.map(s => camelToLisp(s));
@@ -58,6 +60,13 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 const {doWhen} = await import('./doWhen.js');
                 await doWhen(cc, links, self);
             }
+            if(settings !== undefined){
+                const {enh} = settings;
+                if(enh !== undefined){
+                    if(mergedSettings.enh === undefined) mergedSettings.enh = {};
+                    Object.assign(mergedSettings.enh, enh);
+                }
+            }
         }
         if(parsedFrom !== undefined){
             cachedCanonicals[parsedFrom] = canonicalConfig;
@@ -69,13 +78,17 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
 
     async onCanonical(self: this): ProPAP {
         const {canonicalConfig} = self;
-        const {links} = canonicalConfig!;
+        const {links, settings} = canonicalConfig!;
         if(links !== undefined){
             const {pass} = await import('./pass.js');
             for(const link of links){
                 //await pass(self, link);
                 pass(self, link); // avoid render blocking
             }
+
+        }
+        if(settings !== undefined){
+            const {doSettings} = await import('./doSettings.js');
 
         }
         return {

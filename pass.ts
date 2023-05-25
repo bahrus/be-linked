@@ -11,7 +11,7 @@ export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
         upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
         downstreamPropPath, negate, translate, parseOption, handler,
         conditionValue, newValue, on, debug, nudge, increment, passDirection, 
-        enhancement, invoke, fire
+        enhancement, invoke, fire, 
     } = downlink;
     let src: EventTarget | null = null;
     let dest: Element;

@@ -30,8 +30,9 @@ export class BeLinked extends BE {
             links: []
         };
         const { links } = canonicalConfig;
+        const mergedSettings = {};
         for (const cc of camelConfigArr) {
-            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire } = cc;
+            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire, settings } = cc;
             if (Fire !== undefined) {
                 const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
                 cc.fire = Fire.map(s => camelToLisp(s));
@@ -51,6 +52,14 @@ export class BeLinked extends BE {
                 const { doWhen } = await import('./doWhen.js');
                 await doWhen(cc, links, self);
             }
+            if (settings !== undefined) {
+                const { enh } = settings;
+                if (enh !== undefined) {
+                    if (mergedSettings.enh === undefined)
+                        mergedSettings.enh = {};
+                    Object.assign(mergedSettings.enh, enh);
+                }
+            }
         }
         if (parsedFrom !== undefined) {
             cachedCanonicals[parsedFrom] = canonicalConfig;
@@ -61,13 +70,16 @@ export class BeLinked extends BE {
     }
     async onCanonical(self) {
         const { canonicalConfig } = self;
-        const { links } = canonicalConfig;
+        const { links, settings } = canonicalConfig;
         if (links !== undefined) {
             const { pass } = await import('./pass.js');
             for (const link of links) {
                 //await pass(self, link);
                 pass(self, link); // avoid render blocking
             }
+        }
+        if (settings !== undefined) {
+            const { doSettings } = await import('./doSettings.js');
         }
         return {
             resolved: true

@@ -107,12 +107,16 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     fire?: string[];
     declare: Declarations,
     enh: {[key: string] : any},
+    settings?:  Settings;
+}
 
+export interface Settings{
+    enh?: {[key: string]: IBE}
 }
 
 export interface CanonicalConfig{
     links: Link[];
-    
+    settings?:  Settings;
 }
 
 export interface AllProps extends EndUserProps {}
