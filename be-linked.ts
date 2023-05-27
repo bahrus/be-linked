@@ -138,7 +138,10 @@ const xe = new XE<AP, Actions>({
             ...propDefaults
         },
         propInfo: {
-            ...propInfo
+            ...propInfo,
+            propertyBag: {
+                parse: false,
+            }
         },
         actions: {
             camelToCanonical: 'camelConfig',

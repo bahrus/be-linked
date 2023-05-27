@@ -20,9 +20,8 @@ export async function pass(ibe, downlink) {
                 dest = downstreamInstance;
             }
             else {
-                const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
-                const enh = camelToLisp(enhancement);
-                dest = await downstreamInstance.beEnhanced.whenDefined(enh);
+                const { applyEnh } = await import('./applyEnh.js');
+                dest = await applyEnh(downstreamInstance, enhancement);
             }
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;

@@ -8,6 +8,7 @@ export interface EndUserProps extends IBE {
 
 export interface AllProps extends EndUserProps{
     canonicalConfig?: CanonicalConfig;
+    propertyBag?: EventTarget;
 }
 
 export type propName = string;
@@ -61,6 +62,8 @@ export interface IObserve {
     names: string[],
     scope: Scope,
     attr: string,
+    isFormElement: boolean,
+    on?: string,
 }
 
 export interface Link<TSrc = any, TDest = any>{
