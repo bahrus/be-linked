@@ -1,9 +1,11 @@
 let reObserveStatements;
 export async function prsObj(cc, links, pp) {
-    const { Observe, declare } = cc;
+    const { Observe, declare, observeDefaults } = cc;
+    const defaultObserve = {};
     const defaultLink = {
-        observeDefaults: {}
+        observe: defaultObserve
     };
+    Object.assign(defaultObserve, observeDefaults);
     const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');
     if (reObserveStatements === undefined) {
@@ -12,8 +14,16 @@ export async function prsObj(cc, links, pp) {
     for (const observeString of Observe) {
         const test = tryParse(observeString, reObserveStatements, declare);
         if (test === null) {
-            const names = observeString.split(',').forEach(s => s.trim());
-            const link;
+            const names = observeString.split(',').map(s => s.trim());
+            const observe = {
+                ...defaultObserve,
+                names
+            };
+            const link = {
+                ...defaultLink,
+                observe,
+            };
+            links.push(link);
         }
     }
 }

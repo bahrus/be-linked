@@ -83,8 +83,7 @@ export interface Link<TSrc = any, TDest = any>{
     invoke?: string,
     exportSymbol?: string,
     increment?: boolean,
-    observe?: string,
-    observeDefaults?:IObserve,
+    observe?: IObserve,
     beSyndicating?: boolean,
     upstreamPropPath: UpstreamPropPath, 
     upstreamPropName?: string & keyof TSrc,
@@ -118,6 +117,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     declare: Declarations,
     enh: {[key: string] : any},
     settings?:  Settings;
+    observeDefaults?: IObserve,
 }
 
 export interface Settings{
