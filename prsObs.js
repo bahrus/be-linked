@@ -1,7 +1,9 @@
 let reObserveStatements;
 export async function prsObj(cc, links, pp) {
     const { Observe, declare, observeDefaults } = cc;
-    const defaultObserve = {};
+    const defaultObserve = {
+        scope: ['closestOrRootNode', 'form']
+    };
     const defaultLink = {
         observe: defaultObserve
     };

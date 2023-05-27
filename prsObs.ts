@@ -5,7 +5,7 @@ let reObserveStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
     const {Observe, declare, observeDefaults} = cc;
     const defaultObserve = {
-
+        scope: ['closestOrRootNode', 'form']
     } as IObserve;
     const defaultLink = {
         observe: defaultObserve

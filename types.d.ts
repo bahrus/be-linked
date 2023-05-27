@@ -59,7 +59,7 @@ export interface HandlerArg {
 
 export interface IObserve {
     names: string[],
-
+    scope: Scope,
 }
 
 export interface Link<TSrc = any, TDest = any>{
