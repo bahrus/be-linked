@@ -9,7 +9,7 @@ import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reOnPassStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 
-export async function doOn(cc: CamelConfig, links: Link[], pp: AP){
+export async function prsOn(cc: CamelConfig, links: Link[], pp: AP){
     const {On, debug, nudge, skip, fire, declare} = cc;
     const defaultLink = {
         debug,

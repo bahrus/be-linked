@@ -46,16 +46,16 @@ export class BeLinked extends BE {
                 await doLink(cc, links, self);
             }
             if (On !== undefined) {
-                const { doOn } = await import('./doOn.js');
-                await doOn(cc, links, self);
+                const { prsOn } = await import('./prsOn.js');
+                await prsOn(cc, links, self);
             }
             if (When !== undefined) {
                 const { doWhen } = await import('./doWhen.js');
                 await doWhen(cc, links, self);
             }
             if (Observe !== undefined) {
-                const { prsObj: doObserve } = await import('./prsObs');
-                await doObserve(cc, links, self);
+                const { prsObj } = await import('./prsObs.js');
+                await prsObj(cc, links, self);
             }
             if (settings !== undefined) {
                 const { enh } = settings;

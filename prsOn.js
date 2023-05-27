@@ -1,5 +1,5 @@
 let reOnPassStatements;
-export async function doOn(cc, links, pp) {
+export async function prsOn(cc, links, pp) {
     const { On, debug, nudge, skip, fire, declare } = cc;
     const defaultLink = {
         debug,
