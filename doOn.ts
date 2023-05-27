@@ -5,7 +5,7 @@ import {
     AP,
 } from './types';
 import {Scope} from 'trans-render/lib/types';
-import {RegExpOrRegExpExt} from 'be-decorated/types';
+import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reOnPassStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 
