@@ -1,9 +1,9 @@
 import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve} from './types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
-let reObserveStatements: RegExpOrRegExpExt<POPS>[] | undefined;
+let reObserveStatements: RegExpOrRegExpExt<POS>[] | undefined;
 export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
-    const {Observe, declare, observeDefaults} = cc;
+    const {Observe, observeDefaults} = cc;
 
     const defaultLink = {
         localInstance: 'local',
@@ -13,11 +13,11 @@ export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
     
     //const { tryParse } = await import('be-enhanced/cpu.js');
     //const { adjustLink } = await import('./adjustLink.js');
-    if(reObserveStatements === undefined){
-        reObserveStatements = [
+    // if(reObserveStatements === undefined){
+    //     reObserveStatements = [
 
-        ]
-    }
+    //     ]
+    // }
 
     for(const observeString of Observe!){
         //const test = tryParse(observeString, reObserveStatements, declare);
@@ -41,8 +41,8 @@ export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
 }
 
 interface ObserveStatement {
-    args: string,
-    by: string,
+    // args: string,
+    // by: string,
 }
 
-type POPS = Partial<ObserveStatement>;
+type POS = Partial<ObserveStatement>;

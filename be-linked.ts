@@ -94,7 +94,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         
 
         if(links !== undefined){
-            const passableLinks = links.filter(link => link.observe === undefined);
+            const passableLinks = links.filter(link => link.observe === undefined && link.share === undefined);
             if(passableLinks.length > 0){
                 const {pass} = await import('./pass.js');
                 for(const link of links){
@@ -107,6 +107,13 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 const {observe} = await import('./observe.js');
                 for(const observableLink of observableLinks){
                     observe(self, observableLink);
+                }
+            }
+            const shareableLinks = links.filter(link => link.share !== undefined);
+            if(shareableLinks.length > 0){
+                const {share} = await import('./share.js');
+                for(const shareableLink of shareableLinks){
+                    share(self, shareableLink);
                 }
             }
 

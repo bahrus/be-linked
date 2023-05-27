@@ -1,6 +1,6 @@
 let reObserveStatements;
 export async function prsObj(cc, links, pp) {
-    const { Observe, declare, observeDefaults } = cc;
+    const { Observe, observeDefaults } = cc;
     const defaultLink = {
         localInstance: 'local',
         enhancement: 'beLinked',
@@ -8,9 +8,10 @@ export async function prsObj(cc, links, pp) {
     };
     //const { tryParse } = await import('be-enhanced/cpu.js');
     //const { adjustLink } = await import('./adjustLink.js');
-    if (reObserveStatements === undefined) {
-        reObserveStatements = [];
-    }
+    // if(reObserveStatements === undefined){
+    //     reObserveStatements = [
+    //     ]
+    // }
     for (const observeString of Observe) {
         //const test = tryParse(observeString, reObserveStatements, declare);
         //if(test === null){

@@ -7,7 +7,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"newLine": "LF",
 		"watch": true,
-		"strict": true,
+		"strict": true
 	},
 	"files":[
 		"be-linked.ts",

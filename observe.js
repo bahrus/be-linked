@@ -1,5 +1,4 @@
 export async function observe(ibe, link) {
-    console.log({ ibe, link });
     const { enhancement, observe, downstreamPropName } = link;
     const { enhancedElement } = ibe;
     let affectedObj = enhancedElement;
@@ -32,4 +31,5 @@ export async function observe(ibe, link) {
             }
         }
     }
+    return affectedObj;
 }

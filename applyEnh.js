@@ -1,5 +1,10 @@
-export async function applyEnh(instance, enhancement) {
+export async function applyEnh(instance, enhancement, wait) {
     const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
     const enh = camelToLisp(enhancement);
-    return await instance.beEnhanced.whenDefined(enh);
+    if (wait) {
+        return await instance.beEnhanced.whenResolved(enh);
+    }
+    else {
+        return await instance.beEnhanced.whenDefined(enh);
+    }
 }

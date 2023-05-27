@@ -38,8 +38,7 @@
   "types": "./types.d.ts",
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
-    "package-check": "package-check",
-    "test": "playwright test"
+    "test": "playwright test",
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,6 @@
 import {AP, IObserve, Link} from './types';
 import {IBE} from 'be-enhanced/types';
-export async function observe(ibe: IBE, link: Link): Promise<void>{
-    console.log({ibe, link});
+export async function observe(ibe: IBE, link: Link): Promise<EventTarget>{
     const {enhancement, observe, downstreamPropName} = link;
     const {enhancedElement} = ibe;
     let affectedObj = enhancedElement as any;
@@ -35,5 +34,6 @@ export async function observe(ibe: IBE, link: Link): Promise<void>{
         }
 
     }
+    return affectedObj as EventTarget;
 
 }

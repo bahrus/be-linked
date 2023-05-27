@@ -38,6 +38,7 @@ export type NewValue = string;
 export type IfStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Is${ConditionValue}ThenSet${DownstreamPropPath}PropertyOf${TargetOptions}To${NewValue}`;
 export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}PropertyTo${DownstreamPropPath}PropertyOf${TargetOptions}`;
 export type ObserveStatement = string;
+export type ShareStatement = string;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 export type MathOp = '+' | '-' | '*' | '/' | '%';
@@ -66,6 +67,16 @@ export interface IObserve {
     on?: string,
 }
 
+export interface Share{
+    names: string[],
+    scope: Scope,
+    attr: string,
+}
+
+export interface ShareLink<TSrc = any, TDest = any>{
+
+}
+
 export interface Link<TSrc = any, TDest = any>{
     scrutinize?: string,
     enhancement?: string,
@@ -88,6 +99,7 @@ export interface Link<TSrc = any, TDest = any>{
     exportSymbol?: string,
     increment?: boolean,
     observe?: IObserve,
+    share?: Share,
     beSyndicating?: boolean,
     upstreamPropPath: UpstreamPropPath, 
     upstreamPropName?: string & keyof TSrc,
@@ -108,7 +120,6 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Assign?: DownstreamAssignStatement[];
-    Observe?: ObserveStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];
     nudge?: boolean;
@@ -121,7 +132,10 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     declare: Declarations,
     enh: {[key: string] : any},
     settings?:  Settings;
-    observeDefaults?: IObserve,
+    Observe?: ObserveStatement[];
+    observeDefaults?: IObserve;
+    Share?: ShareStatement[];
+    shareDefaults?: Share;
 }
 
 export interface Settings{
