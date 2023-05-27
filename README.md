@@ -5,7 +5,7 @@
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-linked?compression=gzip">
 [![NPM version](https://badge.fury.io/js/be-linked.png)](http://badge.fury.io/js/be-linked)
 
-Connect (web) components and custom enhancements together.
+Connect HTML (web) components and custom enhancements together.
 
 ## Part I Downstream linkage
 
@@ -24,7 +24,7 @@ host-element container has boolean property "readOnly".  Inner element wants to 
 </host-element>
 ```
 
-which is shorthand for:
+which is shorthand for one of two lingo's:
 
 ###### Hemingway Notation
 
@@ -332,3 +332,23 @@ To avoid this possibility maybe it would make more sense to add a be-linked attr
 
 
 
+## Running locally
+
+1.  Do a git clone or a git fork of repository https://github.com/bahrus/be-linked
+2.  Install node.js
+3.  Run "npm install" from location of folder created in step 1.
+4.  Run npm run serve.  Open browser to http://localhost:3030/demo/
+
+## Using from ESM Module:
+
+```JavaScript
+import 'be-linked/be-linked.js';
+```
+
+## Using from CDN:
+
+```html
+<script type=module crossorigin=anonymous>
+    import 'https://esm.run/be-linked';
+</script>
+```
