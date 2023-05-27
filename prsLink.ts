@@ -2,7 +2,7 @@ import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps} from '
 import {Scope} from 'trans-render/lib/types';
 
 
-export async function doLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
+export async function prsLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
     const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
     const defaultDownlink = {
         localInstance: 'local',

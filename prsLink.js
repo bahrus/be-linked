@@ -1,4 +1,4 @@
-export async function doLink(cc, downlinks, ap) {
+export async function prsLink(cc, downlinks, ap) {
     const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
     const defaultDownlink = {
         localInstance: 'local',

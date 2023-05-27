@@ -42,8 +42,8 @@ export class BeLinked extends BE {
                 cc_downlinks.forEach(link => links.push(link));
             }
             if (Link || Negate || Clone || Refer !== undefined) {
-                const { doLink } = await import('./doLink.js');
-                await doLink(cc, links, self);
+                const { prsLink } = await import('./prsLink.js');
+                await prsLink(cc, links, self);
             }
             if (On !== undefined) {
                 const { prsOn } = await import('./prsOn.js');
