@@ -60,6 +60,7 @@ export interface HandlerArg {
 export interface IObserve {
     names: string[],
     scope: Scope,
+    attr: string,
 }
 
 export interface Link<TSrc = any, TDest = any>{
