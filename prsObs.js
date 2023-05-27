@@ -2,7 +2,9 @@ let reObserveStatements;
 export async function prsObj(cc, links, pp) {
     const { Observe, declare, observeDefaults } = cc;
     const defaultLink = {
-        localInstance: 'local'
+        localInstance: 'local',
+        enhancement: 'beLinked',
+        downstreamPropName: 'propertyBag',
     };
     const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');

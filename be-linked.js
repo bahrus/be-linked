@@ -80,10 +80,20 @@ export class BeLinked extends BE {
         const { canonicalConfig } = self;
         const { links, settings } = canonicalConfig;
         if (links !== undefined) {
-            const { pass } = await import('./pass.js');
-            for (const link of links) {
-                //await pass(self, link);
-                pass(self, link); // avoid render blocking
+            const passableLinks = links.filter(link => link.observe === undefined);
+            if (passableLinks.length > 0) {
+                const { pass } = await import('./pass.js');
+                for (const link of links) {
+                    //await pass(self, link);
+                    pass(self, link); // avoid render blocking
+                }
+            }
+            const observableLinks = links.filter(link => link.observe !== undefined);
+            if (observableLinks.length > 0) {
+                const { observe } = await import('./observe.js');
+                for (const observableLink of observableLinks) {
+                    observe(self, observableLink);
+                }
             }
         }
         if (settings !== undefined) {

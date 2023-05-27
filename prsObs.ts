@@ -6,7 +6,9 @@ export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
     const {Observe, declare, observeDefaults} = cc;
 
     const defaultLink = {
-        localInstance: 'local'
+        localInstance: 'local',
+        enhancement: 'beLinked',
+        downstreamPropName: 'propertyBag',
     } as Link;
     
     const { tryParse } = await import('be-enhanced/cpu.js');
