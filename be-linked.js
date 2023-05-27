@@ -50,8 +50,8 @@ export class BeLinked extends BE {
                 await prsOn(cc, links, self);
             }
             if (When !== undefined) {
-                const { doWhen } = await import('./doWhen.js');
-                await doWhen(cc, links, self);
+                const { prsWhen } = await import('./prsWhen.js');
+                await prsWhen(cc, links, self);
             }
             if (Observe !== undefined) {
                 const { prsObj } = await import('./prsObs.js');

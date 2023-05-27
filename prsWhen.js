@@ -1,5 +1,5 @@
 let reWhens;
-export async function doWhen(cc, downlinks, pp) {
+export async function prsWhen(cc, downlinks, pp) {
     const { When, declare } = cc;
     const { tryParse } = await import('be-enhanced/cpu.js');
     const { adjustLink } = await import('./adjustLink.js');

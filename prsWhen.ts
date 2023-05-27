@@ -4,7 +4,7 @@ import {Scope} from 'trans-render/lib/types';
 import {RegExpOrRegExpExt} from 'be-decorated/types';
 
 let reWhens: RegExpOrRegExpExt<PWSG>[] | undefined;
-export async function doWhen(cc: CamelConfig, downlinks: Link[], pp: AP){
+export async function prsWhen(cc: CamelConfig, downlinks: Link[], pp: AP){
     const {When, declare} = cc;
     const {tryParse} = await import('be-enhanced/cpu.js');
     const {adjustLink} = await import('./adjustLink.js');
