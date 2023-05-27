@@ -111,7 +111,12 @@ export interface Link<TSrc = any, TDest = any>{
     catchAll?: string,
 }
 
-export interface CamelConfig<TSrc=any, TDest=any>{
+export interface SharingCamelConfig<TSrc=any, TDest = any>{
+    Share?: ShareStatement[];
+    shareDefaults?: Share;
+}
+
+export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
     Link?: LinkStatement[];
     negate?: boolean;
     Negate?: LinkStatement[];
@@ -134,8 +139,7 @@ export interface CamelConfig<TSrc=any, TDest=any>{
     settings?:  Settings;
     Observe?: ObserveStatement[];
     observeDefaults?: IObserve;
-    Share?: ShareStatement[];
-    shareDefaults?: Share;
+
 }
 
 export interface Settings{

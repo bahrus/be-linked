@@ -1,10 +1,10 @@
-import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve} from './types';
+import {SharingCamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve} from './types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reShareStatements: RegExpOrRegExpExt<PSS>[] | undefined;
 
-export async function prsShare(cc: CamelConfig, links: Link[], pp: AP){
-    const {Share, shareDefaults} = cc;
+export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: AP){
+    const {Share, shareDefaults} = scc;
     const defaultLink = {
         localInstance: 'local',
         enhancement: 'beScoped',
