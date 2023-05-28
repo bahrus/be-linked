@@ -9,7 +9,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
         localInstance: 'local',
         enhancement: 'beScoped',
         upstreamPropName: 'scope',
-        upstreamCamelQry: ['closestOrHost', '[itemscope]']
+        upstreamCamelQry: ['upSearch', '[itemscope]']
     } as Link;
     for(const shareString of Share!){
         const names = shareString.split(',').map(s => s.trim());
