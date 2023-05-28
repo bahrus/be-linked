@@ -10,9 +10,10 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     const {enhancedElement} = ibe;
     const {findRealm} = await import('trans-render/lib/findRealm.js');
     let observeObj = await findRealm(enhancedElement, upstreamCamelQry);
+    if(!(observeObj instanceof Element)) throw 404;
     if(enhancement !== undefined){
         const {applyEnh} = await import('./applyEnh.js');
-        observeObj = await applyEnh(enhancedElement, enhancement, true);
+        observeObj = await applyEnh(observeObj, enhancement, true);
     }
     if(upstreamPropName !== undefined){
         observeObj = (<any>observeObj)[upstreamPropName];
@@ -35,7 +36,7 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
 }
 
 export function setProp(affect: DocumentFragment, attr: string, name: string, observeObj: any){
-    const query = `[${attr}="${name}]`;
+    const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect)!;
     let targets: Element[] | undefined;
     const cached = cacheMap[query] ;

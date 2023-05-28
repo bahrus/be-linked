@@ -3,7 +3,7 @@ import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reShareStatements: RegExpOrRegExpExt<PSS>[] | undefined;
 
-export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: AP){
+export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
     const {Share, shareDefaults} = scc;
     const defaultLink = {
         localInstance: 'local',

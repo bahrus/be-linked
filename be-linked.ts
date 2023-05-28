@@ -44,7 +44,8 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         for(const cc of camelConfigArr){
             const {
                 Link, Negate, Clone, Refer, Assign, On, When, 
-                links: cc_downlinks, Fire, settings, Observe
+                links: cc_downlinks, Fire, settings, Observe,
+                Share,
             } = cc;
             if(Fire !== undefined){
                 const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
@@ -68,6 +69,10 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             if(Observe !== undefined){
                 const {prsObj} = await import('./prsObs.js');
                 await prsObj(cc, links, self);
+            }
+            if(Share !== undefined){
+                const {prsShare} = await import('./prsShare.js');
+                await prsShare(cc, links, self);
             }
             if(settings !== undefined){
                 const {enh} = settings;
