@@ -3,7 +3,7 @@ import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reObserveStatements: RegExpOrRegExpExt<POS>[] | undefined;
 export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
-    const {Observe, observeDefaults} = cc;
+    const {Observe, observeOverrides} = cc;
 
     const defaultLink = {
         localInstance: 'local',
@@ -31,7 +31,7 @@ export async function prsObj(cc: CamelConfig, links: Link[], pp: AP){
                     on: 'change',
                     isFormElement: true,
                     attr: 'name',
-                    ...observeDefaults,
+                    ...observeOverrides,
                     names
                 }
             };

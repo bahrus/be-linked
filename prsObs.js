@@ -1,6 +1,6 @@
 let reObserveStatements;
 export async function prsObj(cc, links, pp) {
-    const { Observe, observeDefaults } = cc;
+    const { Observe, observeOverrides } = cc;
     const defaultLink = {
         localInstance: 'local',
         enhancement: 'beLinked',
@@ -23,7 +23,7 @@ export async function prsObj(cc, links, pp) {
                 on: 'change',
                 isFormElement: true,
                 attr: 'name',
-                ...observeDefaults,
+                ...observeOverrides,
                 names
             }
         };

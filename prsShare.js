@@ -1,23 +1,37 @@
 let reShareStatements;
 export async function prsShare(scc, links, pp) {
-    const { Share, shareDefaults } = scc;
+    const { Share, shareOverrides } = scc;
     const defaultLink = {
         localInstance: 'local',
-        enhancement: 'beScoped',
-        upstreamPropName: 'scope',
-        upstreamCamelQry: ['closestOrHost', '[itemscope]']
+        upstreamCamelQry: ['upSearch', '[itemscope]']
     };
-    for (const shareString of Share) {
-        const names = shareString.split(',').map(s => s.trim());
-        const link = {
-            ...defaultLink,
-            share: {
-                scope: ['closestOrHost', '[itemscope]'],
-                attr: 'itemprop',
-                ...shareDefaults,
-                names,
+    const { tryParse } = await import('be-enhanced/cpu.js');
+    //const { adjustLink } = await import('./adjustLink.js');
+    if (reShareStatements === undefined) {
+        reShareStatements = [
+            {
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|ElementProps)`),
+                defaultVals: {}
             }
-        };
-        links.push(link);
+        ];
+    }
+    for (const shareString of Share) {
+        const test = tryParse(shareString, reShareStatements);
+        if (test !== null) {
+            const { nameJoin, source } = test;
+            const names = nameJoin.split(',').map(s => s.trim());
+            const link = {
+                ...defaultLink,
+                enhancement: source === 'ElementProps' ? 'bePropagating' : 'beScoped',
+                upstreamPropName: source === 'ElementProps' ? 'propagator' : 'scope',
+                share: {
+                    scope: ['closestOrHost', '[itemscope]'],
+                    attr: 'itemprop',
+                    ...shareOverrides,
+                    names,
+                }
+            };
+            links.push(link);
+        }
     }
 }

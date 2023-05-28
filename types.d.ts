@@ -71,7 +71,23 @@ export interface Share{
     names: string[],
     scope: Scope,
     attr: string,
+    //source: ScopedSource | ElementPropsSource,
 }
+
+// export interface Source {
+//     enhancement: string,
+//     upstreamPropName: string,
+// }
+
+// export interface ScopedSource extends Source{
+//     enhancement: 'beScoped',
+//     upstreamPropName: 'scope',
+// }
+
+// export interface ElementPropsSource extends Source {
+//     enhancement: 'bePropagating',
+//     upstreamPropName: 'propagator',
+// }
 
 export interface ShareLink<TSrc = any, TDest = any>{
 
@@ -113,7 +129,7 @@ export interface Link<TSrc = any, TDest = any>{
 
 export interface SharingCamelConfig<TSrc=any, TDest = any>{
     Share?: ShareStatement[];
-    shareDefaults?: Share;
+    shareOverrides?: Share;
 }
 
 export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
@@ -138,7 +154,7 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
     enh: {[key: string] : any},
     settings?:  Settings;
     Observe?: ObserveStatement[];
-    observeDefaults?: IObserve;
+    observeOverrides?: IObserve;
 
 }
 
