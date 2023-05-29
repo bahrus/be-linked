@@ -62,5 +62,25 @@ export function setProp(affect: DocumentFragment, attr: string, name: string, ob
 }
 
 export function setItemProp(el: Element, val: any){
-    el.textContent = val;//TODO, many more cases to consider
+    switch(el.localName){
+        case 'data':
+            (<HTMLDataElement>el).value = val;
+            switch(typeof val){
+                case 'number':
+                    el.textContent = val.toLocaleString();
+                    break;
+                case 'object':
+                    if(val instanceof Date){
+                        el.textContent = val.toLocaleDateString();
+                    }else{
+                        throw 'NI';
+                    }
+                    break;
+
+            }
+            break;
+        default:
+            el.textContent = val;//TODO, many more cases to consider
+    }
+    
 }

@@ -58,5 +58,24 @@ export function setProp(affect, attr, name, observeObj) {
     }
 }
 export function setItemProp(el, val) {
-    el.textContent = val; //TODO, many more cases to consider
+    switch (el.localName) {
+        case 'data':
+            el.value = val;
+            switch (typeof val) {
+                case 'number':
+                    el.textContent = val.toLocaleString();
+                    break;
+                case 'object':
+                    if (val instanceof Date) {
+                        el.textContent = val.toLocaleDateString();
+                    }
+                    else {
+                        throw 'NI';
+                    }
+                    break;
+            }
+            break;
+        default:
+            el.textContent = val; //TODO, many more cases to consider
+    }
 }
