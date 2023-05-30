@@ -62,6 +62,7 @@ export async function setProp(affect: DocumentFragment, attr: string, name: stri
 }
 
 export async function setItemProp(el: Element, val: any){
+    //TODO:  load this conditionally
     switch(el.localName){
         case 'data':
         case 'output':

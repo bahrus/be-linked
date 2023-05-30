@@ -58,6 +58,7 @@ export async function setProp(affect, attr, name, observeObj) {
     }
 }
 export async function setItemProp(el, val) {
+    //TODO:  load this conditionally
     switch (el.localName) {
         case 'data':
         case 'output':
