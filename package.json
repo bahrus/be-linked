@@ -11,9 +11,10 @@
   "dependencies": {
     "be-enhanced": "0.0.21",
     "be-exportable": "0.0.74",
+    "be-intl": "0.0.2",
     "be-propagating": "0.0.10",
     "be-hive": "0.0.95",
-    "trans-render": "0.0.682",
+    "trans-render": "0.0.683",
     "xtal-element": "0.0.562"
   },
   "devDependencies": {

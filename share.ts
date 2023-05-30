@@ -31,11 +31,11 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
         observeObj.addEventListener(name, e => {
             setProp(affect as DocumentFragment, attr, name, observeObj);
         });
-        setProp(affect as DocumentFragment, attr, name, observeObj);
+        await setProp(affect as DocumentFragment, attr, name, observeObj);
     }
 }
 
-export function setProp(affect: DocumentFragment, attr: string, name: string, observeObj: any){
+export async function setProp(affect: DocumentFragment, attr: string, name: string, observeObj: any){
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect)!;
     let targets: Element[] | undefined;
@@ -56,27 +56,33 @@ export function setProp(affect: DocumentFragment, attr: string, name: string, ob
     const val = observeObj[name];
     for(const target of targets){
         if(attr === 'itemprop'){
-            setItemProp(target, val);
+            await setItemProp(target, val);
         }
     }
 }
 
-export function setItemProp(el: Element, val: any){
+export async function setItemProp(el: Element, val: any){
     switch(el.localName){
         case 'data':
+        case 'output':
+        case 'time':
+            import('be-intl/be-intl.js');
+            await (<any>el).beEnhanced.whenResolved('be-intl');
+            break;
+    }
+    switch(el.localName){
+        case 'data':
+        case 'output':
             (<HTMLDataElement>el).value = val;
+            break;
+        case 'time':
+            (<HTMLTimeElement>el).dateTime = val;
+            break;
+        case 'link':
             switch(typeof val){
-                case 'number':
-                    el.textContent = val.toLocaleString();
+                case 'boolean':
+                    (<HTMLLinkElement>el).href = `https://schema.org/${val ? 'True' : 'False'}`;
                     break;
-                case 'object':
-                    if(val instanceof Date){
-                        el.textContent = val.toLocaleDateString();
-                    }else{
-                        throw 'NI';
-                    }
-                    break;
-
             }
             break;
         default:

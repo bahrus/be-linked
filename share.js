@@ -27,10 +27,10 @@ export async function share(ibe, link) {
         observeObj.addEventListener(name, e => {
             setProp(affect, attr, name, observeObj);
         });
-        setProp(affect, attr, name, observeObj);
+        await setProp(affect, attr, name, observeObj);
     }
 }
-export function setProp(affect, attr, name, observeObj) {
+export async function setProp(affect, attr, name, observeObj) {
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect);
     let targets;
@@ -53,25 +53,31 @@ export function setProp(affect, attr, name, observeObj) {
     const val = observeObj[name];
     for (const target of targets) {
         if (attr === 'itemprop') {
-            setItemProp(target, val);
+            await setItemProp(target, val);
         }
     }
 }
-export function setItemProp(el, val) {
+export async function setItemProp(el, val) {
     switch (el.localName) {
         case 'data':
+        case 'output':
+        case 'time':
+            import('be-intl/be-intl.js');
+            await el.beEnhanced.whenResolved('be-intl');
+            break;
+    }
+    switch (el.localName) {
+        case 'data':
+        case 'output':
             el.value = val;
+            break;
+        case 'time':
+            el.dateTime = val;
+            break;
+        case 'link':
             switch (typeof val) {
-                case 'number':
-                    el.textContent = val.toLocaleString();
-                    break;
-                case 'object':
-                    if (val instanceof Date) {
-                        el.textContent = val.toLocaleDateString();
-                    }
-                    else {
-                        throw 'NI';
-                    }
+                case 'boolean':
+                    el.href = `https://schema.org/${val ? 'True' : 'False'}`;
                     break;
             }
             break;
