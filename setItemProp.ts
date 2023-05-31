@@ -1,5 +1,4 @@
 export async function setItemProp(el: Element, val: any){
-    //TODO:  load this conditionally
     switch(el.localName){
         case 'data':
         case 'output':
@@ -7,6 +6,9 @@ export async function setItemProp(el: Element, val: any){
             import('be-intl/be-intl.js');
             await (<any>el).beEnhanced.whenResolved('be-intl');
             break;
+        case 'link':
+            import('be-link-valued/be-link-valued.js');
+            await (<any>el).beEnhanced.whenResolved('be-link-valued');
     }
     switch(el.localName){
         case 'data':
@@ -17,14 +19,15 @@ export async function setItemProp(el: Element, val: any){
             (<HTMLTimeElement>el).dateTime = val;
             break;
         case 'link':
-            switch(typeof val){
-                case 'boolean':
-                    (<HTMLLinkElement>el).href = `https://schema.org/${val ? 'True' : 'False'}`;
-                    break;
-            }
+            (<any>el).beEnhanced.beLinkValued.value = val;
             break;
         default:
-            el.textContent = val;//TODO, many more cases to consider
+            if((<any>el).href !== undefined){
+                (<any>el).href = val;
+            }else{
+                el.textContent = val;//TODO, many more cases to consider
+            }
+            
     }
     
 }

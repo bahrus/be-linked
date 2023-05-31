@@ -54,6 +54,23 @@ which is shorthand for one of two lingo's:
 </host-element>
 ```
 
+##### Microdata Notation [TODO]
+```html
+<host-element>
+    #shadow
+    <link itemscope itemref="my-id" be-linked>
+    ...
+    <input be-linked='
+        Derive read only property from my-id
+    '>
+    <link itemprop=readOnly id=my-id href="https://schema.org/True">
+    ...
+    
+</host-element>
+```
+
+This is just a sneak peak into something that will be discussed in more depth later -- integration with microdata.
+
 ## Special notation for hooking up custom enhancements:
 
 ```html
