@@ -1,5 +1,5 @@
 export const upstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOf(?<upstreamCamelQry>\w+)`;
-export const downstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOfAdornedElement`;
+export const downstreamEvent = String.raw `^(?<on>\w+)(?<!\\)EventOf\$0`;
 export const passUpstreamProp = String.raw `(?<!\\)Pass(?<upstreamPropPath>[\w\:]+)(?<!\\)Property`;
 export const passDownstreamProp = String.raw `Pass(?<downstreamPropPath>[\w\\\:]+)Property`;
 export const toUpstreamProp = String.raw `(?<!\\)To(?<upstreamPropPath>[\w\\\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;

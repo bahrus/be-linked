@@ -9,12 +9,12 @@
 <body>
     <input id=input1>
     <script nomodule>
-        export const myHandler = ({remoteInstance, adornedElement}) => ({
-            value: adornedElement.value
+        export const myHandler = ({remoteInstance, $0}) => ({
+            value: $0.value
         });
     </script>
     <input id=input2 be-linked='
-        On input event of adorned element assign result of my handler to previous input element.
+        On input event of $0 assign result of my handler to previous input element.
     '>
     <div id=target></div>
     <script type=importmap>
