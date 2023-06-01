@@ -1,5 +1,5 @@
 export async function prsLink(cc, downlinks, ap) {
-    const { Link, negate, debug, nudge, skip, Clone, Refer } = cc;
+    const { Link, negate, debug, nudge, skip, Clone, Refer, Negate } = cc;
     const defaultDownlink = {
         localInstance: 'local',
         passDirection: 'towards',
@@ -16,6 +16,9 @@ export async function prsLink(cc, downlinks, ap) {
     }
     if (Refer !== undefined) {
         await processLinkStatements(Refer, { ...defaultDownlink, refer: true }, downlinks, ap);
+    }
+    if (Negate !== undefined) {
+        await processLinkStatements(Negate, { ...defaultDownlink, negate: true }, downlinks, ap);
     }
 }
 async function processLinkStatements(Link, defaultDownlink, downlinks, ap) {

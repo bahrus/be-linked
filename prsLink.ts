@@ -3,7 +3,7 @@ import {Scope} from 'trans-render/lib/types';
 
 
 export async function prsLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
-    const {Link, negate, debug, nudge, skip, Clone, Refer} = cc;
+    const {Link, negate, debug, nudge, skip, Clone, Refer, Negate} = cc;
     const defaultDownlink = {
         localInstance: 'local',
         passDirection: 'towards',
@@ -20,6 +20,9 @@ export async function prsLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
     }
     if(Refer !== undefined){
         await processLinkStatements(Refer, {...defaultDownlink, refer: true}, downlinks, ap);
+    }
+    if(Negate !== undefined){
+        await processLinkStatements(Negate, {...defaultDownlink, negate: true}, downlinks, ap);
     }
 
 }
