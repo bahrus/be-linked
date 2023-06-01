@@ -1,6 +1,6 @@
 export const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
 export const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-export const downstreamGateway = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<enhancement>[\w\:\-]+)(?<!\\)EnhancementOf\$0`;
+export const downstreamGateway = String.raw `\$0-enh-by-(?<enhancement>[\w\-]+)(?<!\\)\=\>(?<downstreamPropPath>[\w\:]+)`;
 export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOf\$0`;
 export const toDownstream = String.raw `To${downstream}`;
 export const toDownstreamGateway = String.raw `To${downstreamGateway}`;
