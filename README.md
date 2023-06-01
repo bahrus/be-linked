@@ -306,7 +306,7 @@ If host-element has method "doSomething": [Untested]
 </host-element>
 ```
 
-## Shorthand for invoking
+## Shorthand for invoking [TODO]
 
 A special key word is used for invoking methods on the host:
 
