@@ -55,7 +55,7 @@ export type LocalInstance = 'local' | 'proxy';
 
 export interface HandlerArg {
     remoteInstance: EventTarget,
-    adornedElement: Element,
+    $0: Element,
     event?: Event,
 }
 
@@ -97,6 +97,7 @@ export interface Link<TSrc = any, TDest = any>{
     debug?: boolean,
     passDirection?: PassDirection, //default to down
     handler?: (arg: HandlerArg) => any,
+    inferInvokeTargetAndEvent?: boolean,
     invoke?: string,
     exportSymbol?: string,
     increment?: boolean,

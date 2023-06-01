@@ -304,7 +304,44 @@ If host-element has method "doSomething": [Untested]
 </host-element>
 ```
 
- 
+## Shorthand for invoking
+
+A special key word is used for invoking methods on the host:
+
+```html
+<host-element>
+    #shadow
+        <input be-linked='
+            Invoke do something.
+        '>
+</host-element>
+```
+
+Because this is a form element, by default invokes the method on the input event (or change?).  If it's the form, invokes on submit.  
+
+For everything else, defaults to click.
+
+To specify the event:
+
+```html
+<host-element>
+    #shadow
+        <input be-linked='
+            Invoke do something on click.
+        '>
+</host-element>
+```
+
+As far as finding the host, the following is used:
+
+1.  Searches for the closest element with attribute itemscope.
+2.  If dash in the name, does an await customElements.whenDefined
+3.  Checks if method exists on custom element.
+4.  If not found, continues to searching for the next closest element with attribute itemscope.
+5.  Lastly, tries getRootNode().host
+6.  If that fails, throws an error.
+
+Method can be nested path (using : delimiter).
 
 ### Sidewise linking [Untested]
 

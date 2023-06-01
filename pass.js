@@ -46,7 +46,7 @@ export async function pass(ibe, downlink) {
         else if (handler !== undefined) {
             const objToAssign = await handler({
                 remoteInstance: upstreamRealm,
-                adornedElement: enhancedElement,
+                $0: enhancedElement,
                 event: e,
             });
             Object.assign(dest, objToAssign);
