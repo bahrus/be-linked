@@ -1,4 +1,4 @@
-# be-linked
+# be-linked [WIP]
 
 [![Playwright Tests](https://github.com/bahrus/be-linked/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-linked/actions/workflows/CI.yml)
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-linked?style=for-the-badge)](https://bundlephobia.com/result?p=be-linked)
@@ -32,7 +32,7 @@ which is shorthand for one of two lingo's:
 <host-element>
     #shadow
     <input be-linked='
-        Link read only property of host to read only property of adorned element.
+        Link read only property of host to read only property of $0.
     '>
 </host-element>
 ```
@@ -71,20 +71,13 @@ which is shorthand for one of two lingo's:
 
 This is just a sneak peak into something that will be discussed in more depth later -- integration with microdata.
 
-## Special notation for hooking up custom enhancements:
+## Special notation for hooking up custom enhancements :
 
 ```html
 <input type=search>
 
-<div 
-    be-linked='{
-        "enh": {
-            "beSearching": {
-                "forText": ""
-            }
-        }
-    }
-    On input event of previous element sibling pass value property to forText.
+<div be-linked='
+    On input event of previous element sibling pass value property to $0-enh-by-be-searching for text.
 '>
 <div>
     supercalifragilisticexpialidocious
@@ -99,7 +92,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 <host-element>
     #shadow
     <input be-linked='
-        Negate read only property of host to dataset:isEditable property of adorned element.
+        Negate read only property of host to dataset:isEditable property of $0.
     '>
 </host-element>
 ```
@@ -112,7 +105,7 @@ Alternative:
 <host-element>
     #shadow
     <input be-linked='
-        Link read only property of host to dataset:isEditable property of adorned element.
+        Link read only property of host to dataset:isEditable property of $0.
         Negate the linkage.
     '>
 </host-element>
@@ -135,7 +128,7 @@ Refer             |Pass weak reference of the property.
 <paul-mccartney age=64>
     #shadow
     <daughter-heather be-linked='
-        Link age property of host - 20 to age property of adorned element.
+        Link age property of host - 20 to age property of $0.
     '></daughter-heather>
 </paul-mccartney>
 ```
@@ -146,7 +139,7 @@ Refer             |Pass weak reference of the property.
 <input type=number value=37>
 
 <paul-mccartney be-linked='
-    Link value property of previous element sibling as number to age property of adorned element.
+    Link value property of previous element sibling as number to age property of $0.
 '></paul-mccartney>
 ```
 
@@ -182,7 +175,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
                 "falseVal": "off"
             }
         }
-        When read only property of host equals true assign true val to checked property of adorned element.
+        When read only property of host equals true assign true val to checked property of $0.
     '></toggle-element>
 </host-element>
 ```
@@ -198,7 +191,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         });
     </script>
     <toggle-element be-linked='
-        When read only property of host changes assign result of read only handler to adorned element. 
+        When read only property of host changes assign result of read only handler to $0. 
     '></toggle-element>
 </host-element>
 ```
@@ -209,7 +202,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
         <my-counter be-linked='
-            When value property of previous element sibling changes increment count property of adorned element.
+            When value property of previous element sibling changes increment count property of $0.
         '></my-counter>
 </my-light-weight-container>
 ```
@@ -260,7 +253,7 @@ If the server is able to apply the initial round of rendering / passing, then we
     <number-generator></number-generator>
     <metric-units be-linked='
         ```
-        On value changed event of previous element sibling pass value property to cm property of adorned element. 
+        On value changed event of previous element sibling pass value property to cm property of $0. 
         Debug. //Done.
         Fire changed event.  //Done.
         Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
@@ -277,7 +270,7 @@ The use of the three tick marks here, by the way, is there just to demonstrate a
 ```html
 <input name=lhs>
 <template be-switched be-linked='
-    On input event of previous lhs named element pass value property to lhs property of enhancement be-switched of adorned element.
+    On input event of previous lhs named element pass value property to lhs property of enhancement be-switched of $0.
 '>
 ```
 
@@ -289,7 +282,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
 <host-element>
     #shadow
         <input be-linked='
-            On input event of adorned element pass value property to greeting property of host.
+            On input event of $0 pass value property to greeting property of host.
         '>
 </host-element>
 ```
@@ -305,7 +298,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
             })
         </script>
         <input be-linked='
-            On input event of adorned element assign result of my handler to host.
+            On input event of $0 assign result of my handler to host.
         '>
 </host-element>
 ```
@@ -316,7 +309,7 @@ If host-element has method "doSomething": [Untested]
 <host-element>
     #shadow
         <input be-linked='
-            On input event of adorned element invoke method do something of host.
+            On input event of $0 invoke method do something of host.
         '>
 </host-element>
 ```
@@ -331,7 +324,7 @@ It is possible to employ either downstream or upstream syntax, if targeting a pe
 <host-element>
     #shadow
         <input type=number be-linked='
-            On input event of adorned element 
+            On input event of $0 
             pass value property as number 
             to slide index property 
             of slide show id 
