@@ -84,7 +84,7 @@ This is just a sneak peak into something that will be discussed in more depth la
 </div>
 ```
 
-#### Negation scenario.
+#### Negation scenario [Untested]
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
@@ -97,21 +97,6 @@ host-element container has property "readOnly".  Inner element wants to set data
 </host-element>
 ```
 
-
-
-Alternative:
-
-```html
-<host-element>
-    #shadow
-    <input be-linked='
-        Link read only property of host to dataset:isEditable property of $0.
-        Negate the linkage.
-    '>
-</host-element>
-```
-
-"the linkage" is optional and ignored.  Treated as commentary.
 
 ### Other verbs [Untested]
 
@@ -146,7 +131,7 @@ Refer             |Pass weak reference of the property.
 Options:  as number, as date, as object, as string, as reg exp, as url.
 
 
-#### Mapping
+#### Mapping [Deprecated]
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
 
@@ -159,7 +144,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-##### Declarative mapping scenario
+##### Declarative mapping scenario [Deprecated]
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 
@@ -223,11 +208,11 @@ Pass number value of previous element to local cm property.
     '></metric-units>
 </div>
 ```
--->
+
 
 NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy. 
 
-Maybe this should be a separate decorator?
+Maybe this should be a separate decorator? -->
 
 
 ### Leaning on server rendering
@@ -235,15 +220,14 @@ Maybe this should be a separate decorator?
 If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
 ```html
-<my-light-weight-container>
-    <number-generator></number-generator>
-    <metric-units be-linked='
-        ```
-        Skip initialization.
-        ...
-        ```
-    '></metric-units>
-</my-light-weight-container>
+```html
+<host-element>
+    #shadow
+    <input be-linked='
+        Link read only props nudgingly and grudgingly.
+    '>
+</host-element>
+```
 ```
 
 ## Traditional Element Events 
@@ -293,7 +277,7 @@ Suppose we want to pass information in the opposite direction -- from the adorne
 <host-element>
     #shadow
         <script nomodule>
-            export const myHandler = ({remoteInstance, adornedElement}) => ({
+            export const myHandler = ({remoteInstance, $0}) => ({
 
             })
         </script>
