@@ -219,16 +219,22 @@ Maybe this should be a separate decorator? -->
 
 If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
-```html
+
 ```html
 <host-element>
     #shadow
-    <input be-linked='
-        Link read only props nudgingly and grudgingly.
+    <input disable be-linked='
+        ```
+        Link read only props.
+        Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
+        Skip initialization. //"initialization" is ignored commentary.
+        ```
     '>
 </host-element>
 ```
-```
+
+The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.  This is important when using separate qualifiers like "nudge" and "skip", because those qualifiers apply to all the "Link" and other statements contained within the tick marks.  So if those qualifiers should be applied to a single statement, simply wrap the single statement and qualifiers together within a set of tick marks.
+
 
 ## Traditional Element Events 
 
@@ -247,7 +253,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 </my-light-weight-container
 ```
 
-The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.
+
 
 ### Traditional Element Events to enhancement property
 
