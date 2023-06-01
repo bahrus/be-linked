@@ -40,8 +40,9 @@ export async function pass(ibe, downlink) {
             debugger;
         if (increment) {
             const val = await getVal({ host: dest }, destPropPath);
-            await setProp(dest, destPropPath, val + 1);
-            et.value = val;
+            const newVal = val + 1;
+            await setProp(dest, destPropPath, newVal);
+            et.value = newVal;
         }
         else if (handler !== undefined) {
             const objToAssign = await handler({
