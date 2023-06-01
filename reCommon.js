@@ -1,10 +1,10 @@
 export const upstream = String.raw `^(?<upstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<upstreamCamelQry>\w+)`;
 export const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|String|Object|Url|RegExp)`;
-export const downstreamGateway = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<enhancement>[\w\:\-]+)(?<!\\)EnhancementOfAdornedElement`;
-export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOfAdornedElement`;
+export const downstreamGateway = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOf(?<enhancement>[\w\:\-]+)(?<!\\)EnhancementOf\$0`;
+export const downstream = String.raw `(?<downstreamPropPath>[\w\:]+)(?<!\\)PropertyOf\$0`;
 export const toDownstream = String.raw `To${downstream}`;
 export const toDownstreamGateway = String.raw `To${downstreamGateway}`;
 export const toCatchAll = String.raw `To(?<catchAll>[\w\:]+)`;
 export const mathOpArg = String.raw `(?<mathOp>[-+\%\*\/])(?<mathArg>[0-9][0-9,\.]+)`;
-export const toAdorned = String.raw `(?<!\\)ToAdornedElement`;
+export const toAdorned = String.raw `(?<!\\)To\$0`;
 export const assResOf = String.raw `AssignResultOf(?<exportSymbol>\w+)`;
