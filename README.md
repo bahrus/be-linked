@@ -112,7 +112,7 @@ Refer             |Pass weak reference of the property.
 ```html
 <paul-mccartney age=64>
     #shadow
-    <daughter-heather be-linked='
+    <daughter-heather enh-by-be-linked='
         Link age property of host - 20 to age property of $0.
     '></daughter-heather>
 </paul-mccartney>
@@ -123,7 +123,7 @@ Refer             |Pass weak reference of the property.
 ```html
 <input type=number value=37>
 
-<paul-mccartney be-linked='
+<paul-mccartney enh-by-be-linked='
     Link value property of previous element sibling as number to age property of $0.
 '></paul-mccartney>
 ```
@@ -151,7 +151,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 ```html
 <host-element>
     #shadow
-    <toggle-element be-linked='
+    <toggle-element enh-by-be-linked='
         {
             "declare": {
                 "true": true,
@@ -162,6 +162,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
         }
         When read only property of host equals true assign true val to checked property of $0.
     '></toggle-element>
+    <be-hive></be-hive>
 </host-element>
 ```
 
@@ -175,9 +176,10 @@ host-element container has boolean property "readOnly" property.  If readOnly is
             checked: remoteInstance.readOnly ? 'on' : 'off',
         });
     </script>
-    <toggle-element be-linked='
+    <toggle-element enh-by-be-linked='
         When read only property of host changes assign result of read only handler to $0. 
     '></toggle-element>
+    <be-hive></be-hive>
 </host-element>
 ```
 
@@ -186,7 +188,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 ```html
 <my-light-weight-container>
         <my-time-ticker-service></my-time-ticker-service>
-        <my-counter be-linked='
+        <my-counter enh-by-be-linked='
             When value property of previous element sibling changes increment count property of $0.
         '></my-counter>
 </my-light-weight-container>
@@ -241,7 +243,7 @@ The use of the three tick marks here, by the way, is there just to demonstrate a
 ```html
 <my-light-weight-container>
     <number-generator></number-generator>
-    <metric-units be-linked='
+    <metric-units enh-by-be-linked='
         ```
         On value changed event of previous element sibling pass value property to cm property of $0. 
         Debug. //Done.
