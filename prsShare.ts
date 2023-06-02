@@ -19,7 +19,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     
                 }
             }
-        ]
+        ];
     }
     for(const shareString of Share!){
         const test = tryParse(shareString, reShareStatements) as ShareStatement | null;

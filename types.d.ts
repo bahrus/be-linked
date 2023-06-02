@@ -20,7 +20,7 @@ export type EventName = string;
 
 export type SuperShortLinkStatement = `${propName}Props`;
 
-export type TargetOptions = 'AdornedElement' | 'Decorator'
+export type TargetOptions = '$0' | 'Decorator'
 
 export type ShortDownLinkStatement = `${UpstreamPropPath}Of${UpstreamCamelQry}To${DownstreamPropPath}Of${TargetOptions}`;
 
@@ -28,9 +28,11 @@ export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
+export type InvokeStatement = string;
+
 export type ExportSymbol = string;
 
-export type DownstreamAssignStatement = `ResultOf${ExportSymbol}ToAdornedElementWhen${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Changes`;
+export type DownstreamAssignStatement = `ResultOf${ExportSymbol}To$0When${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Changes`;
 
 export type ConditionValue = string | number | boolean;
 export type NewValue = string;
@@ -74,6 +76,10 @@ export interface Share{
     //source: ScopedSource | ElementPropsSource,
 }
 
+export interface Invoke{
+
+}
+
 
 export interface ShareLink<TSrc = any, TDest = any>{
 
@@ -97,7 +103,8 @@ export interface Link<TSrc = any, TDest = any>{
     debug?: boolean,
     passDirection?: PassDirection, //default to down
     handler?: (arg: HandlerArg) => any,
-    inferInvokeTargetAndEvent?: boolean,
+    inferInvokeTarget?: boolean,
+    inferInvokeTriggerEvent?: boolean,
     invoke?: string,
     exportSymbol?: string,
     increment?: boolean,
@@ -119,6 +126,11 @@ export interface SharingCamelConfig<TSrc=any, TDest = any>{
     shareOverrides?: Share;
 }
 
+export interface InvokeCamelConfig<TSrc=any, TDest = any>{
+    Invoke?: InvokeStatement[];
+    invokeOverrides?: Invoke;
+}
+
 export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
     Link?: LinkStatement[];
     negate?: boolean;
@@ -128,6 +140,7 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
     Assign?: DownstreamAssignStatement[];
+    Invoke?: InvokeStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];
     nudge?: boolean;
