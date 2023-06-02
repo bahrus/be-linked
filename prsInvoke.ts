@@ -14,9 +14,9 @@ export async function prsInvoke(icc: InvokeCamelConfig, links: Link[], pp: any){
     if(reInvokeStatements === undefined){
         reInvokeStatements = [
             {
-                regExp: new RegExp(String.raw `^(?<invoke>[\w\:]+)(?<!\\)On(?<on>)`),
+                regExp: new RegExp(String.raw `^(?<invoke>[\w\:]+)(?<!\\)On(?<on>[\w\-]+)`),
                 defaultVals: {
-                    inferInvokeTriggerEvent: true,
+                    inferInvokeTriggerEvent: false,
                 }
             },
             {
@@ -28,7 +28,17 @@ export async function prsInvoke(icc: InvokeCamelConfig, links: Link[], pp: any){
         ];
     }
     for(const invokeString of Invoke!){
-
+        const test = tryParse(invokeString, reInvokeStatements) as InvokeStatement | null;
+        if(test !== null){
+            const {invoke, inferInvokeTriggerEvent, on} = test;
+            const link: Link = {
+                ...defaultLink,
+                inferInvokeTriggerEvent,
+                invoke,
+                on,
+            };
+            links.push(link);
+        }
     }
 }
 

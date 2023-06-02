@@ -37,7 +37,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     ...shareOverrides,
                     names,
                 }
-            }
+            };
             links.push(link);
         }
     }
