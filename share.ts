@@ -11,6 +11,7 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     const {findRealm} = await import('trans-render/lib/findRealm.js');
     let observeObj = await findRealm(enhancedElement, upstreamCamelQry);
     if(!(observeObj instanceof Element)) throw 404;
+    const affect = observeObj;
     if(enhancement !== undefined){
         const {applyEnh} = await import('./applyEnh.js');
         observeObj = await applyEnh(observeObj, enhancement, true);
@@ -20,8 +21,9 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     }
     if(observeObj === null) throw 404;
     const {attr, names, scope} = share!;
-    const affect = await findRealm(enhancedElement, scope);
-    if(affect === null || !(<any>affect).querySelectorAll) throw 404;
+    // const affect = await findRealm(enhancedElement, scope);
+    // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
+    
     //TODO, cache query results in weak references
     if(!cache.has(affect)){
         cache.set(affect, {});
@@ -29,13 +31,14 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     
     for(const name of names){
         observeObj.addEventListener(name, e => {
-            setProp(affect as DocumentFragment, attr, name, observeObj);
+            setProp(affect, attr, name, observeObj);
         });
-        await setProp(affect as DocumentFragment, attr, name, observeObj);
+        await setProp(affect, attr, name, observeObj);
     }
 }
 
-export async function setProp(affect: DocumentFragment, attr: string, name: string, observeObj: any){
+export async function setProp(affect: Element, attr: string, name: string, observeObj: any){
+    const isScoped = affect.hasAttribute('itemscope');
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect)!;
     let targets: Element[] | undefined;
@@ -49,7 +52,9 @@ export async function setProp(affect: DocumentFragment, attr: string, name: stri
             targets.push(deref);
         }
     }else{
+        //TODO:  use @scope in css query when all browsers support it.
         targets = Array.from(affect.querySelectorAll(query));
+        if(isScoped) targets = targets.filter(t => t.closest('[itemscope]') === affect);
         const weakRefs = targets.map(target => new WeakRef<Element>(target));
         cacheMap[query] = weakRefs;
     }
