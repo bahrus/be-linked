@@ -347,7 +347,7 @@ Method can be nested path (using : delimiter).
 
 ## Shorthand for linking
 
-*be-linked* also supports statements that are optimized for a common use case:  Sharing data from a DOM node to descendent elements contained inside (within it's "scope"), with special attention given to microdata attributes.  This functionality has it's own enhancement, [be-sharing](https://github.com/bahrus/be-sharing) that specializes in this scenario, and leverages code from *be-linking*.
+*be-linked* also supports statements that are optimized for a common use case:  Sharing data from a DOM node to descendent elements contained inside (within its "scope"), with special attention given to microdata attributes.  This functionality has it's own enhancement, [be-sharing](https://github.com/bahrus/be-sharing) that specializes in this scenario, and leverages code from *be-linking*.
 
 ### Sidewise linking [Untested]
 
