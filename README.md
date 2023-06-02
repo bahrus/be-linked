@@ -131,7 +131,7 @@ Refer             |Pass weak reference of the property.
 Options:  as number, as date, as object, as string, as reg exp, as url.
 
 
-#### Mapping [Deprecated]
+#### Mapping 
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
 
@@ -144,7 +144,7 @@ However, there may be circumstances where this might not be ideal:
 
 So we provide two ways of adding the equivalent of computed properties:  
 
-##### Declarative mapping scenario [Deprecated]
+##### Declarative mapping scenario
 
 host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
 
@@ -344,6 +344,10 @@ As far as finding the host, the following is used:
 6.  If that fails, throws an error.
 
 Method can be nested path (using : delimiter).
+
+## Shorthand for linking
+
+*be-linked* also supports statements that are optimized for a common use case:  Sharing data from a DOM node to descendent elements contained inside (within it's "scope"), with special attention given to microdata attributes.  This functionality has it's own enhancement, [be-sharing](https://github.com/bahrus/be-sharing) that specializes in this scenario, and leverages code from *be-linking*.
 
 ### Sidewise linking [Untested]
 
