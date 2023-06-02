@@ -84,7 +84,7 @@ This is just a sneak peak into something that will be discussed in more depth la
 </div>
 ```
 
-#### Negation scenario [Untested]
+#### Negation scenario
 
 host-element container has property "readOnly".  Inner element wants to set dataset.isEditable to the opposite.
 
