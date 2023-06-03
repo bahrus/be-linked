@@ -70,7 +70,20 @@ export async function setProp(affect: Element, attr: string, name: string, obser
         cacheMap[query] = weakRefs;
     }
     const val = observeObj[name];
-
+    switch(attr){
+        case 'itemprop':
+            const {setItemProp} = await import('./setItemProp.js');
+            for(const target of targets){
+                await setItemProp(target, val);
+            }
+            break;
+        case 'name':{
+            const {setNameVal} = await import('./setNameVal.js');
+            for(const target of targets){
+                await setNameVal(target, val);
+            }
+        }
+    }
     for(const target of targets){
         if(attr === 'itemprop'){
             const {setItemProp} = await import('./setItemProp.js');

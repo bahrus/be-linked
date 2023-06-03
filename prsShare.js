@@ -10,6 +10,10 @@ export async function prsShare(scc, links, pp) {
     if (reShareStatements === undefined) {
         reShareStatements = [
             {
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|ElementProps)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
+                defaultVals: {}
+            },
+            {
                 regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|ElementProps)`),
                 defaultVals: {
                     allNames: true,
@@ -18,14 +22,20 @@ export async function prsShare(scc, links, pp) {
             {
                 regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|ElementProps)`),
                 defaultVals: {}
-            }
+            },
+            // {
+            //     regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|ElementProps)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
+            //     defaultVals: {
+            //         allNames: true,
+            //     }
+            // },
         ];
     }
     const { lc } = await import('be-enhanced/cpu.js');
     for (const shareString of Share) {
         const test = tryParse(shareString, reShareStatements);
         if (test !== null) {
-            const { nameJoin, source, allNames } = test;
+            const { nameJoin, source, allNames, attr } = test;
             const names = allNames ? undefined : nameJoin.split(',').map(s => lc(s.trim()));
             const link = {
                 ...defaultLink,
@@ -33,7 +43,7 @@ export async function prsShare(scc, links, pp) {
                 upstreamPropName: source === 'ElementProps' ? 'propagator' : 'scope',
                 share: {
                     scope: ['closestOrHost', '[itemscope]'],
-                    attr: 'itemprop',
+                    attr: attr || 'itemprop',
                     ...shareOverrides,
                     names,
                     allNames
