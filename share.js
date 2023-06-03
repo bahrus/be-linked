@@ -1,6 +1,7 @@
 const cache = new WeakMap();
-export async function share(ibe, link) {
-    const { enhancement, share, upstreamCamelQry, upstreamPropName } = link;
+const alreadyProcessed = new WeakMap();
+export async function share(ibe, link, onlyDoNonCachedElements) {
+    const { enhancement, share: sh, upstreamCamelQry, upstreamPropName } = link;
     const { enhancedElement } = ibe;
     const { findRealm } = await import('trans-render/lib/findRealm.js');
     let observeObj = await findRealm(enhancedElement, upstreamCamelQry);
@@ -16,38 +17,51 @@ export async function share(ibe, link) {
     }
     if (observeObj === null)
         throw 404;
-    const { attr, names, scope, allNames } = share;
+    const { attr, names, scope, allNames } = sh;
     // const affect = await findRealm(enhancedElement, scope);
     // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
     //TODO, cache query results in weak references
     if (!cache.has(affect)) {
         cache.set(affect, {});
     }
+    if (!alreadyProcessed.has(affect)) {
+        alreadyProcessed.set(affect, new WeakSet());
+        if (!onlyDoNonCachedElements) {
+            affect.addEventListener('i-am-here', e => {
+                share(ibe, link, true);
+            });
+        }
+    }
     if (allNames) {
-        observeObj.addEventListener('prop-changed', e => {
-            const changeInfo = e.detail;
-            setProp(affect, attr, changeInfo.prop, observeObj);
-        });
+        if (!onlyDoNonCachedElements) {
+            observeObj.addEventListener('prop-changed', e => {
+                const changeInfo = e.detail;
+                setProp(affect, attr, changeInfo.prop, observeObj, onlyDoNonCachedElements);
+            });
+        }
         for (const key in observeObj) {
-            await setProp(affect, attr, key, observeObj);
+            await setProp(affect, attr, key, observeObj, onlyDoNonCachedElements);
         }
     }
     else if (names !== undefined) {
         for (const name of names) {
-            observeObj.addEventListener(name, e => {
-                setProp(affect, attr, name, observeObj);
-            });
-            await setProp(affect, attr, name, observeObj);
+            if (!onlyDoNonCachedElements) {
+                observeObj.addEventListener(name, e => {
+                    setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
+                });
+            }
+            await setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
         }
     }
 }
-export async function setProp(affect, attr, name, observeObj) {
+export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedElements) {
     const isScoped = affect.hasAttribute('itemscope');
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect);
+    const alreadyProcessedLookup = alreadyProcessed.get(affect);
     let targets;
     const cached = cacheMap[query];
-    if (cached !== undefined) {
+    if (cached !== undefined && !onlyDoNonCachedElements) {
         targets = [];
         for (const cachedTarget of cached) {
             const deref = cachedTarget.deref();
@@ -62,6 +76,12 @@ export async function setProp(affect, attr, name, observeObj) {
         targets = Array.from(affect.querySelectorAll(query));
         if (isScoped)
             targets = targets.filter(t => t.closest('[itemscope]') === affect);
+        if (onlyDoNonCachedElements) {
+            targets = targets.filter(t => !alreadyProcessedLookup.has(t));
+        }
+        else {
+            targets.forEach(t => alreadyProcessedLookup.add(t));
+        }
         const weakRefs = targets.map(target => new WeakRef(target));
         cacheMap[query] = weakRefs;
     }

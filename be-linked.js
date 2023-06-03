@@ -103,7 +103,7 @@ export class BeLinked extends BE {
             if (shareableLinks.length > 0) {
                 const { share } = await import('./share.js');
                 for (const shareableLink of shareableLinks) {
-                    share(self, shareableLink);
+                    share(self, shareableLink, false);
                 }
             }
         }

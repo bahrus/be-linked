@@ -2,11 +2,15 @@ import {AP, Share, Link} from './types';
 import {IBE} from 'be-enhanced/types';
 import {ProxyPropChangeInfo} from 'trans-render/lib/types';
 
-const cache = new WeakMap<EventTarget, {[key: string]: WeakRef<Element>[]}>();
+type AffectedElement = Element;
 
-export async function share(ibe: IBE, link: Link): Promise<void>{
+const cache = new WeakMap<AffectedElement, {[key: string]: WeakRef<Element>[]}>();
+
+const alreadyProcessed = new WeakMap<AffectedElement, WeakSet<Element>>();
+
+export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boolean): Promise<void>{
      const {
-        enhancement, share, upstreamCamelQry, upstreamPropName
+        enhancement, share: sh, upstreamCamelQry, upstreamPropName
     } = link;
     const {enhancedElement} = ibe;
     const {findRealm} = await import('trans-render/lib/findRealm.js');
@@ -21,7 +25,7 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
         observeObj = (<any>observeObj)[upstreamPropName];
     }
     if(observeObj === null) throw 404;
-    const {attr, names, scope, allNames} = share!;
+    const {attr, names, scope, allNames} = sh!;
     // const affect = await findRealm(enhancedElement, scope);
     // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
     
@@ -29,32 +33,47 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     if(!cache.has(affect)){
         cache.set(affect, {});
     }
+    if(!alreadyProcessed.has(affect)){
+        alreadyProcessed.set(affect, new WeakSet<Element>());
+        if(!onlyDoNonCachedElements){
+            affect.addEventListener('i-am-here', e => {
+                share(ibe, link, true);
+            });
+        }
+    }
     if(allNames){
-        observeObj.addEventListener('prop-changed', e=> {
-            const changeInfo = (e as CustomEvent).detail as ProxyPropChangeInfo;
-            setProp(affect, attr, changeInfo.prop, observeObj);
-        });
+        if(!onlyDoNonCachedElements){
+            observeObj.addEventListener('prop-changed', e=> {
+                const changeInfo = (e as CustomEvent).detail as ProxyPropChangeInfo;
+                setProp(affect, attr, changeInfo.prop, observeObj, onlyDoNonCachedElements);
+            });
+        }
+
         for(const key in observeObj){
-            await setProp(affect, attr, key, observeObj);
+            await setProp(affect, attr, key, observeObj, onlyDoNonCachedElements);
         }
     }else if(names !== undefined){
         for(const name of names){
-            observeObj.addEventListener(name, e => {
-                setProp(affect, attr, name, observeObj);
-            });
-            await setProp(affect, attr, name, observeObj);
+            if(!onlyDoNonCachedElements){
+                observeObj.addEventListener(name, e => {
+                    setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
+                });
+            }
+
+            await setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
         }
     }
 
 }
 
-export async function setProp(affect: Element, attr: string, name: string, observeObj: any){
+export async function setProp(affect: Element, attr: string, name: string, observeObj: any, onlyDoNonCachedElements: boolean){
     const isScoped = affect.hasAttribute('itemscope');
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect)!;
+    const alreadyProcessedLookup = alreadyProcessed.get(affect)!;
     let targets: Element[] | undefined;
     const cached = cacheMap[query] ;
-    if(cached !== undefined){
+    if(cached !== undefined && !onlyDoNonCachedElements){
         targets = [];
         for(const cachedTarget of cached){
             const deref = cachedTarget.deref();
@@ -66,6 +85,11 @@ export async function setProp(affect: Element, attr: string, name: string, obser
         //TODO:  use @scope in css query when all browsers support it.
         targets = Array.from(affect.querySelectorAll(query));
         if(isScoped) targets = targets.filter(t => t.closest('[itemscope]') === affect);
+        if(onlyDoNonCachedElements) {
+            targets = targets.filter(t => !alreadyProcessedLookup.has(t))
+        }else{
+            targets.forEach(t => alreadyProcessedLookup.add(t));
+        }
         const weakRefs = targets.map(target => new WeakRef<Element>(target));
         cacheMap[query] = weakRefs;
     }

@@ -46,7 +46,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
         if(test !== null){
             const {nameJoin, source, allNames, attr} = test;
             
-            const names = allNames ? undefined : nameJoin.split(',').map(s => lc(s.trim()));
+            const names = allNames ? undefined : nameJoin!.split(',').map(s => lc(s.trim()));
             const link: Link = {
                 ...defaultLink,
                 enhancement: source === 'ElementProps' ? 'bePropagating': 'beScoped',
