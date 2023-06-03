@@ -21,11 +21,13 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
             }
         ];
     }
+    const {lc} = await import('be-enhanced/cpu.js');
     for(const shareString of Share!){
         const test = tryParse(shareString, reShareStatements) as ShareStatement | null;
         if(test !== null){
             const {nameJoin, source} = test;
-            const names = nameJoin.split(',').map(s => s.trim());
+            
+            const names = nameJoin.split(',').map(s => lc(s.trim()));
             const link: Link = {
                 ...defaultLink,
                 enhancement: source === 'ElementProps' ? 'bePropagating': 'beScoped',

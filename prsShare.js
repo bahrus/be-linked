@@ -15,11 +15,12 @@ export async function prsShare(scc, links, pp) {
             }
         ];
     }
+    const { lc } = await import('be-enhanced/cpu.js');
     for (const shareString of Share) {
         const test = tryParse(shareString, reShareStatements);
         if (test !== null) {
             const { nameJoin, source } = test;
-            const names = nameJoin.split(',').map(s => s.trim());
+            const names = nameJoin.split(',').map(s => lc(s.trim()));
             const link = {
                 ...defaultLink,
                 enhancement: source === 'ElementProps' ? 'bePropagating' : 'beScoped',
