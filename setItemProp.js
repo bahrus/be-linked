@@ -9,10 +9,13 @@ export async function setItemProp(el, val) {
             intl.value = val;
             return;
         case 'link':
-            import('be-link-valued/be-link-valued.js');
-            await el.beEnhanced.whenResolved('be-link-valued');
+        case 'meta':
+            import('be-it/be-it.js');
+            const beIt = await el.beEnhanced.whenResolved('be-it');
+            beIt.value = val;
+            return;
     }
-    if (el.href !== undefined) {
+    if ('href' in el) {
         el.href = val;
     }
     else {
