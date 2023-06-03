@@ -73,6 +73,7 @@ export async function setProp(affect, attr, name, observeObj) {
                 await setItemProp(target, val);
             }
             break;
+        case 'id':
         case 'name': {
             const { setNameVal } = await import('./setNameVal.js');
             for (const target of targets) {
