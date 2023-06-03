@@ -6,6 +6,7 @@ export async function share(ibe, link) {
     let observeObj = await findRealm(enhancedElement, upstreamCamelQry);
     if (!(observeObj instanceof Element))
         throw 404;
+    const affect = observeObj;
     if (enhancement !== undefined) {
         const { applyEnh } = await import('./applyEnh.js');
         observeObj = await applyEnh(observeObj, enhancement, true);
@@ -16,9 +17,8 @@ export async function share(ibe, link) {
     if (observeObj === null)
         throw 404;
     const { attr, names, scope } = share;
-    const affect = await findRealm(enhancedElement, scope);
-    if (affect === null || !affect.querySelectorAll)
-        throw 404;
+    // const affect = await findRealm(enhancedElement, scope);
+    // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
     //TODO, cache query results in weak references
     if (!cache.has(affect)) {
         cache.set(affect, {});
@@ -31,6 +31,7 @@ export async function share(ibe, link) {
     }
 }
 export async function setProp(affect, attr, name, observeObj) {
+    const isScoped = affect.hasAttribute('itemscope');
     const query = `[${attr}="${name}"]`;
     const cacheMap = cache.get(affect);
     let targets;
@@ -46,7 +47,10 @@ export async function setProp(affect, attr, name, observeObj) {
         }
     }
     else {
+        //TODO:  use @scope in css query when all browsers support it.
         targets = Array.from(affect.querySelectorAll(query));
+        if (isScoped)
+            targets = targets.filter(t => t.closest('[itemscope]') === affect);
         const weakRefs = targets.map(target => new WeakRef(target));
         cacheMap[query] = weakRefs;
     }

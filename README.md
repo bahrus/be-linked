@@ -319,7 +319,7 @@ A special key word is used for invoking methods on the host:
 </host-element>
 ```
 
-Because this is a form element, by default invokes the method on the input event (or change?).  If it's the form, invokes on submit.  
+Because this is a form element, by default invokes the method on the change event.  If it's the form, invokes on submit.  
 
 For everything else, defaults to click.
 
@@ -337,7 +337,7 @@ To specify the event:
 As far as finding the host, the following is used:
 
 1.  Searches for the closest element with attribute itemscope.
-2.  If dash in the name, does an await customElements.whenDefined
+2.  If dash in the name of the elemnt, does an await customElements.whenDefined
 3.  Checks if method exists on custom element.
 4.  If not found, continues to searching for the next closest element with attribute itemscope.
 5.  Lastly, tries getRootNode().host
@@ -347,7 +347,7 @@ Method can be nested path (using : delimiter).
 
 ## Shorthand for linking
 
-*be-linked* also supports statements that are optimized for a common use case:  Sharing data from a DOM node to descendent elements contained inside (within its "scope"), with special attention given to microdata attributes.  This functionality has it's own enhancement, [be-sharing](https://github.com/bahrus/be-sharing) that specializes in this scenario, and leverages code from *be-linking*.
+*be-linked* also supports statements that are optimized for a common use case:  Sharing data from a DOM node to descendent elements contained inside (within its "scope"), with special attention given to microdata attributes.  This functionality has it's own enhancement, [be-sharing](https://github.com/bahrus/be-sharing) that specializes in this scenario, and leverages code from *be-linking* -- statements that begin with the word Share.
 
 ### Sidewise linking [Untested]
 

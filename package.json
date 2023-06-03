@@ -9,14 +9,14 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.24",
+    "be-enhanced": "0.0.25",
     "be-exportable": "0.0.75",
     "be-intl": "0.0.3",
     "be-link-valued": "0.0.3",
     "be-propagating": "0.0.11",
-    "be-hive": "0.0.98",
-    "trans-render": "0.0.683",
-    "xtal-element": "0.0.563"
+    "be-hive": "0.0.99",
+    "trans-render": "0.0.684",
+    "xtal-element": "0.0.564"
   },
   "devDependencies": {
     "be-scoped": "0.0.10",
