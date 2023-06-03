@@ -70,7 +70,8 @@ export interface IObserve {
 }
 
 export interface Share{
-    names: string[],
+    names?: string[],
+    allNames?: boolean,
     scope: Scope,
     attr: string,
     //source: ScopedSource | ElementPropsSource,

@@ -10,6 +10,12 @@ export async function prsShare(scc, links, pp) {
     if (reShareStatements === undefined) {
         reShareStatements = [
             {
+                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|ElementProps)`),
+                defaultVals: {
+                    allNames: true,
+                }
+            },
+            {
                 regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|ElementProps)`),
                 defaultVals: {}
             }
@@ -19,8 +25,8 @@ export async function prsShare(scc, links, pp) {
     for (const shareString of Share) {
         const test = tryParse(shareString, reShareStatements);
         if (test !== null) {
-            const { nameJoin, source } = test;
-            const names = nameJoin.split(',').map(s => lc(s.trim()));
+            const { nameJoin, source, allNames } = test;
+            const names = allNames ? undefined : nameJoin.split(',').map(s => lc(s.trim()));
             const link = {
                 ...defaultLink,
                 enhancement: source === 'ElementProps' ? 'bePropagating' : 'beScoped',
@@ -30,6 +36,7 @@ export async function prsShare(scc, links, pp) {
                     attr: 'itemprop',
                     ...shareOverrides,
                     names,
+                    allNames
                 }
             };
             links.push(link);

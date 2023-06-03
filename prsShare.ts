@@ -14,6 +14,12 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
     if(reShareStatements === undefined){
         reShareStatements = [
             {
+                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|ElementProps)`),
+                defaultVals: {
+                    allNames: true,
+                }
+            },
+            {
                 regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|ElementProps)`),
                 defaultVals: {
                     
@@ -25,9 +31,9 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
     for(const shareString of Share!){
         const test = tryParse(shareString, reShareStatements) as ShareStatement | null;
         if(test !== null){
-            const {nameJoin, source} = test;
+            const {nameJoin, source, allNames} = test;
             
-            const names = nameJoin.split(',').map(s => lc(s.trim()));
+            const names = allNames ? undefined : nameJoin.split(',').map(s => lc(s.trim()));
             const link: Link = {
                 ...defaultLink,
                 enhancement: source === 'ElementProps' ? 'bePropagating': 'beScoped',
@@ -38,6 +44,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     attr: 'itemprop',
                     ...shareOverrides,
                     names,
+                    allNames
                 }
             };
             links.push(link);
@@ -47,6 +54,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
 
 interface ShareStatement{
     nameJoin: string,
+    allNames: boolean,
     source: 'Scope' | 'ElementProps'
 }
 

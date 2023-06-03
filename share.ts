@@ -1,5 +1,6 @@
 import {AP, Share, Link} from './types';
 import {IBE} from 'be-enhanced/types';
+import {ProxyPropChangeInfo} from 'trans-render/lib/types';
 
 const cache = new WeakMap<EventTarget, {[key: string]: WeakRef<Element>[]}>();
 
@@ -20,7 +21,7 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
         observeObj = (<any>observeObj)[upstreamPropName];
     }
     if(observeObj === null) throw 404;
-    const {attr, names, scope} = share!;
+    const {attr, names, scope, allNames} = share!;
     // const affect = await findRealm(enhancedElement, scope);
     // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
     
@@ -28,13 +29,23 @@ export async function share(ibe: IBE, link: Link): Promise<void>{
     if(!cache.has(affect)){
         cache.set(affect, {});
     }
-    
-    for(const name of names){
-        observeObj.addEventListener(name, e => {
-            setProp(affect, attr, name, observeObj);
+    if(allNames){
+        observeObj.addEventListener('prop-changed', e=> {
+            const changeInfo = (e as CustomEvent).detail as ProxyPropChangeInfo;
+            setProp(affect, attr, changeInfo.prop, observeObj);
         });
-        await setProp(affect, attr, name, observeObj);
+        for(const key in observeObj){
+            await setProp(affect, attr, key, observeObj);
+        }
+    }else if(names !== undefined){
+        for(const name of names){
+            observeObj.addEventListener(name, e => {
+                setProp(affect, attr, name, observeObj);
+            });
+            await setProp(affect, attr, name, observeObj);
+        }
     }
+
 }
 
 export async function setProp(affect: Element, attr: string, name: string, observeObj: any){
