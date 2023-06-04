@@ -30,6 +30,7 @@
     "./adjustLink.js": "./adjustLink.js",
     "./be-linked.js": "./be-linked.js",
     "./getItemPropVal.js": "./getItemPropVal.js",
+    "./getItemScopeObject.js": "./getItemScopeObject.js",
     "./observe.js": "./observe.js",
     "./pass.js": "./pass.js",
     "./reCommon.js": "./reCommon.js",
