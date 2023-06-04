@@ -53,28 +53,21 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
             });
         }
     }
-    if(allNames){
+    let propNames = names;
+    if(propNames === undefined || allNames){
+        const {getIPsInScope} = await import('./getIPsInScope.js');
+        propNames = getIPsInScope(affect).map(x => x.name);
+    }
+    for(const name of propNames){
         if(!onlyDoNonCachedElements){
-            eventTarget.addEventListener('prop-changed', e=> {
-                const changeInfo = (e as CustomEvent).detail as ProxyPropChangeInfo;
-                setProp(affect, attr, changeInfo.prop, objectWithState, onlyDoNonCachedElements);
+            eventTarget.addEventListener(name, e => {
+                setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
             });
         }
 
-        for(const key in eventTarget){
-            await setProp(affect, attr, key, objectWithState, onlyDoNonCachedElements);
-        }
-    }else if(names !== undefined){
-        for(const name of names){
-            if(!onlyDoNonCachedElements){
-                eventTarget.addEventListener(name, e => {
-                    setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
-                });
-            }
-
-            await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
-        }
+        await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
     }
+
 
 }
 

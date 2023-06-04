@@ -1,13 +1,12 @@
+import { getIPsInScope } from './getIPsInScope.js';
+import { getItemPropVal } from './getItemPropVal.js';
 export async function getItemScopeObject(el) {
-    if (!el.hasAttribute('itemscope'))
-        throw { el, msg: 'itemscope missing.' };
     const derivedObject = {};
     //TODO:  use @scope selector
-    let itempropElements = Array.from(el.querySelectorAll('[itemprop]'));
-    itempropElements = itempropElements.filter(x => x.closest('[itemscope]') === el);
-    const { getItemPropVal } = await import('./getItemPropVal.js');
+    const itempropElements = getIPsInScope(el);
     for (const itempropElement of itempropElements) {
-        derivedObject[itempropElement.getAttribute('itemprop')] = await getItemPropVal(itempropElement);
+        const { el, name } = itempropElement;
+        derivedObject[name] = await getItemPropVal(el);
     }
     return derivedObject;
 }
