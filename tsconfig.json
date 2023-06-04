@@ -11,6 +11,7 @@
 	},
 	"files":[
 		"be-linked.ts",
+		"getItemPropVal.ts",
 		"demo/paul-mccartney.ts"
 	],
 	"exclude":[
