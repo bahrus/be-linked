@@ -4,23 +4,37 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
     const { enhancement, share: sh, upstreamCamelQry, upstreamPropName } = link;
     const { enhancedElement } = ibe;
     const { findRealm } = await import('trans-render/lib/findRealm.js');
-    let observeObj = await findRealm(enhancedElement, upstreamCamelQry);
-    if (!(observeObj instanceof Element))
+    let eventTarget = await findRealm(enhancedElement, upstreamCamelQry);
+    if (!(eventTarget instanceof Element))
         throw 404;
-    const affect = observeObj;
+    let objectWithState = eventTarget;
     if (enhancement !== undefined) {
         const { applyEnh } = await import('./applyEnh.js');
-        observeObj = await applyEnh(observeObj, enhancement, true);
+        eventTarget = await applyEnh(eventTarget, enhancement, true);
     }
     if (upstreamPropName !== undefined) {
-        observeObj = observeObj[upstreamPropName];
+        if (upstreamPropName[0] === '.') {
+            const { getVal } = await import('trans-render/lib/getVal.js');
+            eventTarget = await getVal({ host: eventTarget }, upstreamPropName);
+        }
+        else {
+            eventTarget = eventTarget[upstreamPropName];
+        }
     }
-    if (observeObj === null)
+    if (eventTarget === null)
         throw 404;
-    const { attr, names, scope, allNames } = sh;
-    // const affect = await findRealm(enhancedElement, scope);
-    // if(affect === null || !(<any>affect).querySelectorAll) throw 404;
-    //TODO, cache query results in weak references
+    if (enhancement === 'bePropagating') {
+        //this is kind of a hack
+        //TODO make this configuration
+        eventTarget = objectWithState.beEnhanced.bePropagating.propagators.get('self');
+    }
+    else {
+        objectWithState = eventTarget;
+    }
+    const { attr, names, allNames, scope } = sh;
+    const affect = await findRealm(enhancedElement, scope);
+    if (!(affect instanceof Element))
+        throw 404;
     if (!cache.has(affect)) {
         cache.set(affect, {});
     }
@@ -34,23 +48,23 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
     }
     if (allNames) {
         if (!onlyDoNonCachedElements) {
-            observeObj.addEventListener('prop-changed', e => {
+            eventTarget.addEventListener('prop-changed', e => {
                 const changeInfo = e.detail;
-                setProp(affect, attr, changeInfo.prop, observeObj, onlyDoNonCachedElements);
+                setProp(affect, attr, changeInfo.prop, objectWithState, onlyDoNonCachedElements);
             });
         }
-        for (const key in observeObj) {
-            await setProp(affect, attr, key, observeObj, onlyDoNonCachedElements);
+        for (const key in eventTarget) {
+            await setProp(affect, attr, key, objectWithState, onlyDoNonCachedElements);
         }
     }
     else if (names !== undefined) {
         for (const name of names) {
             if (!onlyDoNonCachedElements) {
-                observeObj.addEventListener(name, e => {
-                    setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
+                eventTarget.addEventListener(name, e => {
+                    setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
                 });
             }
-            await setProp(affect, attr, name, observeObj, onlyDoNonCachedElements);
+            await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
         }
     }
 }
