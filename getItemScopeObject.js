@@ -9,4 +9,5 @@ export async function getItemScopeObject(el) {
     for (const itempropElement of itempropElements) {
         derivedObject[itempropElement.getAttribute('itemprop')] = await getItemPropVal(itempropElement);
     }
+    return derivedObject;
 }
