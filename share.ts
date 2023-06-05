@@ -56,7 +56,14 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
     let propNames = names;
     if(propNames === undefined || allNames){
         const {getIPsInScope} = await import('./getIPsInScope.js');
-        propNames = getIPsInScope(affect).map(x => x.name);
+        const s = new Set<string>();
+        const ips = getIPsInScope(affect);
+        for(const ip of ips){
+            for(const name of ip.names){
+                s.add(name);
+            }
+        }
+        propNames = Array.from(s);
     }
     for(const name of propNames){
         if(!onlyDoNonCachedElements){
@@ -73,7 +80,8 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
 
 export async function setProp(affect: Element, attr: string, name: string, observeObj: any, onlyDoNonCachedElements: boolean){
     const isScoped = affect.hasAttribute('itemscope');
-    const query = `[${attr}="${name}"]`;
+    const sq = attr === 'itemprop' ? '~' : '';
+    const query = `[${attr}${sq}="${name}"]`;
     const cacheMap = cache.get(affect)!;
     const alreadyProcessedLookup = alreadyProcessed.get(affect)!;
     let targets: Element[] | undefined;

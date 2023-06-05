@@ -7,8 +7,11 @@ export async function getItemScopeObject(el: Element){
     //TODO:  use @scope selector
     const itempropElements = getIPsInScope(el);
     for(const itempropElement of itempropElements){
-        const {el, name} = itempropElement;
-        derivedObject[name] = await getItemPropVal(el);
+        const {el, names} = itempropElement;
+        for(const name of names){
+            derivedObject[name] = await getItemPropVal(el);
+        }
+        
     }
     return derivedObject;
 }

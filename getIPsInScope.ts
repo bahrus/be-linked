@@ -6,6 +6,6 @@ export function getIPsInScope(el: Element){
         .filter(x => x.closest('[itemscope]') === el)
         .map(x => ({
             el: x,
-            name: x.getAttribute('itemprop')!
+            names: x.getAttribute('itemprop')!.split(' '),
         }));
 }
