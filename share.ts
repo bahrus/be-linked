@@ -111,7 +111,7 @@ export async function setProp(affect: Element, attr: string, name: string, obser
         case 'itemprop':
             const {setItemProp} = await import('./setItemProp.js');
             for(const target of targets){
-                await setItemProp(target, val);
+                await setItemProp(target, val, name);
             }
             break;
         case 'id':
@@ -122,11 +122,11 @@ export async function setProp(affect: Element, attr: string, name: string, obser
             }
         }
     }
-    for(const target of targets){
-        if(attr === 'itemprop'){
-            const {setItemProp} = await import('./setItemProp.js');
-            await setItemProp(target, val);
-        }
-    }
+    // for(const target of targets){
+    //     if(attr === 'itemprop'){
+    //         const {setItemProp} = await import('./setItemProp.js');
+    //         await setItemProp(target, val);
+    //     }
+    // }
 }
 
