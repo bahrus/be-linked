@@ -47,22 +47,31 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
         }
     }
     let propNames = names;
+    let ips;
     if (propNames === undefined || allNames) {
         const { getIPsInScope } = await import('./getIPsInScope.js');
-        propNames = getIPsInScope(affect).map(x => x.name);
+        const s = new Set();
+        ips = getIPsInScope(affect);
+        for (const ip of ips) {
+            for (const name of ip.names) {
+                s.add(name);
+            }
+        }
+        propNames = Array.from(s);
     }
     for (const name of propNames) {
         if (!onlyDoNonCachedElements) {
             eventTarget.addEventListener(name, e => {
-                setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
+                setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
             });
         }
-        await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
+        await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
     }
 }
-export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedElements) {
+export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedElements, ips) {
     const isScoped = affect.hasAttribute('itemscope');
-    const query = `[${attr}="${name}"]`;
+    const sq = attr === 'itemprop' ? '~' : '';
+    const query = `[${attr}${sq}="${name}"]`;
     const cacheMap = cache.get(affect);
     const alreadyProcessedLookup = alreadyProcessed.get(affect);
     let targets;
@@ -79,14 +88,26 @@ export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedEle
     }
     else {
         //TODO:  use @scope in css query when all browsers support it.
-        targets = Array.from(affect.querySelectorAll(query));
-        if (isScoped)
-            targets = targets.filter(t => t.closest('[itemscope]') === affect);
-        if (onlyDoNonCachedElements) {
-            targets = targets.filter(t => !alreadyProcessedLookup.has(t));
+        if (isScoped && ips !== undefined) {
+            targets = [];
+            for (const ip of ips) {
+                const { names, el } = ip;
+                if (names.includes(name)) {
+                    targets.push(el);
+                }
+            }
         }
         else {
-            targets.forEach(t => alreadyProcessedLookup.add(t));
+            const { exclude } = await import('./getIPsInScope.js');
+            targets = Array.from(affect.querySelectorAll(query));
+            if (isScoped)
+                targets = targets.filter(t => exclude(t, affect));
+            if (onlyDoNonCachedElements) {
+                targets = targets.filter(t => !alreadyProcessedLookup.has(t));
+            }
+            else {
+                targets.forEach(t => alreadyProcessedLookup.add(t));
+            }
         }
         const weakRefs = targets.map(target => new WeakRef(target));
         cacheMap[query] = weakRefs;
@@ -96,7 +117,7 @@ export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedEle
         case 'itemprop':
             const { setItemProp } = await import('./setItemProp.js');
             for (const target of targets) {
-                await setItemProp(target, val);
+                await setItemProp(target, val, name);
             }
             break;
         case 'id':
@@ -107,10 +128,10 @@ export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedEle
             }
         }
     }
-    for (const target of targets) {
-        if (attr === 'itemprop') {
-            const { setItemProp } = await import('./setItemProp.js');
-            await setItemProp(target, val);
-        }
-    }
+    // for(const target of targets){
+    //     if(attr === 'itemprop'){
+    //         const {setItemProp} = await import('./setItemProp.js');
+    //         await setItemProp(target, val);
+    //     }
+    // }
 }

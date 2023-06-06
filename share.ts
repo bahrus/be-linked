@@ -1,4 +1,4 @@
-import {AP, Share, Link} from './types';
+import {AP, Share, Link, IP} from './types';
 import {IBE} from 'be-enhanced/types';
 import {ProxyPropChangeInfo} from 'trans-render/lib/types';
 
@@ -54,10 +54,11 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
         }
     }
     let propNames = names;
+    let ips: IP[] | undefined;
     if(propNames === undefined || allNames){
         const {getIPsInScope} = await import('./getIPsInScope.js');
         const s = new Set<string>();
-        const ips = getIPsInScope(affect);
+        ips = getIPsInScope(affect);
         for(const ip of ips){
             for(const name of ip.names){
                 s.add(name);
@@ -68,17 +69,17 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
     for(const name of propNames){
         if(!onlyDoNonCachedElements){
             eventTarget.addEventListener(name, e => {
-                setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
+                setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
             });
         }
 
-        await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements);
+        await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
     }
 
 
 }
 
-export async function setProp(affect: Element, attr: string, name: string, observeObj: any, onlyDoNonCachedElements: boolean){
+export async function setProp(affect: Element, attr: string, name: string, observeObj: any, onlyDoNonCachedElements: boolean, ips?: IP[]){
     const isScoped = affect.hasAttribute('itemscope');
     const sq = attr === 'itemprop' ? '~' : '';
     const query = `[${attr}${sq}="${name}"]`;
@@ -96,13 +97,25 @@ export async function setProp(affect: Element, attr: string, name: string, obser
         }
     }else{
         //TODO:  use @scope in css query when all browsers support it.
-        targets = Array.from(affect.querySelectorAll(query));
-        if(isScoped) targets = targets.filter(t => t.closest('[itemscope]') === affect);
-        if(onlyDoNonCachedElements) {
-            targets = targets.filter(t => !alreadyProcessedLookup.has(t))
+        if(isScoped && ips !== undefined){
+            targets = [];
+            for(const ip of ips){
+                const {names, el} = ip;
+                if(names.includes(name)){
+                    targets.push(el)
+                }
+            }
         }else{
-            targets.forEach(t => alreadyProcessedLookup.add(t));
+            const {exclude} = await import('./getIPsInScope.js');
+            targets = Array.from(affect.querySelectorAll(query));
+            if(isScoped) targets = targets.filter(t => exclude(t, affect));
+            if(onlyDoNonCachedElements) {
+                targets = targets.filter(t => !alreadyProcessedLookup.has(t))
+            }else{
+                targets.forEach(t => alreadyProcessedLookup.add(t));
+            }
         }
+
         const weakRefs = targets.map(target => new WeakRef<Element>(target));
         cacheMap[query] = weakRefs;
     }

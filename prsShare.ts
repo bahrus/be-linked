@@ -1,4 +1,4 @@
-import {SharingCamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve, Share} from './types';
+import {SharingCamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve, Share, Source} from './types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {Scope} from 'trans-render/lib/types';
 
@@ -15,19 +15,19 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
     if(reShareStatements === undefined){
         reShareStatements = [
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host|Props)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
                 defaultVals: {
                     
                 }
             },
             {
-                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|$0|Host)`),
+                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|$0|Host|Props)`),
                 defaultVals: {
                     allNames: true,
                 }
             },
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host|Props)`),
                 defaultVals: {
                     
                 }
@@ -62,6 +62,9 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     import('be-propagating/be-propagating.js');
                     upstreamCamelQry = 'h';
                     break;
+                case 'props':
+                    upstreamCamelQry = 's';
+                    break;
             }
             const link: Link = {
                 ...defaultLink,
@@ -74,7 +77,8 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     attr: attr || 'itemprop',
                     ...shareOverrides,
                     names,
-                    allNames
+                    allNames,
+                    source,
                 }
             };
             links.push(link);
@@ -85,7 +89,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
 interface ShareStatement{
     nameJoin?: string,
     allNames?: boolean,
-    source: 'scope' | '$0' | 'host',
+    source: Source,
     attr?: string,
 }
 

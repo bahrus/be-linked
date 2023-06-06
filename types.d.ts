@@ -74,6 +74,7 @@ export interface Share{
     allNames?: boolean,
     scope: Scope,
     attr: string,
+    source: Source,
     //source: ScopedSource | ElementPropsSource,
 }
 
@@ -178,8 +179,15 @@ export type ProPAP = Promise<PAP>;
 
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
+export type Source = 'scope' | '$0' | 'host' | 'props';
+
 
 export interface Actions{
     camelToCanonical(self: this): ProPAP;
     onCanonical(self: this): ProPAP;
+}
+
+export interface IP {
+    el: Element,
+    names: string[]
 }
