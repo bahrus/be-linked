@@ -10,17 +10,17 @@ export async function prsShare(scc, links, pp) {
     if (reShareStatements === undefined) {
         reShareStatements = [
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host|Props)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
                 defaultVals: {}
             },
             {
-                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|$0|Host)`),
+                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|$0|Host|Props)`),
                 defaultVals: {
                     allNames: true,
                 }
             },
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|$0|Host|Props)`),
                 defaultVals: {}
             },
             // {
@@ -51,6 +51,9 @@ export async function prsShare(scc, links, pp) {
                     import('be-propagating/be-propagating.js');
                     upstreamCamelQry = 'h';
                     break;
+                case 'props':
+                    upstreamCamelQry = 's';
+                    break;
             }
             const link = {
                 ...defaultLink,
@@ -62,7 +65,8 @@ export async function prsShare(scc, links, pp) {
                     attr: attr || 'itemprop',
                     ...shareOverrides,
                     names,
-                    allNames
+                    allNames,
+                    source,
                 }
             };
             links.push(link);

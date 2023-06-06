@@ -24,9 +24,20 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
     if (eventTarget === null)
         throw 404;
     if (enhancement === 'bePropagating') {
-        //this is kind of a hack
-        //TODO make this configuration
-        eventTarget = objectWithState.beEnhanced.bePropagating.propagators.get('self');
+        const { source } = sh;
+        switch (source) {
+            case '$0':
+                eventTarget = objectWithState.beEnhanced.bePropagating.propagators.get('self');
+                break;
+            case 'props':
+                const itemprop = enhancedElement.getAttribute('itemprop');
+                if (itemprop === null)
+                    throw 404;
+                const key = itemprop.split(' ')[0];
+                eventTarget = await objectWithState.beEnhanced.bePropagating.getPropagator(key);
+                objectWithState = eventTarget.targetRef.deref();
+                break;
+        }
     }
     else {
         objectWithState = eventTarget;
