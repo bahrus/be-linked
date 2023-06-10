@@ -1,6 +1,7 @@
 import {AllProps} from 'be-intl/types';
 import {Actions as bePropagatingActions} from 'be-propagating/types';
 import {Actions as beScopedActions} from 'be-scoped/types';
+import {AllProps as BeRepeatedAllProps, EndUserProps as BeRepeatedEndUserProps} from 'be-repeated/types';
 export async function setItemProp(el: Element, val: any, name: string){
     let intl: AllProps;
     switch(el.localName){
@@ -34,20 +35,31 @@ export async function setItemProp(el: Element, val: any, name: string){
             el.textContent = val.toString();
             break;
         case 'object':
+            const aSrc = el as any;
             if(Array.isArray(val)){
+                console.log('loop scenario');
+                import('be-repeated/be-repeated.js');
+                const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated') as BeRepeatedAllProps;
+                beRepeated.addEventListener('newRows', (e: Event) => {
+                    console.log({e});
+                });
+                Object.assign(beRepeated, {
+                    startIdx: 1,
+                    endIdx: val.length,
+                    templIdx: 0
+                } as BeRepeatedEndUserProps)
                 //loop scenario
             }else{
+                
                 if(el.hasAttribute('itemscope')){
                     if(val.constructor.toString().startsWith('class ')){
                         import('be-propagating/be-propagating.js');
-                        const aSrc = el as any;
                         const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating') as bePropagatingActions;
                         bePropagating.setKeyVal(name, val);
                         //use propagator
                     }else{
                         //assign into scope
                         import('be-scoped/be-scoped.js');
-                        const aSrc = el as any;
                         const beSpoked = await aSrc.beEnhanced.whenResolved('be-propagating') as beScopedActions;
                         beSpoked.setKeyVal(name, val);
                     }

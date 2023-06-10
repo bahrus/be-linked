@@ -11,10 +11,11 @@
   "dependencies": {
     "be-enhanced": "0.0.25",
     "be-exportable": "0.0.75",
+    "be-hive": "0.0.99",
     "be-intl": "0.0.3",
     "be-it": "0.0.2",
     "be-propagating": "0.0.11",
-    "be-hive": "0.0.99",
+    "be-repeated": "0.0.100",
     "trans-render": "0.0.684",
     "xtal-element": "0.0.564"
   },

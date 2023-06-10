@@ -32,14 +32,25 @@ export async function setItemProp(el, val, name) {
             el.textContent = val.toString();
             break;
         case 'object':
+            const aSrc = el;
             if (Array.isArray(val)) {
+                console.log('loop scenario');
+                import('be-repeated/be-repeated.js');
+                const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated');
+                beRepeated.addEventListener('newRows', (e) => {
+                    console.log({ e });
+                });
+                Object.assign(beRepeated, {
+                    startIdx: 1,
+                    endIdx: val.length,
+                    templIdx: 0
+                });
                 //loop scenario
             }
             else {
                 if (el.hasAttribute('itemscope')) {
                     if (val.constructor.toString().startsWith('class ')) {
                         import('be-propagating/be-propagating.js');
-                        const aSrc = el;
                         const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating');
                         bePropagating.setKeyVal(name, val);
                         //use propagator
@@ -47,7 +58,6 @@ export async function setItemProp(el, val, name) {
                     else {
                         //assign into scope
                         import('be-scoped/be-scoped.js');
-                        const aSrc = el;
                         const beSpoked = await aSrc.beEnhanced.whenResolved('be-propagating');
                         beSpoked.setKeyVal(name, val);
                     }

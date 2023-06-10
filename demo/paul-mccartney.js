@@ -49,5 +49,11 @@ class PaulMcCartney extends HTMLElement {
         new Song({ name: 'Your mother should know' }),
         new Song({ name: "Yesterday" })
     ];
+    get songs() {
+        return this.#songs;
+    }
+    set songs(newVal) {
+        this.#songs = newVal;
+    }
 }
 customElements.define('paul-mccartney', PaulMcCartney);
