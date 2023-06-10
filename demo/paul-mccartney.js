@@ -8,6 +8,18 @@ class LindaMcCartney {
         this.#birthPlace = newVal;
     }
 }
+class Song {
+    constructor(data) {
+        Object.assign(this, data);
+    }
+    #name;
+    get name() {
+        return this.#name;
+    }
+    set name(nv) {
+        this.#name = nv;
+    }
+}
 class PaulMcCartney extends HTMLElement {
     constructor() {
         super();
@@ -33,5 +45,9 @@ class PaulMcCartney extends HTMLElement {
     set spouse(newVal) {
         this.#spouse = newVal;
     }
+    #songs = [
+        new Song({ name: 'Your mother should know' }),
+        new Song({ name: "Yesterday" })
+    ];
 }
 customElements.define('paul-mccartney', PaulMcCartney);

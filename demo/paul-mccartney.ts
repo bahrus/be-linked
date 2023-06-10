@@ -9,6 +9,24 @@ class LindaMcCartney{
     }
 }
 
+interface ISong {
+    name: string
+}
+
+class Song {
+    constructor(data: ISong){
+        Object.assign(this, data);
+    }
+    #name: string | undefined;
+    get name(){
+        return this.#name;
+    }
+    set name(nv: string | undefined){
+        this.#name = nv;
+    }
+    
+}
+
 class PaulMcCartney extends HTMLElement{
     constructor(){
         super();
@@ -35,6 +53,11 @@ class PaulMcCartney extends HTMLElement{
     set spouse(newVal){
         this.#spouse = newVal;
     }
+    
+    #songs: Song[] = [
+        new Song({name: 'Your mother should know'}),
+        new Song({name: "Yesterday"})
+    ]
 
 }
 
