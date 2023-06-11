@@ -43,15 +43,14 @@ export async function setItemProp(el: Element, val: any, name: string){
                 beRepeated.addEventListener('newRows', (e: Event) => {
                     console.log({e});
                     const newRows = (e as CustomEvent).detail.newRows as Row[];
-                    //let cnt = 0;
                     for(const newRow of newRows){
                         const {idx, nodes} = newRow;
                         const item = val[idx - 1];
                         for(const node of nodes){
                             if(node instanceof Element){
-                                
-                                if(node.hasAttribute('itemprop')){
-                                    setItemProp(node, item, node.getAttribute('itemprop')!);
+                                const itemProp = node.getAttribute('itemprop');
+                                if(itemProp === 'itemListElement'){
+                                    setItemProp(node, item, itemProp);
                                 }
                             }
                         }
