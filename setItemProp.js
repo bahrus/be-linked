@@ -39,6 +39,19 @@ export async function setItemProp(el, val, name) {
                 const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated');
                 beRepeated.addEventListener('newRows', (e) => {
                     console.log({ e });
+                    const newRows = e.detail.newRows;
+                    //let cnt = 0;
+                    for (const newRow of newRows) {
+                        const { idx, nodes } = newRow;
+                        const item = val[idx - 1];
+                        for (const node of nodes) {
+                            if (node instanceof Element) {
+                                if (node.hasAttribute('itemprop')) {
+                                    setItemProp(node, item, node.getAttribute('itemprop'));
+                                }
+                            }
+                        }
+                    }
                 });
                 Object.assign(beRepeated, {
                     startIdx: 1,

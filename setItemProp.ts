@@ -1,7 +1,7 @@
 import {AllProps} from 'be-intl/types';
 import {Actions as bePropagatingActions} from 'be-propagating/types';
 import {Actions as beScopedActions} from 'be-scoped/types';
-import {AllProps as BeRepeatedAllProps, EndUserProps as BeRepeatedEndUserProps} from 'be-repeated/types';
+import {AllProps as BeRepeatedAllProps, EndUserProps as BeRepeatedEndUserProps, Row} from 'be-repeated/types';
 export async function setItemProp(el: Element, val: any, name: string){
     let intl: AllProps;
     switch(el.localName){
@@ -42,12 +42,27 @@ export async function setItemProp(el: Element, val: any, name: string){
                 const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated') as BeRepeatedAllProps;
                 beRepeated.addEventListener('newRows', (e: Event) => {
                     console.log({e});
+                    const newRows = (e as CustomEvent).detail.newRows as Row[];
+                    //let cnt = 0;
+                    for(const newRow of newRows){
+                        const {idx, nodes} = newRow;
+                        const item = val[idx - 1];
+                        for(const node of nodes){
+                            if(node instanceof Element){
+                                
+                                if(node.hasAttribute('itemprop')){
+                                    setItemProp(node, item, node.getAttribute('itemprop')!);
+                                }
+                            }
+                        }
+
+                    }
                 });
                 Object.assign(beRepeated, {
                     startIdx: 1,
                     endIdx: val.length,
                     templIdx: 0
-                } as BeRepeatedEndUserProps)
+                } as BeRepeatedEndUserProps);
                 //loop scenario
             }else{
                 
