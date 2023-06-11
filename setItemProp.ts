@@ -37,11 +37,9 @@ export async function setItemProp(el: Element, val: any, name: string){
         case 'object':
             const aSrc = el as any;
             if(Array.isArray(val)){
-                console.log('loop scenario');
                 import('be-repeated/be-repeated.js');
                 const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated') as BeRepeatedAllProps;
                 beRepeated.addEventListener('newRows', (e: Event) => {
-                    console.log({e});
                     const newRows = (e as CustomEvent).detail.newRows as Row[];
                     for(const newRow of newRows){
                         const {idx, nodes} = newRow;
