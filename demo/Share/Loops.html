@@ -16,7 +16,7 @@
                 <div itemscope itemprop="songs" be-linkedx='
                     Share each item as item list element. //Default setting.
                 '>
-                    <div hidden aria-rowindex=0 itemscope itemprop="itemListElement" be-linked='
+                    <div aria-rowindex=0 itemscope itemprop="itemListElement" be-linked='
                         Share * from props.
                     '>
                         <span itemprop="name"></span>
@@ -28,6 +28,11 @@
             <be-hive></be-hive>
         </template>
     </paul-mccartney>
+    <style>
+        [aria-rowindex="0"]{
+            display: none;
+        }
+    </style>
     <script type=importmap>
         {
             "imports": {

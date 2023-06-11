@@ -15,14 +15,14 @@
     "be-intl": "0.0.3",
     "be-it": "0.0.2",
     "be-propagating": "0.0.13",
-    "be-repeated": "0.0.100",
+    "be-repeated": "0.0.101",
     "trans-render": "0.0.685",
     "xtal-element": "0.0.565"
   },
   "devDependencies": {
     "be-scoped": "0.0.10",
     "may-it-serve": "0.0.5",
-    "@playwright/test": "1.34.3"
+    "@playwright/test": "1.35.0"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",
