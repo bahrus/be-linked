@@ -39,17 +39,16 @@ export async function setItemProp(el: Element, val: any, name: string){
             if(Array.isArray(val)){
                 import('be-repeated/be-repeated.js');
                 const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated') as BeRepeatedAllProps;
-                beRepeated.addEventListener('newRows', (e: Event) => {
-                    const newRows = (e as CustomEvent).detail.newRows as Row[];
-                    for(const newRow of newRows){
-                        const {idx, nodes} = newRow;
+                beRepeated.addEventListener('rows', (e: Event) => {
+                    const rows = (e as CustomEvent).detail.rows as Row[];
+                    for(const row of rows){
+                        const {idx, children, condition} = row;
+                        //TODO:  support defer rendering based on condition === existing
                         const item = val[idx - 1];
-                        for(const node of nodes){
-                            if(node instanceof Element){
-                                const itemProp = node.getAttribute('itemprop');
-                                if(itemProp === 'itemListElement'){
-                                    setItemProp(node, item, itemProp);
-                                }
+                        for(const child of children){
+                            const itemProp = child.getAttribute('itemprop');
+                            if(itemProp === 'itemListElement'){
+                                setItemProp(child, item, itemProp);
                             }
                         }
 
