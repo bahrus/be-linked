@@ -111,14 +111,14 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             if(observableLinks.length > 0){
                 const {observe} = await import('./observe.js');
                 for(const observableLink of observableLinks){
-                    observe(self, observableLink);
+                    await observe(self, observableLink);
                 }
             }
             const shareableLinks = links.filter(link => link.share !== undefined);
             if(shareableLinks.length > 0){
                 const {share} = await import('./share.js');
                 for(const shareableLink of shareableLinks){
-                    share(self, shareableLink, false);
+                    await share(self, shareableLink, false);
                 }
             }
 
