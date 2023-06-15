@@ -65,7 +65,7 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
                     upstreamCamelQry = 's';
                     break;
                 case '$1':
-                    upstreamCamelQry = 'poho';
+                    upstreamCamelQry = 'hostish';
                     break;
                 case 'host':
                     
