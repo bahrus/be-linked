@@ -15,19 +15,19 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
     if(reShareStatements === undefined){
         reShareStatements = [
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|\$0|Host|Props)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|\$0|\$1|Host|Props)(?<!\\)By(?<attr>Id|Name|Itemprop)`),
                 defaultVals: {
                     
                 }
             },
             {
-                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|\$0|Host|Props)`),
+                regExp: new RegExp(String.raw `^(?<!\\)\*From(?<source>Scope|\$0|\$1|Host|Props)`),
                 defaultVals: {
                     allNames: true,
                 }
             },
             {
-                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|\$0|Host|Props)`),
+                regExp: new RegExp(String.raw `^(?<nameJoin>[\w\,]+)(?<!\\)From(?<source>Scope|\$0|\$1|Host|Props)`),
                 defaultVals: {
                     
                 }
@@ -50,16 +50,25 @@ export async function prsShare(scc: SharingCamelConfig, links: Link[], pp: any){
             const names = allNames ? undefined : nameJoin!.split(',').map(s => lc(s.trim()));
             let upstreamCamelQry: Scope | undefined;
             switch(source){
+                case '$0':
+                case '$1':
+                case 'host':
+                    import('be-propagating/be-propagating.js');
+                    break;
+            }
+            switch(source){
                 case 'scope':
                     import('be-scoped/be-scoped.js');
                     upstreamCamelQry = ['c', '[itemscope]'];
                     break;
                 case '$0':
-                    import('be-propagating/be-propagating.js');
                     upstreamCamelQry = 's';
                     break;
+                case '$1':
+                    upstreamCamelQry = 'poho';
+                    break;
                 case 'host':
-                    import('be-propagating/be-propagating.js');
+                    
                     upstreamCamelQry = 'h';
                     break;
                 case 'props':

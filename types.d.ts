@@ -179,7 +179,7 @@ export type ProPAP = Promise<PAP>;
 
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
-export type Source = 'scope' | '$0' | 'host' | 'props';
+export type Source = 'scope' | '$0' | 'host' | 'props' | '$1'; //$1 means parent or host
 
 
 export interface Actions{

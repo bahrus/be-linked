@@ -1,4 +1,6 @@
 export async function setItemProp(el, val, name) {
+    if (val === undefined)
+        return;
     let intl;
     switch (el.localName) {
         case 'data':

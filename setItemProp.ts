@@ -3,6 +3,7 @@ import {Actions as bePropagatingActions} from 'be-propagating/types';
 import {Actions as beScopedActions} from 'be-scoped/types';
 import {AllProps as BeRepeatedAllProps, EndUserProps as BeRepeatedEndUserProps, Row} from 'be-repeated/types';
 export async function setItemProp(el: Element, val: any, name: string){
+    if(val === undefined) return;
     let intl: AllProps;
     switch(el.localName){
         case 'data':
