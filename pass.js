@@ -4,7 +4,7 @@ export async function pass(ibe, downlink) {
     const { findRealm } = await import('trans-render/lib/findRealm.js');
     const { getVal } = await import('trans-render/lib/getVal.js');
     const { setProp } = await import('trans-render/lib/setProp.js');
-    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire, } = downlink;
+    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire, toggle } = downlink;
     let src = null;
     let dest;
     let srcPropPath;
@@ -55,6 +55,12 @@ export async function pass(ibe, downlink) {
         }
         else if (invoke !== undefined) {
             dest[invoke](dest, src, e);
+        }
+        else if (toggle) {
+            const val = await getVal({ host: dest }, destPropPath);
+            const newVal = !val;
+            await setProp(dest, destPropPath, newVal);
+            et.value = newVal;
         }
         else {
             let val = await getVal({ host: src }, srcPropPath);

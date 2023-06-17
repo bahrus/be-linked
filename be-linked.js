@@ -33,7 +33,7 @@ export class BeLinked extends BE {
         };
         const { links } = canonicalConfig;
         for (const cc of camelConfigArr) {
-            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire, settings, Observe, Share, } = cc;
+            const { Link, Negate, Clone, Refer, Assign, On, When, links: cc_downlinks, Fire, settings, Observe, Share, Toggle, } = cc;
             if (Fire !== undefined) {
                 const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
                 cc.fire = Fire.map(s => camelToLisp(s));
@@ -60,6 +60,10 @@ export class BeLinked extends BE {
             if (Share !== undefined) {
                 const { prsShare } = await import('./prsShare.js');
                 await prsShare(cc, links, self);
+            }
+            if (Toggle !== undefined) {
+                const { prsToggle } = await import('./prsToggle.js');
+                await prsToggle(cc, links, self);
             }
             if (settings !== undefined) {
                 const { enh } = settings;

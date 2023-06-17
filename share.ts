@@ -36,6 +36,8 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
 
         switch(source){
             case '$0':
+            case '$1':
+            case 'host':
                 eventTarget = (<any>objectWithState).beEnhanced.bePropagating.propagators.get('self') as EventTarget;
                 break;
             case 'props':

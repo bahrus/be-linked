@@ -115,6 +115,7 @@ export interface Link<TSrc = any, TDest = any>{
     invoke?: string,
     exportSymbol?: string,
     increment?: boolean,
+    toggle?: boolean,
     observe?: IObserve,
     share?: Share,
     beSyndicating?: boolean,
@@ -140,7 +141,7 @@ export interface InvokeCamelConfig<TSrc=any, TDest = any>{
 
 export interface ToggleCamelConfig<TSrc = any, TDest = any>{
     Toggle?: ToggleStatement[];
-    toggleOverrides
+    toggleOverrides?: Toggle;
 }
 
 export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{

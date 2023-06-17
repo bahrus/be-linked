@@ -11,7 +11,7 @@ export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
         upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
         downstreamPropPath, negate, translate, parseOption, handler,
         conditionValue, newValue, on, debug, nudge, increment, passDirection, 
-        enhancement, invoke, fire, 
+        enhancement, invoke, fire, toggle
     } = downlink;
     let src: EventTarget | null = null;
     let dest: Element;
@@ -57,7 +57,12 @@ export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
             Object.assign(dest, objToAssign);
             et.value = objToAssign;
         }else if(invoke !== undefined){
-            (<any>dest)[invoke](dest, src, e)
+            (<any>dest)[invoke](dest, src, e);
+        }else if(toggle){
+            const val = await getVal({host: dest}, destPropPath!);
+            const newVal = !val;
+            await setProp(dest, destPropPath!, newVal);
+            et.value = newVal;
         }else{
             let val =  await getVal({host: src}, srcPropPath);
             if(parseOption){

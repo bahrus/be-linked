@@ -27,6 +27,8 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
         const { source } = sh;
         switch (source) {
             case '$0':
+            case '$1':
+            case 'host':
                 eventTarget = objectWithState.beEnhanced.bePropagating.propagators.get('self');
                 break;
             case 'props':
