@@ -41,6 +41,7 @@ export type IfStatement = `${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Is${C
 export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${UpstreamPropPath}PropertyTo${DownstreamPropPath}PropertyOf${TargetOptions}`;
 export type ObserveStatement = string;
 export type ShareStatement = string;
+export type ToggleStatement = string;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 export type MathOp = '+' | '-' | '*' | '/' | '%';
@@ -79,6 +80,10 @@ export interface Share{
 }
 
 export interface Invoke{
+
+}
+
+export interface Toggle{
 
 }
 
@@ -133,6 +138,11 @@ export interface InvokeCamelConfig<TSrc=any, TDest = any>{
     invokeOverrides?: Invoke;
 }
 
+export interface ToggleCamelConfig<TSrc = any, TDest = any>{
+    Toggle?: ToggleStatement[];
+    toggleOverrides
+}
+
 export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
     Link?: LinkStatement[];
     negate?: boolean;
@@ -148,8 +158,9 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
     nudge?: boolean;
     Skip?: [''];
     skip?: boolean;
-    links?: Link<TSrc, TDest>[],
+    links?: Link<TSrc, TDest>[];
     When?: WhenStatement[];
+    Toggle?: ToggleStatement[];
     Fire?: FireStatement[];
     fire?: string[];
     declare: Declarations,
