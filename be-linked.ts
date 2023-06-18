@@ -1,5 +1,5 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
-import {BEConfig} from 'be-enhanced/types';
+import {BEConfig, EnhancementInfo} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {JSONValue} from 'trans-render/lib/types';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, Settings} from './types';
@@ -17,6 +17,11 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 booleans: ['Debug', 'Skip', 'Nudge']
             },
         } as BEConfig<CamelConfig>
+    }
+
+    override async attach(enhancedElement: Element, enhancementInfo: EnhancementInfo) {
+        console.log('attach be-linked');
+        return await super.attach(enhancedElement, enhancementInfo);
     }
 
     async camelToCanonical(self: this): ProPAP {
@@ -160,9 +165,7 @@ const xe = new XE<AP, Actions>({
         },
         actions: {
             camelToCanonical: 'camelConfig',
-            onCanonical: {
-                ifAllOf: ['canonicalConfig', 'camelConfig'],
-            } 
+            onCanonical: 'canonicalConfig'
         }
     },
     superclass: BeLinked

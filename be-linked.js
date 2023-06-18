@@ -14,6 +14,10 @@ export class BeLinked extends BE {
             },
         };
     }
+    async attach(enhancedElement, enhancementInfo) {
+        console.log('attach be-linked');
+        return await super.attach(enhancedElement, enhancementInfo);
+    }
     async camelToCanonical(self) {
         const { camelConfig, enhancedElement, parsedFrom } = self;
         if (parsedFrom !== undefined) {
@@ -138,9 +142,7 @@ const xe = new XE({
         },
         actions: {
             camelToCanonical: 'camelConfig',
-            onCanonical: {
-                ifAllOf: ['canonicalConfig', 'camelConfig'],
-            }
+            onCanonical: 'canonicalConfig'
         }
     },
     superclass: BeLinked
