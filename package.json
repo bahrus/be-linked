@@ -9,18 +9,18 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.29",
-    "be-exportable": "0.0.78",
-    "be-hive": "0.0.105",
-    "be-intl": "0.0.5",
-    "be-it": "0.0.6",
-    "be-propagating": "0.0.15",
-    "be-repeated": "0.0.105",
+    "be-enhanced": "0.0.30",
+    "be-exportable": "0.0.79",
+    "be-hive": "0.0.106",
+    "be-intl": "0.0.7",
+    "be-it": "0.0.7",
+    "be-propagating": "0.0.16",
+    "be-repeated": "0.0.106",
     "trans-render": "0.0.690",
-    "xtal-element": "0.0.567"
+    "xtal-element": "0.0.568"
   },
   "devDependencies": {
-    "be-scoped": "0.0.12",
+    "be-scoped": "0.0.13",
     "may-it-serve": "0.0.5",
     "@playwright/test": "1.35.1"
   },
