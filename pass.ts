@@ -60,7 +60,6 @@ export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
             (<any>dest)[invoke](dest, src, e);
         }else if(toggle){
             const val = await getVal({host: dest}, destPropPath!);
-            console.log({val});
             const newVal = !val;
             await setProp(dest, destPropPath!, newVal);
             et.value = newVal;

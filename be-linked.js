@@ -14,10 +14,6 @@ export class BeLinked extends BE {
             },
         };
     }
-    async attach(enhancedElement, enhancementInfo) {
-        console.log('attach be-linked');
-        return await super.attach(enhancedElement, enhancementInfo);
-    }
     async camelToCanonical(self) {
         const { camelConfig, enhancedElement, parsedFrom } = self;
         if (parsedFrom !== undefined) {
@@ -91,7 +87,6 @@ export class BeLinked extends BE {
     async onCanonical(self) {
         const { canonicalConfig } = self;
         const { links, settings } = canonicalConfig;
-        console.log({ links, self });
         if (links !== undefined) {
             const passableLinks = links.filter(link => link.observe === undefined && link.share === undefined);
             if (passableLinks.length > 0) {

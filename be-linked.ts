@@ -19,10 +19,6 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         } as BEConfig<CamelConfig>
     }
 
-    override async attach(enhancedElement: Element, enhancementInfo: EnhancementInfo) {
-        console.log('attach be-linked');
-        return await super.attach(enhancedElement, enhancementInfo);
-    }
 
     async camelToCanonical(self: this): ProPAP {
 
@@ -105,7 +101,6 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         const {canonicalConfig} = self;
         const {links, settings} = canonicalConfig!;
         
-        console.log({links, self});
         if(links !== undefined){
             const passableLinks = links.filter(link => link.observe === undefined && link.share === undefined);
             if(passableLinks.length > 0){
