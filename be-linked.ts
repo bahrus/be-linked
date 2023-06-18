@@ -22,7 +22,6 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
     async camelToCanonical(self: this): ProPAP {
 
         const {camelConfig, enhancedElement, parsedFrom} = self;
-
         if(parsedFrom !== undefined) {
             const canonicalConfig = cachedCanonicals[parsedFrom];
             if(canonicalConfig !== undefined){
@@ -101,13 +100,13 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
         const {canonicalConfig} = self;
         const {links, settings} = canonicalConfig!;
         
-
+        console.log({links, self});
         if(links !== undefined){
             const passableLinks = links.filter(link => link.observe === undefined && link.share === undefined);
             if(passableLinks.length > 0){
                 const {pass} = await import('./pass.js');
                 for(const link of links){
-                    //await pass(self, link);
+                    
                     pass(self, link); // avoid render blocking
                 }
             }
