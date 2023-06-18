@@ -1,6 +1,6 @@
 {
   "name": "be-linked",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "Connect (web) components together.",
   "keywords": [
     "web-components",
