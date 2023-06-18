@@ -7,6 +7,7 @@ export async function prsToggle(tcc, links, pp) {
         upstreamCamelQry: 'hostish',
         toggle: true,
         passDirection: 'away',
+        skipInit: true,
     };
     const { tryParse } = await import('be-enhanced/cpu.js');
     if (reToggleStatements === undefined) {
