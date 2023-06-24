@@ -28,11 +28,13 @@ export type ParseLinkStatement = `As${ParseOptions}${ShortDownLinkStatement}`
 
 export type LinkStatement = SuperShortLinkStatement | ShortDownLinkStatement;
 
+// export type AssignStatement = string;
+
 export type InvokeStatement = string;
 
 export type ExportSymbol = string;
 
-export type DownstreamAssignStatement = `ResultOf${ExportSymbol}To$0When${UpstreamPropPath}PropertyOf${UpstreamCamelQry}Changes`;
+export type AssignStatement = String;
 
 export type ConditionValue = string | number | boolean;
 export type NewValue = string;
@@ -87,8 +89,16 @@ export interface Toggle{
 
 }
 
+export interface Assign{
+
+}
+
 
 export interface ShareLink<TSrc = any, TDest = any>{
+
+}
+
+export interface gn{
 
 }
 
@@ -102,6 +112,7 @@ export interface Link<TSrc = any, TDest = any>{
     parseOption?: ParseOptions,
     conditionValue?: ConditionValue,
     newValue?: NewValue,
+    assign?: boolean,
     on?: string,
     of?: camelQry,
     clone?: boolean,
@@ -144,6 +155,11 @@ export interface ToggleCamelConfig<TSrc = any, TDest = any>{
     toggleOverrides?: Toggle;
 }
 
+export interface AssignCamelConfig<TSrc = any, TDest = any>{
+    Assign?:  AssignStatement[];
+    assignOverrides?: Assign;
+}
+
 export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
     Link?: LinkStatement[];
     negate?: boolean;
@@ -152,7 +168,7 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
     debug?: boolean;
     Clone?: LinkStatement[];
     Refer?: LinkStatement[];
-    Assign?: DownstreamAssignStatement[];
+    Assign?: AssignStatement[];
     Invoke?: InvokeStatement[];
     On?: OnPassStatement[];
     Nudge?: [''];
