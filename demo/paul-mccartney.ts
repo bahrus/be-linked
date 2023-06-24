@@ -13,6 +13,7 @@ interface ISong {
     name: string
 }
 
+
 class Song {
     constructor(data: ISong){
         Object.assign(this, data);
@@ -31,6 +32,7 @@ class PaulMcCartney extends HTMLElement{
     constructor(){
         super();
         this.attachShadow({mode: 'open'});
+        this.computeProps();
     }
     #age = 80;
     get age(){
@@ -38,6 +40,13 @@ class PaulMcCartney extends HTMLElement{
     }
     set age(v: number){
         this.#age = v;
+        this.computeProps();
+    }
+    computeProps(){
+        this.props = {
+            ariaLabel: 'test-' + this.age,
+            title: 'test-' + this.age,
+        }
     }
     connectedCallback(){
         const innerTemplate = this.querySelector('template');
@@ -45,6 +54,16 @@ class PaulMcCartney extends HTMLElement{
             this.shadowRoot?.appendChild(innerTemplate.content.cloneNode(true));
         }
     }
+
+    #props: Partial<HTMLElement> = {};
+    get props(){
+        return this.#props;
+    }
+
+    set props(nv: Partial<HTMLElement>){
+        this.#props  = nv;
+    }
+    
 
     #spouse = new LindaMcCartney();
     get spouse(){

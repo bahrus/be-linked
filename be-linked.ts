@@ -78,6 +78,10 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 const {prsToggle} = await import('./prsToggle.js');
                 await prsToggle(cc, links, self);
             }
+            if(Assign !== undefined){
+                const {prsAssign} = await import('./prsAssign.js');
+                await prsAssign(cc, links);
+            }
             if(settings !== undefined){
                 const {enh} = settings;
                 if(enh !== undefined){

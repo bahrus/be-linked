@@ -24,6 +24,7 @@ class PaulMcCartney extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.computeProps();
     }
     #age = 80;
     get age() {
@@ -31,12 +32,26 @@ class PaulMcCartney extends HTMLElement {
     }
     set age(v) {
         this.#age = v;
+        this.computeProps();
+    }
+    computeProps() {
+        this.props = {
+            ariaLabel: 'test-' + this.age,
+            title: 'test-' + this.age,
+        };
     }
     connectedCallback() {
         const innerTemplate = this.querySelector('template');
         if (innerTemplate !== null) {
             this.shadowRoot?.appendChild(innerTemplate.content.cloneNode(true));
         }
+    }
+    #props = {};
+    get props() {
+        return this.#props;
+    }
+    set props(nv) {
+        this.#props = nv;
     }
     #spouse = new LindaMcCartney();
     get spouse() {

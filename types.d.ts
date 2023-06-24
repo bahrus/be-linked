@@ -34,7 +34,7 @@ export type InvokeStatement = string;
 
 export type ExportSymbol = string;
 
-export type AssignStatement = String;
+export type AssignStatement = string;
 
 export type ConditionValue = string | number | boolean;
 export type NewValue = string;
