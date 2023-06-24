@@ -20,6 +20,12 @@
             <be-hive></be-hive>
         </template>
     </paul-mccartney>
+    <button onclick="changeAge()">Change Age</button>
+    <script>
+        function changeAge(){
+            document.querySelector('paul-mccartney').age = 29;
+        }
+    </script>
     <script type=importmap>
         {
             "imports": {
