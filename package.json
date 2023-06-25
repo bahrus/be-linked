@@ -10,12 +10,12 @@
   ],
   "dependencies": {
     "be-enhanced": "0.0.33",
-    "be-exportable": "0.0.83",
-    "be-hive": "0.0.109",
-    "be-intl": "0.0.10",
-    "be-it": "0.0.10",
-    "be-propagating": "0.0.19",
-    "be-repeated": "0.0.110",
+    "be-exportable": "0.0.84",
+    "be-hive": "0.0.110",
+    "be-intl": "0.0.11",
+    "be-it": "0.0.11",
+    "be-propagating": "0.0.20",
+    "be-repeated": "0.0.111",
     "trans-render": "0.0.693",
     "xtal-element": "0.0.571"
   },
