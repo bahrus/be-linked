@@ -5,7 +5,10 @@
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-linked?compression=gzip">
 [![NPM version](https://badge.fury.io/js/be-linked.png)](http://badge.fury.io/js/be-linked)
 
-Connect HTML (web) components and custom enhancements together.
+Connect HTML (web) components and custom enhancements together with readable syntax.
+
+be-linked is a one-stop shop for all needs as far as inline binding.  
+
 
 ## Part I Downstream linkage
 
