@@ -1,17 +1,17 @@
-import {PassCamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve, Share, Source} from './types';
+import {ElevateCamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps, AP, IObserve, Share, Source} from './types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
-interface PassStatement{
+interface ElevateStatement{
     downstreamPropPath: string,
     upstreamMarker: string
 }
 
-type PPS = Partial<PassStatement>;
+type PPS = Partial<ElevateStatement>;
 
-let rePassStatements: RegExpOrRegExpExt<PPS>[] | undefined;
+let reElevateStatements: RegExpOrRegExpExt<PPS>[] | undefined;
 
-export async function prsPass(pcc: PassCamelConfig, links: Link[]){
-    const {Pass} = pcc;
+export async function prsElevate(ecc: ElevateCamelConfig, links: Link[]){
+    const {Elevate} = ecc;
     const defaultLink = {
         inferTriggerEvent: true,
         localInstance: 'local',
@@ -20,9 +20,9 @@ export async function prsPass(pcc: PassCamelConfig, links: Link[]){
 
     } as Link;
     const {tryParse} = await import('be-enhanced/cpu.js');
-    if(rePassStatements === undefined){
+    if(reElevateStatements === undefined){
         const {downstreamPropPath, to} = await import('./reCommon.js');
-        rePassStatements = [
+        reElevateStatements = [
             {
                 regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>\w+)(?<!\\)Marker`),
                 defaultVals: {
@@ -31,8 +31,8 @@ export async function prsPass(pcc: PassCamelConfig, links: Link[]){
             }
         ];
     }
-    for(const passString of Pass!){
-        const test = tryParse(passString, rePassStatements) as PassStatement;
+    for(const passString of Elevate!){
+        const test = tryParse(passString, reElevateStatements) as ElevateStatement;
         if(test !== null){
             const {downstreamPropPath, upstreamMarker} = test;
             if(upstreamMarker !== undefined){

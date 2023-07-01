@@ -44,7 +44,7 @@ export type OnPassStatement = `${EventName}EventOf${UpstreamCamelQry}Pass${Upstr
 export type ObserveStatement = string;
 export type ShareStatement = string;
 export type ToggleStatement = string;
-export type PassStatement = string;
+export type ElevateStatement = string;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 export type MathOp = '+' | '-' | '*' | '/' | '%';
@@ -94,7 +94,7 @@ export interface Assign{
 
 }
 
-export interface Pass{
+export interface Elevate{
 
 }
 
@@ -160,9 +160,9 @@ export interface ToggleCamelConfig<TSrc = any, TDest = any>{
     toggleOverrides?: Toggle;
 }
 
-export interface PassCamelConfig<TSrc = any, TDest = any>{
-    Pass?: PassStatement[];
-    passOverrides?: 
+export interface ElevateCamelConfig<TSrc = any, TDest = any>{
+    Elevate?: ElevateStatement[];
+    passOverrides?: Elevate;
 }
 
 export interface AssignCamelConfig<TSrc = any, TDest = any>{
@@ -188,7 +188,7 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
     links?: Link<TSrc, TDest>[];
     When?: WhenStatement[];
     Toggle?: ToggleStatement[];
-    Pass?: ToggleStatement[];
+    Elevate?: ElevateStatement[];
     Fire?: FireStatement[];
     fire?: string[];
     declare: Declarations,

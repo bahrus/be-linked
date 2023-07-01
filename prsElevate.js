@@ -1,6 +1,6 @@
-let rePassStatements;
-export async function prsPass(pcc, links) {
-    const { Pass } = pcc;
+let reElevateStatements;
+export async function prsElevate(ecc, links) {
+    const { Elevate } = ecc;
     const defaultLink = {
         inferTriggerEvent: true,
         localInstance: 'local',
@@ -8,17 +8,17 @@ export async function prsPass(pcc, links) {
         skipInit: true,
     };
     const { tryParse } = await import('be-enhanced/cpu.js');
-    if (rePassStatements === undefined) {
+    if (reElevateStatements === undefined) {
         const { downstreamPropPath, to } = await import('./reCommon.js');
-        rePassStatements = [
+        reElevateStatements = [
             {
                 regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>\w+)(?<!\\)Marker`),
                 defaultVals: {}
             }
         ];
     }
-    for (const passString of Pass) {
-        const test = tryParse(passString, rePassStatements);
+    for (const passString of Elevate) {
+        const test = tryParse(passString, reElevateStatements);
         if (test !== null) {
             const { downstreamPropPath, upstreamMarker } = test;
             if (upstreamMarker !== undefined) {

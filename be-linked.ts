@@ -45,7 +45,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             const {
                 Link, Negate, Clone, Refer, Assign, On, When,  
                 links: cc_downlinks, Fire, settings, Observe,
-                Share, Toggle, Pass,
+                Share, Toggle, Elevate,
             } = cc;
             if(Fire !== undefined){
                 const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
@@ -82,9 +82,9 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 const {prsAssign} = await import('./prsAssign.js');
                 await prsAssign(cc, links);
             }
-            if(Pass !== undefined){
-                const {prsPass} = await import('./prsPass.js');
-                await prsPass(cc, links);
+            if(Elevate !== undefined){
+                const {prsElevate} = await import('./prsElevate.js');
+                await prsElevate(cc, links);
             }
             if(settings !== undefined){
                 const {enh} = settings;
