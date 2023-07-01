@@ -95,7 +95,7 @@ export class BeLinked extends BE {
             const passableLinks = links.filter(link => link.observe === undefined && link.share === undefined);
             if (passableLinks.length > 0) {
                 const { pass } = await import('./pass.js');
-                for (const link of links) {
+                for (const link of passableLinks) {
                     pass(self, link); // avoid render blocking
                 }
             }
