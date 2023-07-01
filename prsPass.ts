@@ -39,8 +39,9 @@ export async function prsPass(pcc: PassCamelConfig, links: Link[]){
                 const link: Link = {
                     ...defaultLink,
                     downstreamPropPath,
-                    upstreamCamelQry: ['upSearch', upstreamMarker + 'M'],
-                    upstreamPropName: upstreamMarker
+                    upstreamCamelQry: 'upSearchFor' + upstreamMarker + 'M',// ['upSearch', upstreamMarker + 'M'],
+                    upstreamPropPath: upstreamMarker,
+                    inferTriggerEvent: true,
                 };
                 links.push(link);
             }

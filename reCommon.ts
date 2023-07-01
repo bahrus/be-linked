@@ -5,7 +5,7 @@ export const downstreamGateway = String.raw `\$0-enh-by-(?<enhancement>[\w\-]+)(
 export const downstreamPropPath = String.raw `(?<downstreamPropPath>[\w\:]+)`;
 export const downstream = String.raw `${downstreamPropPath}(?<!\\)PropertyOf\$0`;
 
-export const to = `(?<!\\)To`;
+export const to = String.raw `(?<!\\)To`;
 export const toDownstream = String.raw `${to}${downstream}`;
 export const toDownstreamGateway = String.raw `${to}${downstreamGateway}`;
 export const toCatchAll = String.raw `${to}(?<catchAll>[\w\:]+)`
