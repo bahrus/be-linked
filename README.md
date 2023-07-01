@@ -7,7 +7,9 @@
 
 Connect HTML (web) components and custom enhancements together with readable syntax.
 
-be-linked is a one-stop shop for all needs as far as inline binding.  
+be-linked is a one-stop shop for all needs as far as inline binding. It uses grammatically correct English statements as much as possible.  The first word of each statement is always a verb, and is quite important, as it serves to "categorize" the type of statements.  As we will see in the documentation below,  some verbs are "generalized" verbs that insist on very precise, but somewhat lengthy statements.  These statements are quite flexible in that they can cover quite a few other scenarios.  Examples of such verbs are "Link" and "On"
+
+Other verbs are "specialized" verbs, designed to keep the statement short for common use cases ("Toggle", "Pass" for example), but make many assumptions that are thus quite constrained as far as what they can do.
 
 
 ## Part I Downstream linkage

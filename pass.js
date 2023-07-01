@@ -4,7 +4,7 @@ export async function pass(ibe, downlink) {
     const { findRealm } = await import('trans-render/lib/findRealm.js');
     const { getVal } = await import('trans-render/lib/getVal.js');
     const { setProp } = await import('trans-render/lib/setProp.js');
-    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire, toggle, assign } = downlink;
+    const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire, toggle, assign, inferTriggerEvent } = downlink;
     let src = null;
     let dest;
     let srcPropPath;
@@ -104,9 +104,19 @@ export async function pass(ibe, downlink) {
         upstreamPropName = upstreamPropPath.split('.')[0];
         downlink.upstreamPropName = upstreamPropName;
     }
-    if (on !== undefined) {
+    if (on !== undefined || inferTriggerEvent) {
+        let type = on;
         const eventTarget = passDirection === 'towards' ? src : enhancedElement;
-        eventTarget.addEventListener(on, async (e) => {
+        if (on === undefined) {
+            if (eventTarget instanceof Element) {
+                const { inferEvent } = await import('./inferEvent.js');
+                type = inferEvent(eventTarget);
+            }
+            else {
+                type = upstreamPropName;
+            }
+        }
+        eventTarget.addEventListener(type, async (e) => {
             await doPass();
         });
     }
