@@ -15,6 +15,7 @@ Other verbs are "specialized" verbs, designed to keep the statement short for co
 |---------|-------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | Link    | No          | Relate properties of any two components together centered around the enhanced element.  | Covers large use cases, but requires lengthy statements in many cases. |
 | On      | No          | Attach event handlers and do actions relative to the enhanced element.  | Can also reference script elements. |
+| Elevate | Yes         | Pass property of enhanced element up to some upstream element on a click or other event.  | Support marker properties, discussed below.  |
 
 
 ## Part I Downstream linkage
