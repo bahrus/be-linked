@@ -113,8 +113,14 @@ export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedEle
         else {
             const { exclude } = await import('./getIPsInScope.js');
             targets = Array.from(affect.querySelectorAll(query));
-            if (isScoped)
+            if (isScoped) {
                 targets = targets.filter(t => exclude(t, affect));
+                const itemref = affect.getAttribute('itemref');
+                if (itemref !== null) {
+                    const { getRefs } = await import('./getIPsInScope.js');
+                    targets = [...targets, ...getRefs(affect, itemref)];
+                }
+            }
             if (onlyDoNonCachedElements) {
                 targets = targets.filter(t => !alreadyProcessedLookup.has(t));
             }

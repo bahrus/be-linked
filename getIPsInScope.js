@@ -3,12 +3,24 @@ export function getIPsInScope(el) {
         throw { el, msg: 'itemscope missing.' };
     //TODO: use @scope selector when available.
     //TODO:  follow itemref
-    return Array.from(el.querySelectorAll('[itemprop]'))
+    const nested = Array.from(el.querySelectorAll('[itemprop]'))
         .filter(x => exclude(x, el))
         .map(x => ({
         el: x,
         names: x.getAttribute('itemprop').split(' '),
     }));
+    const itemref = el.getAttribute('itemref');
+    if (itemref === null)
+        return nested;
+    const referenced = getRefs(el, itemref)
+        .map(x => ({
+        el: x,
+        names: x.getAttribute('itemprop').split(' '),
+    }));
+    return [...nested, ...referenced];
+}
+export function getRefs(el, itemref) {
+    return Array.from(el.getRootNode().querySelectorAll(itemref.split(' ').map(s => '#' + s.trim()).join(',')));
 }
 export function exclude(x, el) {
     if (x.hasAttribute('itemscope')) {
