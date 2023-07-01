@@ -11,10 +11,10 @@ be-linked is a one-stop shop for all needs as far as inline binding. It uses gra
 
 Other verbs are "specialized" verbs, designed to keep the statement short for common use cases ("Toggle", "Pass" for example), but make many assumptions.  These assumptions impose many constraints as far as what they can do.
 
-| Verb    | Specialized | Purpose                                                                 |  Notes
+| Verb    | Specialized | Purpose                                                                 |  Notes                                                                                             |
 |---------|-------------|-------------------------------------------------------------------------|
 | Link    | No          | Relate properties of any two components together centered around the enhanced element.  | Covers large use cases, but requires lengthy statements in many cases. |
-| On      | No          | Attach event handlers and do actions relative to the enhanced element.  | Can also reference script elements.
+| On      | No          | Attach event handlers and do actions relative to the enhanced element.  | Can also reference script elements. |
 
 
 ## Part I Downstream linkage
