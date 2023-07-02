@@ -8,11 +8,12 @@ export async function prsElevate(ecc, links) {
         skipInit: true,
     };
     const { tryParse } = await import('be-enhanced/cpu.js');
+    const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
     if (reElevateStatements === undefined) {
         const { downstreamPropPath, to } = await import('./reCommon.js');
         reElevateStatements = [
             {
-                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>\w+)(?<!\\)Marker`),
+                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>[\w\-]+)(?<!\\)Marker`),
                 defaultVals: {}
             }
         ];
@@ -22,14 +23,17 @@ export async function prsElevate(ecc, links) {
         if (test !== null) {
             const { downstreamPropPath, upstreamMarker } = test;
             if (upstreamMarker !== undefined) {
+                const clUpstreamMarker = lispToCamel(upstreamMarker);
                 const link = {
                     ...defaultLink,
                     downstreamPropPath,
-                    upstreamCamelQry: 'upSearchFor' + upstreamMarker + 'M',
-                    upstreamPropPath: upstreamMarker,
+                    upstreamCamelQry: 'upSearchFor' + clUpstreamMarker + 'M',
+                    upstreamPropPath: clUpstreamMarker,
                     inferTriggerEvent: true,
                 };
+                console.log({ ...link });
                 links.push(link);
+                //console.group({...link});
             }
         }
     }

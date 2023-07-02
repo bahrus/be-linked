@@ -20,11 +20,12 @@ export async function prsElevate(ecc: ElevateCamelConfig, links: Link[]){
 
     } as Link;
     const {tryParse} = await import('be-enhanced/cpu.js');
+    const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
     if(reElevateStatements === undefined){
         const {downstreamPropPath, to} = await import('./reCommon.js');
         reElevateStatements = [
             {
-                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>\w+)(?<!\\)Marker`),
+                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>[\w\-]+)(?<!\\)Marker`),
                 defaultVals: {
 
                 }
@@ -34,16 +35,20 @@ export async function prsElevate(ecc: ElevateCamelConfig, links: Link[]){
     for(const passString of Elevate!){
         const test = tryParse(passString, reElevateStatements) as ElevateStatement;
         if(test !== null){
+            
             const {downstreamPropPath, upstreamMarker} = test;
             if(upstreamMarker !== undefined){
+                const clUpstreamMarker = lispToCamel(upstreamMarker);
                 const link: Link = {
                     ...defaultLink,
                     downstreamPropPath,
-                    upstreamCamelQry: 'upSearchFor' + upstreamMarker + 'M',// ['upSearch', upstreamMarker + 'M'],
-                    upstreamPropPath: upstreamMarker,
+                    upstreamCamelQry: 'upSearchFor' + clUpstreamMarker + 'M',// ['upSearch', upstreamMarker + 'M'],
+                    upstreamPropPath: clUpstreamMarker,
                     inferTriggerEvent: true,
                 };
+                console.log({...link});
                 links.push(link);
+                //console.group({...link});
             }
         }
     }
