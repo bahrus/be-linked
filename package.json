@@ -16,8 +16,8 @@
     "be-it": "0.0.12",
     "be-propagating": "0.0.20",
     "be-repeated": "0.0.111",
-    "trans-render": "0.0.693",
-    "xtal-element": "0.0.571"
+    "trans-render": "0.0.694",
+    "xtal-element": "0.0.572"
   },
   "devDependencies": {
     "be-scoped": "0.0.15",
