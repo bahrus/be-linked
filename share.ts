@@ -62,7 +62,8 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
     if(!alreadyProcessed.has(affect)){
         alreadyProcessed.set(affect, new WeakSet<Element>());
         if(!onlyDoNonCachedElements){
-            affect.addEventListener('i-am-here', e => {
+            const subscriber = affect.hasAttribute('itemref') ? affect.getRootNode() : affect;
+            subscriber.addEventListener('i-am-here', e => {
                 share(ibe, link, true);
             });
         }
