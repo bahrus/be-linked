@@ -31,9 +31,7 @@ export async function prsElevate(ecc, links) {
                     upstreamPropPath: clUpstreamMarker,
                     inferTriggerEvent: true,
                 };
-                console.log({ ...link });
                 links.push(link);
-                //console.group({...link});
             }
         }
     }

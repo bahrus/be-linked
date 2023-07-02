@@ -46,9 +46,7 @@ export async function prsElevate(ecc: ElevateCamelConfig, links: Link[]){
                     upstreamPropPath: clUpstreamMarker,
                     inferTriggerEvent: true,
                 };
-                console.log({...link});
                 links.push(link);
-                //console.group({...link});
             }
         }
     }
