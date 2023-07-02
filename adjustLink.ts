@@ -1,6 +1,12 @@
 import {Link, AP} from './types';
 export async function adjustLink(link: Link, ap?: AP){
-    const {downstreamPropPath, upstreamPropPath, exportSymbol, on, enhancement} = link;
+    const {
+        downstreamPropPath, 
+        upstreamPropPath, 
+        exportSymbol, 
+        on, 
+        enhancement
+    } = link;
     if(downstreamPropPath !== undefined) link.downstreamPropPath = downstreamPropPath.replaceAll(':', '.');
     if(upstreamPropPath !== undefined) link.upstreamPropPath = upstreamPropPath.replaceAll(':', '.');
     if(on !== undefined){
