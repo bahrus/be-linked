@@ -1,6 +1,6 @@
 import {AP, Share, Link, IP} from './types';
 import {IBE} from 'be-enhanced/types';
-import {ProxyPropChangeInfo} from 'trans-render/lib/types';
+
 
 type AffectedElement = Element;
 
@@ -38,13 +38,14 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
             case '$0':
             case '$1':
             case 'host':
-                eventTarget = (<any>objectWithState).beEnhanced.bePropagating.propagators.get('self') as EventTarget;
+                const base = await (<any>objectWithState).beEnhanced.whenResolved('be-propagating');
+                eventTarget = base.propagators.get('self') as EventTarget;
                 break;
             case 'props':
                 const itemprop = enhancedElement.getAttribute('itemprop');
                 if(itemprop === null) throw 404;
                 const key = itemprop.split(' ')[0];
-                eventTarget = await (<any>objectWithState).beEnhanced.bePropagating.getPropagator(key);
+                eventTarget = await (await (<any>objectWithState).beEnhanced.whenResolved('be-propagating')).getPropagator(key);
                 objectWithState = (<any>eventTarget).targetRef.deref();
                 break;
         }

@@ -29,14 +29,15 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
             case '$0':
             case '$1':
             case 'host':
-                eventTarget = objectWithState.beEnhanced.bePropagating.propagators.get('self');
+                const base = await objectWithState.beEnhanced.whenResolved('be-propagating');
+                eventTarget = base.propagators.get('self');
                 break;
             case 'props':
                 const itemprop = enhancedElement.getAttribute('itemprop');
                 if (itemprop === null)
                     throw 404;
                 const key = itemprop.split(' ')[0];
-                eventTarget = await objectWithState.beEnhanced.bePropagating.getPropagator(key);
+                eventTarget = await (await objectWithState.beEnhanced.whenResolved('be-propagating')).getPropagator(key);
                 objectWithState = eventTarget.targetRef.deref();
                 break;
         }
