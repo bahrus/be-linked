@@ -1,3 +1,4 @@
+import { toDownstreamGateway } from './reCommon.js';
 export async function prsLink(cc, downlinks, ap) {
     const { Link, negate, debug, nudge, skip, Clone, Refer, Negate } = cc;
     const defaultDownlink = {
@@ -39,12 +40,13 @@ async function processLinkStatements(Link, defaultDownlink, downlinks, ap) {
     }
 }
 function toDownLink(lsg, defaultDownlink) {
-    const { downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption } = lsg;
+    const { downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption, enhancement, } = lsg;
     const downLink = {
         ...defaultDownlink,
         downstreamPropPath,
         upstreamCamelQry,
         upstreamPropPath,
+        enhancement,
         parseOption
     };
     let mathArgN = 0;
@@ -70,6 +72,7 @@ async function matchLSGs(links, ap) {
         new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),
         new RegExp(String.raw `${upstream}${parseOption}${toDownstream}`),
         new RegExp(String.raw `${upstream}${mathOpArg}${toDownstream}`),
+        new RegExp(String.raw `${upstream}${toDownstreamGateway}`),
         new RegExp(String.raw `${upstream}${toDownstream}`)
     ];
     for (const linkCamelString of links) {

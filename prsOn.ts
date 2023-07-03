@@ -5,7 +5,7 @@ import {
     AP,
 } from './types';
 import {Scope} from 'trans-render/lib/types';
-import {RegExpOrRegExpExt} from 'be-enhanced/types';
+import {Enhancement, RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reOnPassStatements: RegExpOrRegExpExt<POPS>[] | undefined;
 
@@ -102,6 +102,7 @@ export async function prsOn(cc: CamelConfig, links: Link[], pp: AP){
 
 interface OnPassStatement {
     on: EventName,
+    enhancement: Enhancement,
     upstreamCamelQry: Scope & string,
     upstreamPropPath: UpstreamPropPath,
     downstreamPropPath: DownstreamPropPath,

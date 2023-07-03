@@ -1,6 +1,7 @@
+import { toDownstreamGateway } from './reCommon.js';
 import {CamelConfig, Link, LinkStatement, ParseOptions, MathOp, AllProps} from './types';
 import {Scope} from 'trans-render/lib/types';
-
+import {Enhancement, RegExpOrRegExpExt} from 'be-enhanced/types';
 
 export async function prsLink(cc: CamelConfig, downlinks: Link[], ap: AllProps){
     const {Link, negate, debug, nudge, skip, Clone, Refer, Negate} = cc;
@@ -46,12 +47,21 @@ async function processLinkStatements(Link: LinkStatement[], defaultDownlink: Lin
 }
 
 function toDownLink(lsg: LinkStatementGroup, defaultDownlink: Link): Link{
-    const {downstreamPropPath, upstreamCamelQry, upstreamPropPath, mathArg, mathOp, parseOption} = lsg;
+    const {
+        downstreamPropPath, 
+        upstreamCamelQry, 
+        upstreamPropPath, 
+        mathArg, 
+        mathOp, 
+        parseOption,
+        enhancement,
+    } = lsg;
     const downLink: Link = {
         ...defaultDownlink,
         downstreamPropPath,
         upstreamCamelQry,
         upstreamPropPath,
+        enhancement,
         parseOption
     };
     let mathArgN = 0;
@@ -80,6 +90,7 @@ async function matchLSGs(links: LinkStatement[], ap: AllProps){
         new RegExp(String.raw `${upstream}${parseOption}${mathOpArg}${toDownstream}`),
         new RegExp(String.raw `${upstream}${parseOption}${toDownstream}`),
         new RegExp(String.raw `${upstream}${mathOpArg}${toDownstream}`),
+        new RegExp(String.raw `${upstream}${toDownstreamGateway}`),
         new RegExp(String.raw `${upstream}${toDownstream}`)
     ];
     for(const linkCamelString of links){
@@ -108,6 +119,7 @@ async function matchSSGs(links: LinkStatement[]){
 
 interface LinkStatementGroup {
     upstreamPropPath: string,
+    enhancement: Enhancement,
     upstreamCamelQry: Scope & string,
     downstreamPropPath: string,
     mathOp?: MathOp,
