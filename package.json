@@ -9,11 +9,11 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.33",
+    "be-enhanced": "0.0.34",
     "be-exportable": "0.0.84",
-    "be-hive": "0.0.110",
+    "be-hive": "0.0.111",
     "be-intl": "0.0.11",
-    "be-it": "0.0.12",
+    "be-it": "0.0.14",
     "be-propagating": "0.0.20",
     "be-repeated": "0.0.111",
     "trans-render": "0.0.694",
@@ -45,7 +45,8 @@
   "scripts": {
     "serve": "node node_modules/may-it-serve/serve.js",
     "test": "playwright test",
-    "safari": "npx playwright wk http://localhost:3030"
+    "safari": "npx playwright wk http://localhost:3030",
+    "update": "ncu -u && npm install"
   },
   "repository": {
     "type": "git",
