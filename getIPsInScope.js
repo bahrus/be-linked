@@ -12,15 +12,17 @@ export function getIPsInScope(el) {
     const itemref = el.getAttribute('itemref');
     if (itemref === null)
         return nested;
-    const referenced = getRefs(el, itemref)
+    const referenced = getRefs(el, itemref, '*')
         .map(x => ({
         el: x,
         names: x.getAttribute('itemprop').split(' '),
     }));
     return [...nested, ...referenced];
 }
-export function getRefs(el, itemref) {
-    return Array.from(el.getRootNode().querySelectorAll(itemref.split(' ').map(s => '#' + s.trim()).join(',')));
+export function getRefs(el, itemref, query) {
+    return Array.from(el.getRootNode()
+        .querySelectorAll(itemref.split(' ').map(s => '#' + s.trim()).join(',')))
+        .filter(x => x.matches(query));
 }
 export function exclude(x, el) {
     if (x.hasAttribute('itemscope')) {

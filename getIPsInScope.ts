@@ -12,7 +12,7 @@ export function getIPsInScope(el: Element) : IP[]{
         }));
     const itemref = el.getAttribute('itemref');
     if(itemref === null) return nested;
-    const referenced = getRefs(el, itemref)
+    const referenced = getRefs(el, itemref, '*')
         .map(x => ({
             el: x,
             names: x.getAttribute('itemprop')!.split(' '),
@@ -20,8 +20,10 @@ export function getIPsInScope(el: Element) : IP[]{
     return [...nested, ...referenced];
 }
 
-export function getRefs(el: Element, itemref: string){
-    return Array.from((el.getRootNode() as DocumentFragment).querySelectorAll(itemref.split(' ').map(s => '#' + s.trim()).join(',')))
+export function getRefs(el: Element, itemref: string, query: string){
+    return Array.from((el.getRootNode() as DocumentFragment)
+        .querySelectorAll(itemref.split(' ').map(s => '#' + s.trim()).join(',')))
+        .filter(x => x.matches(query));
 }
 
 export function exclude(x: Element, el: Element){

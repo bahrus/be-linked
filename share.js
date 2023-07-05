@@ -120,7 +120,7 @@ export async function setProp(affect, attr, name, observeObj, onlyDoNonCachedEle
                 const itemref = affect.getAttribute('itemref');
                 if (itemref !== null) {
                     const { getRefs } = await import('./getIPsInScope.js');
-                    targets = [...targets, ...getRefs(affect, itemref)];
+                    targets = [...targets, ...getRefs(affect, itemref, query)];
                 }
             }
             if (onlyDoNonCachedElements) {
