@@ -16,6 +16,7 @@
     "be-it": "0.0.14",
     "be-propagating": "0.0.20",
     "be-repeated": "0.0.111",
+    "be-scoped": "0.0.15",
     "trans-render": "0.0.694",
     "xtal-element": "0.0.572"
   },

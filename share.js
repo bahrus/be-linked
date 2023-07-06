@@ -23,32 +23,53 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
     }
     if (eventTarget === null)
         throw 404;
-    if (enhancement === 'bePropagating') {
-        const { source } = sh;
-        switch (source) {
-            case '$0':
-            case '$1':
-            case 'host':
-                const base = await objectWithState.beEnhanced.whenResolved('be-propagating');
-                eventTarget = base.propagators.get('self');
-                break;
-            case 'props':
-                const itemprop = enhancedElement.getAttribute('itemprop');
-                if (itemprop === null)
-                    throw 404;
-                const key = itemprop.split(' ')[0];
-                eventTarget = await (await objectWithState.beEnhanced.whenResolved('be-propagating')).getPropagator(key);
-                objectWithState = eventTarget.targetRef.deref();
-                break;
-        }
-    }
-    else {
-        objectWithState = eventTarget;
-    }
-    const { attr, names, allNames, scope } = sh;
+    const { source, attr, names, allNames, scope } = sh;
     const affect = await findRealm(enhancedElement, scope);
     if (!(affect instanceof Element))
         throw 404;
+    switch (enhancement) {
+        case 'bePropagating':
+            {
+                switch (source) {
+                    case '$0':
+                    case '$1':
+                    case 'host':
+                        const base = await objectWithState.beEnhanced.whenResolved('be-propagating');
+                        eventTarget = base.propagators.get('self');
+                        break;
+                    case 'props':
+                        const itemprop = enhancedElement.getAttribute('itemprop');
+                        if (itemprop === null)
+                            throw 404;
+                        const key = itemprop.split(' ')[0];
+                        eventTarget = await (await objectWithState.beEnhanced.whenResolved('be-propagating')).getPropagator(key);
+                        objectWithState = eventTarget.targetRef.deref();
+                        break;
+                }
+            }
+            break;
+        case 'beScoped':
+            const itemprop = enhancedElement.getAttribute('itemprop');
+            if (itemprop === null)
+                throw 'NI';
+            const beScoped = await objectWithState.beEnhanced.whenResolved('be-scoped');
+            const localEventTarget = beScoped.scope;
+            objectWithState = eventTarget[itemprop];
+            recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            localEventTarget?.addEventListener(itemprop, e => {
+                objectWithState = eventTarget[itemprop];
+                recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            });
+            //console.log({itemprop, eventTarget, objectWithState});
+            break;
+        default:
+            objectWithState = eventTarget;
+    }
+    recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+}
+async function recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr) {
+    if (objectWithState === undefined)
+        return;
     if (!cache.has(affect)) {
         cache.set(affect, {});
     }
@@ -75,7 +96,7 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
         propNames = Array.from(s);
     }
     for (const name of propNames) {
-        if (!onlyDoNonCachedElements) {
+        if (!onlyDoNonCachedElements && eventTarget) {
             eventTarget.addEventListener(name, e => {
                 setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
             });

@@ -70,5 +70,19 @@ class PaulMcCartney extends HTMLElement {
     set songs(newVal) {
         this.#songs = newVal;
     }
+    #albums = [
+        {
+            name: 'Live and Let Live'
+        },
+        {
+            name: 'Ram'
+        }
+    ];
+    get albums() {
+        return this.#albums;
+    }
+    set albums(newVal) {
+        this.#albums = newVal;
+    }
 }
 customElements.define('paul-mccartney', PaulMcCartney);

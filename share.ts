@@ -3,7 +3,7 @@ import {IBE} from 'be-enhanced/types';
 
 
 type AffectedElement = Element;
-
+type CacheType = WeakMap<AffectedElement, {[key: string]: WeakRef<Element>[]}>;
 const cache = new WeakMap<AffectedElement, {[key: string]: WeakRef<Element>[]}>();
 
 const alreadyProcessed = new WeakMap<AffectedElement, WeakSet<Element>>();
@@ -31,32 +31,65 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
         
     }
     if(eventTarget === null) throw 404;
-    if(enhancement === 'bePropagating'){
-        const {source} = sh!;
-
-        switch(source){
-            case '$0':
-            case '$1':
-            case 'host':
-                const base = await (<any>objectWithState).beEnhanced.whenResolved('be-propagating');
-                eventTarget = base.propagators.get('self') as EventTarget;
-                break;
-            case 'props':
-                const itemprop = enhancedElement.getAttribute('itemprop');
-                if(itemprop === null) throw 404;
-                const key = itemprop.split(' ')[0];
-                eventTarget = await (await (<any>objectWithState).beEnhanced.whenResolved('be-propagating')).getPropagator(key);
-                objectWithState = (<any>eventTarget).targetRef.deref();
-                break;
-        }
-        
-    }else{
-        objectWithState = eventTarget;
-    }
-    const {attr, names,  allNames, scope} = sh!;
+    const {source, attr, names,  allNames, scope} = sh!;
     const affect = await findRealm(enhancedElement, scope);
     if(!(affect instanceof Element)) throw 404;
+    switch(enhancement){
+        case 'bePropagating':{
+            switch(source){
+                case '$0':
+                case '$1':
+                case 'host':
+                    const base = await (<any>objectWithState).beEnhanced.whenResolved('be-propagating');
+                    eventTarget = base.propagators.get('self') as EventTarget;
+                    break;
+                case 'props':
+                    const itemprop = enhancedElement.getAttribute('itemprop');
+                    if(itemprop === null) throw 404;
+                    const key = itemprop.split(' ')[0];
+                    eventTarget = await (await (<any>objectWithState).beEnhanced.whenResolved('be-propagating')).getPropagator(key);
+                    objectWithState = (<any>eventTarget).targetRef.deref();
+                    break;
+            }
+        }
+        break;
+        case 'beScoped':
+            const itemprop = enhancedElement.getAttribute('itemprop');
+            if(itemprop === null) throw 'NI';
+            const beScoped = await (<any>objectWithState).beEnhanced.whenResolved('be-scoped');
+            const localEventTarget = beScoped.scope as EventTarget;
+            objectWithState = (<any>eventTarget)[itemprop];
+            recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            localEventTarget?.addEventListener(itemprop, e => {
+                objectWithState = (<any>eventTarget)[itemprop];
+                recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            })
+            //console.log({itemprop, eventTarget, objectWithState});
+            break;
+        default:
+            objectWithState = eventTarget;
+    }
+
+    recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
     
+
+
+
+}
+
+async function recShare(
+    affect: Element, 
+    cache: CacheType, 
+    eventTarget: EventTarget | null, 
+    onlyDoNonCachedElements: boolean, 
+    names: string[] | undefined,
+    allNames: boolean | undefined,
+    ibe: IBE,
+    link: Link,
+    objectWithState: any,
+    attr: string
+    ){
+    if(objectWithState === undefined) return;
     if(!cache.has(affect)){
         cache.set(affect, {});
     }
@@ -83,7 +116,7 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
         propNames = Array.from(s);
     }
     for(const name of propNames){
-        if(!onlyDoNonCachedElements){
+        if(!onlyDoNonCachedElements && eventTarget){
             eventTarget.addEventListener(name, e => {
                 setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
             });
@@ -91,8 +124,6 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
 
         await setProp(affect, attr, name, objectWithState, onlyDoNonCachedElements, ips);
     }
-
-
 }
 
 export async function setProp(affect: Element, attr: string, name: string, observeObj: any, onlyDoNonCachedElements: boolean, ips?: IP[]){

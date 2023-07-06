@@ -70,7 +70,15 @@ export async function setItemProp(el, val, name) {
                     else {
                         //assign into scope
                         import('be-scoped/be-scoped.js');
-                        const beSpoked = await aSrc.beEnhanced.whenResolved('be-propagating');
+                        const beSpoked = await aSrc.beEnhanced.whenResolved('be-scoped');
+                        // for(const key in val){
+                        //     const keyVal = val[key];
+                        //     if(typeof keyVal === 'object'){
+                        //         //TODO
+                        //     }else{
+                        //         beSpoked.setKeyVal(key, keyVal);
+                        //     }
+                        // }
                         beSpoked.setKeyVal(name, val);
                     }
                 }

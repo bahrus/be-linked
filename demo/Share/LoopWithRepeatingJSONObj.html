@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <paul-mccartney>
+        <template>
+            <div itemscope be-linked='
+                Share * from host.
+            '>
+                <span itemprop="age"></span>
+                <div itemscope itemprop="albums">
+                    <div aria-rowindex=0 itemscope itemprop="itemListElement" be-linked='
+                        Share * from scope.
+                    '>
+                        <span itemprop="name"></span>
+                    </div>
+                </div>
+                    
+
+            </div>
+            <be-hive></be-hive>
+        </template>
+    </paul-mccartney>
+    <style>
+        [aria-rowindex="0"]{
+            display: none;
+        }
+    </style>
+    <script type=importmap>
+        {
+            "imports": {
+                "be-enhanced/": "../../node_modules/be-enhanced/",
+                "be-hive/": "../../node_modules/be-hive/",
+                "be-propagating/": "../../node_modules/be-propagating/",
+                "be-repeated/": "../../node_modules/be-repeated/",
+                "be-scoped/": "../../node_modules/be-scoped/",
+                "trans-render/": "../../node_modules/trans-render/",
+                "xtal-element/": "../../node_modules/xtal-element/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../../be-linked.js';
+        import '../paul-mccartney.js';
+    </script>
+</body>
+</html>
