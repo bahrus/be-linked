@@ -59,10 +59,10 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
             const beScoped = await (<any>objectWithState).beEnhanced.whenResolved('be-scoped');
             const localEventTarget = beScoped.scope as EventTarget;
             objectWithState = (<any>eventTarget)[itemprop];
-            recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
-            localEventTarget?.addEventListener(itemprop, e => {
+            await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            localEventTarget?.addEventListener(itemprop, async e => {
                 objectWithState = (<any>eventTarget)[itemprop];
-                recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+                await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
             })
             //console.log({itemprop, eventTarget, objectWithState});
             break;
@@ -70,7 +70,7 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
             objectWithState = eventTarget;
     }
 
-    recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+    await recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
     
 
 
