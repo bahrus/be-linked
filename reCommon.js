@@ -4,6 +4,7 @@ export const parseOption = String.raw `(?<!\\)As(?<parseOption>Number|Date|Strin
 export const downstreamGateway = String.raw `\$0-enh-by-(?<enhancement>[\w\-]+)(?<!\\)\=\>(?<downstreamPropPath>[\w\:]+)`;
 export const downstreamPropPath = String.raw `(?<downstreamPropPath>[\w\:\$]+)`;
 export const downstream = String.raw `${downstreamPropPath}(?<!\\)PropertyOf\$0`;
+export const PropertyTo = String.raw `(?<!\\)PropertyTo`;
 export const to = String.raw `(?<!\\)To`;
 export const toDownstream = String.raw `${to}${downstream}`;
 export const toDownstreamGateway = String.raw `${to}${downstreamGateway}`;

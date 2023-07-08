@@ -22,10 +22,10 @@ export async function prsElevate(ecc: ElevateCamelConfig, links: Link[]){
     const {tryParse} = await import('be-enhanced/cpu.js');
     const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
     if(reElevateStatements === undefined){
-        const {downstreamPropPath, to} = await import('./reCommon.js');
+        const {downstreamPropPath, PropertyTo} = await import('./reCommon.js');
         reElevateStatements = [
             {
-                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>[\w\-\\]+)(?<!\\)Marker`),
+                regExp: new RegExp(String.raw `${downstreamPropPath}${PropertyTo}(?<upstreamMarker>[\w\-\\]+)(?<!\\)Marker`),
                 defaultVals: {
 
                 }
