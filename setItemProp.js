@@ -38,20 +38,25 @@ export async function setItemProp(el, val, name) {
             if (Array.isArray(val)) {
                 import('be-repeated/be-repeated.js');
                 const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated');
-                beRepeated.addEventListener('rows', (e) => {
-                    const rows = e.detail.rows;
-                    for (const row of rows) {
-                        const { idx, children, condition } = row;
-                        //TODO:  support defer rendering based on condition === existing
-                        const item = val[idx - 1];
-                        for (const child of children) {
-                            const itemProp = child.getAttribute('itemprop');
-                            if (itemProp === 'itemListElement') {
-                                setItemProp(child, item, itemProp);
-                            }
-                        }
-                    }
-                });
+                beRepeated.rowHandler = async (row) => {
+                    await handleRow(row, val);
+                };
+                // beRepeated.addEventListener('rows', async (e: Event) => {
+                //     console.log('start rows');
+                //     const rows = (e as CustomEvent).detail.rows as Row[];
+                //     for(const row of rows){
+                //         const {idx, children, condition} = row;
+                //         //TODO:  support defer rendering based on condition === existing
+                //         const item = val[idx - 1];
+                //         for(const child of children){
+                //             const itemProp = child.getAttribute('itemprop');
+                //             if(itemProp === 'itemListElement'){
+                //                 await setItemProp(child, item, itemProp);
+                //             }
+                //         }
+                //     }
+                //     console.log('finished rows');
+                // });
                 Object.assign(beRepeated, {
                     startIdx: 1,
                     endIdx: val.length,
@@ -89,5 +94,16 @@ export async function setItemProp(el, val, name) {
             break;
         default:
             throw 'NI';
+    }
+}
+async function handleRow(row, val) {
+    const { idx, children, condition } = row;
+    //TODO:  support defer rendering based on condition === existing
+    const item = val[idx - 1];
+    for (const child of children) {
+        const itemProp = child.getAttribute('itemprop');
+        if (itemProp === 'itemListElement') {
+            await setItemProp(child, item, itemProp);
+        }
     }
 }

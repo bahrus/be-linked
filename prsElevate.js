@@ -13,7 +13,7 @@ export async function prsElevate(ecc, links) {
         const { downstreamPropPath, to } = await import('./reCommon.js');
         reElevateStatements = [
             {
-                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>[\w\-]+)(?<!\\)Marker`),
+                regExp: new RegExp(String.raw `${downstreamPropPath}${to}(?<upstreamMarker>[\w\-\\]+)(?<!\\)Marker`),
                 defaultVals: {}
             }
         ];
@@ -23,7 +23,7 @@ export async function prsElevate(ecc, links) {
         if (test !== null) {
             const { downstreamPropPath, upstreamMarker } = test;
             if (upstreamMarker !== undefined) {
-                const clUpstreamMarker = lispToCamel(upstreamMarker);
+                const clUpstreamMarker = lispToCamel(upstreamMarker.replace('\\', ''));
                 const link = {
                     ...defaultLink,
                     downstreamPropPath,
