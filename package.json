@@ -11,9 +11,9 @@
   "dependencies": {
     "be-enhanced": "0.0.34",
     "be-exportable": "0.0.84",
-    "be-hive": "0.0.111",
+    "be-hive": "0.0.112",
     "be-intl": "0.0.11",
-    "be-it": "0.0.14",
+    "be-it": "0.0.17",
     "be-propagating": "0.0.20",
     "be-repeated": "0.0.111",
     "be-scoped": "0.0.15",
