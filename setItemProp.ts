@@ -91,7 +91,7 @@ export async function setItemProp(el: Element, val: any, name: string){
                         beSpoked.setKeyVal(name, val);
                     }
                 }else{
-                    el.textContent = JSON.stringify(val, null, 2);
+                    el.textContent = toString(val, 40);// JSON.stringify(val, null, 2);
                 }
 
             }
@@ -101,8 +101,14 @@ export async function setItemProp(el: Element, val: any, name: string){
             throw 'NI';
     }
 
+}
 
-    
+function toString(obj: any, max: number){
+    let ret = JSON.stringify(obj, null, 2);
+    if(ret.length > max * 2){
+        ret = ret.substring(0, max) + '...' + ret.substring(ret.length - max);
+    }
+    return ret;
 }
 
 async function handleRow(row: Row, val: any){

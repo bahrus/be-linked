@@ -88,13 +88,20 @@ export async function setItemProp(el, val, name) {
                     }
                 }
                 else {
-                    el.textContent = JSON.stringify(val, null, 2);
+                    el.textContent = toString(val, 40); // JSON.stringify(val, null, 2);
                 }
             }
             break;
         default:
             throw 'NI';
     }
+}
+function toString(obj, max) {
+    let ret = JSON.stringify(obj, null, 2);
+    if (ret.length > max * 2) {
+        ret = ret.substring(0, max) + '...' + ret.substring(ret.length - max);
+    }
+    return ret;
 }
 async function handleRow(row, val) {
     const { idx, children, condition } = row;
