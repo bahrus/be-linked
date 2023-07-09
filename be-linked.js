@@ -1,4 +1,4 @@
-import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { BE, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 export class BeLinked extends BE {
@@ -134,8 +134,9 @@ const upgrade = '*';
 const xe = new XE({
     config: {
         tagName,
+        isEnh: true,
         propDefaults: {
-            ...propDefaults
+        //...propDefaults
         },
         propInfo: {
             ...propInfo,
