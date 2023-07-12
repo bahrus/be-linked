@@ -1,12 +1,13 @@
 import { BE, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
+const cache = new Map();
 export class BeLinked extends BE {
     static get beConfig() {
         return {
             parse: true,
             primaryProp: 'camelConfig',
-            cache: new Map(),
+            cache,
             primaryPropReq: true,
             parseAndCamelize: true,
             camelizeOptions: {
@@ -93,6 +94,7 @@ export class BeLinked extends BE {
         };
     }
     async onCanonical(self) {
+        //console.log('start onCanonical', performance.now() );
         const { canonicalConfig } = self;
         const { links, settings } = canonicalConfig;
         if (links !== undefined) {

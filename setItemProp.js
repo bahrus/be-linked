@@ -13,10 +13,6 @@ export async function setItemProp(el, val, name) {
         case 'link':
         case 'meta':
             import('be-it/be-it.js');
-            if (el.classList.contains('ignore')) {
-                //console.log('iah');
-                //return;
-            }
             const beIt = await el.beEnhanced.whenResolved('be-it');
             beIt.value = val;
             return;
@@ -64,7 +60,8 @@ export async function setItemProp(el, val, name) {
                         //assign into scope
                         import('be-scoped/be-scoped.js');
                         const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped');
-                        beScoped.setKeyVal(name, val);
+                        beScoped.scope[name] = val;
+                        //beScoped.setKeyVal(name, val);
                     }
                 }
             }
