@@ -1,7 +1,7 @@
 import {CamelConfig, ConditionValue, Link, LinkStatement, NewValue, ExportSymbol, AP} from './types';
 import {Scope} from 'trans-render/lib/types';
 //import {upstream, downstream, toDownstream, toAdorned, assResOf} from './be-linked.js';
-import {RegExpOrRegExpExt} from 'be-decorated/types';
+import {RegExpOrRegExpExt} from 'be-enhanced/types';
 
 let reWhens: RegExpOrRegExpExt<PWSG>[] | undefined;
 export async function prsWhen(cc: CamelConfig, downlinks: Link[], pp: AP){

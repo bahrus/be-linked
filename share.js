@@ -18,7 +18,7 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
         //const {applyEnh} = await import('./applyEnh.js');
         eventTarget = await applyEnh(eventTarget, enhancement, true);
     }
-    const t10 = performance.now();
+    //const t10 = performance.now();
     if (upstreamPropName !== undefined) {
         if (upstreamPropName[0] === '.') {
             const { getVal } = await import('trans-render/lib/getVal.js');
@@ -34,7 +34,7 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
     const affect = await findRealm(enhancedElement, scope);
     if (!(affect instanceof Element))
         throw 404;
-    const t20 = performance.now();
+    //const t20 = performance.now();
     switch (enhancement) {
         case 'bePropagating':
             {
@@ -74,10 +74,10 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
         default:
             objectWithState = eventTarget;
     }
-    const t30 = performance.now();
+    //const t30 = performance.now();
     if (objectWithState !== undefined)
         await recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
-    const t40 = performance.now();
+    //const t40 = performance.now();
     //console.log({t1020: t20-t10, t2030: t30 - t20, t3040: t40-t30});
 }
 async function recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr) {
@@ -101,8 +101,16 @@ async function recShare(affect, cache, eventTarget, onlyDoNonCachedElements, nam
         //const {getIPsInScope} = await import('./getIPsInScope.js');
         const s = new Set();
         ips = getIPsInScope(affect);
+        const cacheMap = cache.get(affect);
         for (const ip of ips) {
             for (const name of ip.names) {
+                //suprisingly the commented out code seems to not reduce time, in fact makes it slightly
+                //slower with the first considered scenario.
+                // const query = `[itemprop~="${name}"]`;
+                // if(cacheMap[query] === undefined){
+                //     cacheMap[query] = [];
+                // }
+                // cacheMap[query].push(new WeakRef(ip.el));
                 s.add(name);
             }
         }

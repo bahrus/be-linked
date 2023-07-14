@@ -85,6 +85,7 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
 
 }
 
+
 async function recShare(
     affect: Element, 
     cache: CacheType, 
@@ -116,8 +117,17 @@ async function recShare(
         //const {getIPsInScope} = await import('./getIPsInScope.js');
         const s = new Set<string>();
         ips = getIPsInScope(affect);
+        const cacheMap = cache.get(affect)!;
+        
         for(const ip of ips){
             for(const name of ip.names){
+                //suprisingly the commented out code seems to not reduce time, in fact makes it slightly
+                //slower with the first considered scenario.
+                // const query = `[itemprop~="${name}"]`;
+                // if(cacheMap[query] === undefined){
+                //     cacheMap[query] = [];
+                // }
+                // cacheMap[query].push(new WeakRef(ip.el));
                 s.add(name);
             }
         }
