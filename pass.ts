@@ -43,6 +43,11 @@ export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
     if(src === null) throw 'bL.404';
     const doPass = async (e?: Event) => {
         if(debug) debugger;
+        switch(passDirection){
+            case 'away':
+                if(dest === null) dest = await findRealm(enhancedElement, upstreamCamelQry) as Element;
+                break;
+        } 
         if(increment){
             const val = await getVal({host: dest}, destPropPath!);
             const newVal = val + 1;

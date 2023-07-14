@@ -38,6 +38,12 @@ export async function pass(ibe, downlink) {
     const doPass = async (e) => {
         if (debug)
             debugger;
+        switch (passDirection) {
+            case 'away':
+                if (dest === null)
+                    dest = await findRealm(enhancedElement, upstreamCamelQry);
+                break;
+        }
         if (increment) {
             const val = await getVal({ host: dest }, destPropPath);
             const newVal = val + 1;
