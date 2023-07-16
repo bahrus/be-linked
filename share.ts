@@ -121,14 +121,6 @@ async function recShare(
         
         for(const ip of ips){
             for(const name of ip.names){
-                //surprisingly the commented out code seems to not reduce time, in fact makes it slightly
-                //slower with the first considered scenario.
-                // const query = `[itemprop~="${name}"]`;
-                // if(cacheMap[query] === undefined){
-                //     cacheMap[query] = [];
-                // }
-                // cacheMap[query].push(new WeakRef(ip.el));
-                //Actually, not surprising because we pass in the ips to setProp.
                 s.add(name);
             }
         }
@@ -172,13 +164,11 @@ export async function setProp(affect: Element, attr: string, name: string, obser
                 }
             }
         }else{
-            //const {exclude} = await import('./getIPsInScope.js');
             targets = Array.from(affect.querySelectorAll(query));
             if(isScoped) {
                 targets = targets.filter(t => exclude(t, affect));
                 const itemref = affect.getAttribute('itemref');
                 if(itemref !== null){
-                    //const {getRefs} = await import('./getIPsInScope.js');
                     targets = [...targets, ...getRefs(affect, itemref, query)];
                 }
             }
@@ -189,7 +179,10 @@ export async function setProp(affect: Element, attr: string, name: string, obser
             }
         }
 
-        const weakRefs = targets.map(target => new WeakRef<Element>(target));
+        let weakRefs = targets.map(target => new WeakRef<Element>(target));
+        if(onlyDoNonCachedElements){
+            weakRefs = [...cacheMap[query], ...weakRefs];
+        }
         cacheMap[query] = weakRefs;
     }
     const val = observeObj[name];
@@ -208,11 +201,6 @@ export async function setProp(affect: Element, attr: string, name: string, obser
             }
         }
     }
-    // for(const target of targets){
-    //     if(attr === 'itemprop'){
-    //         const {setItemProp} = await import('./setItemProp.js');
-    //         await setItemProp(target, val);
-    //     }
-    // }
+
 }
 
