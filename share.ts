@@ -1,6 +1,9 @@
 import {AP, Share, Link, IP} from './types';
 import {IBE} from 'be-enhanced/types';
-
+import {findRealm} from 'trans-render/lib/findRealm.js';
+import {applyEnh} from './applyEnh.js';
+import {getIPsInScope, exclude, getRefs} from './getIPsInScope.js';
+import {setItemProp} from './setItemProp.js';
 
 type AffectedElement = Element;
 type CacheType = WeakMap<AffectedElement, {[key: string]: WeakRef<Element>[]}>;
@@ -9,18 +12,21 @@ const cache = new WeakMap<AffectedElement, {[key: string]: WeakRef<Element>[]}>(
 const alreadyProcessed = new WeakMap<AffectedElement, WeakSet<Element>>();
 
 export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boolean): Promise<void>{
+    //const t0 = performance.now();
+    //console.log('start share', t0);
      const {
         enhancement, share: sh, upstreamCamelQry, upstreamPropName
     } = link;
     const {enhancedElement} = ibe;
-    const {findRealm} = await import('trans-render/lib/findRealm.js');
+    //const {findRealm} = await import('trans-render/lib/findRealm.js');
     let eventTarget = await findRealm(enhancedElement, upstreamCamelQry);
     if(!(eventTarget instanceof Element)) throw 404;
     let objectWithState = eventTarget as any;
     if(enhancement !== undefined){
-        const {applyEnh} = await import('./applyEnh.js');
+        //const {applyEnh} = await import('./applyEnh.js');
         eventTarget = await applyEnh(eventTarget, enhancement, true);
     }
+    //const t10 = performance.now();
     if(upstreamPropName !== undefined){
         if(upstreamPropName[0] === '.'){
             const {getVal} = await import('trans-render/lib/getVal.js');
@@ -34,6 +40,7 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
     const {source, attr, names,  allNames, scope} = sh!;
     const affect = await findRealm(enhancedElement, scope);
     if(!(affect instanceof Element)) throw 404;
+    //const t20 = performance.now();
     switch(enhancement){
         case 'bePropagating':{
             switch(source){
@@ -56,26 +63,28 @@ export async function share(ibe: IBE, link: Link, onlyDoNonCachedElements: boole
         case 'beScoped':
             const itemprop = enhancedElement.getAttribute('itemprop');
             if(itemprop === null) throw 'NI';
-            const beScoped = await (<any>objectWithState).beEnhanced.whenResolved('be-scoped');
+            const beScoped = (<any>objectWithState).beEnhanced.beScoped;//whenResolved('be-scoped');
             const localEventTarget = beScoped.scope as EventTarget;
             objectWithState = (<any>eventTarget)[itemprop];
-            await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
             localEventTarget?.addEventListener(itemprop, async e => {
                 objectWithState = (<any>eventTarget)[itemprop];
-                await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
-            })
+                if(objectWithState !== undefined) await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            });
+            //await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+
             //console.log({itemprop, eventTarget, objectWithState});
             break;
         default:
             objectWithState = eventTarget;
     }
+    //const t30 = performance.now();
+    if(objectWithState !== undefined) await recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+    //const t40 = performance.now();
 
-    await recShare(affect, cache, eventTarget, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
-    
-
-
+    //console.log({t1020: t20-t10, t2030: t30 - t20, t3040: t40-t30});
 
 }
+
 
 async function recShare(
     affect: Element, 
@@ -105,9 +114,11 @@ async function recShare(
     let propNames = names;
     let ips: IP[] | undefined;
     if(propNames === undefined || allNames){
-        const {getIPsInScope} = await import('./getIPsInScope.js');
+        //const {getIPsInScope} = await import('./getIPsInScope.js');
         const s = new Set<string>();
         ips = getIPsInScope(affect);
+        const cacheMap = cache.get(affect)!;
+        
         for(const ip of ips){
             for(const name of ip.names){
                 s.add(name);
@@ -153,13 +164,11 @@ export async function setProp(affect: Element, attr: string, name: string, obser
                 }
             }
         }else{
-            const {exclude} = await import('./getIPsInScope.js');
             targets = Array.from(affect.querySelectorAll(query));
             if(isScoped) {
                 targets = targets.filter(t => exclude(t, affect));
                 const itemref = affect.getAttribute('itemref');
                 if(itemref !== null){
-                    const {getRefs} = await import('./getIPsInScope.js');
                     targets = [...targets, ...getRefs(affect, itemref, query)];
                 }
             }
@@ -170,13 +179,16 @@ export async function setProp(affect: Element, attr: string, name: string, obser
             }
         }
 
-        const weakRefs = targets.map(target => new WeakRef<Element>(target));
+        let weakRefs = targets.map(target => new WeakRef<Element>(target));
+        if(onlyDoNonCachedElements){
+            weakRefs = [...cacheMap[query], ...weakRefs];
+        }
         cacheMap[query] = weakRefs;
     }
     const val = observeObj[name];
     switch(attr){
         case 'itemprop':
-            const {setItemProp} = await import('./setItemProp.js');
+            //const {setItemProp} = await import('./setItemProp.js');
             for(const target of targets){
                 await setItemProp(target, val, name);
             }
@@ -189,11 +201,6 @@ export async function setProp(affect: Element, attr: string, name: string, obser
             }
         }
     }
-    // for(const target of targets){
-    //     if(attr === 'itemprop'){
-    //         const {setItemProp} = await import('./setItemProp.js');
-    //         await setItemProp(target, val);
-    //     }
-    // }
+
 }
 

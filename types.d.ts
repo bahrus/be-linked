@@ -230,3 +230,5 @@ export interface IP {
     el: Element,
     names: string[]
 }
+
+type itemprop = string;

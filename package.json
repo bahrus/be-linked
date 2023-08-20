@@ -1,6 +1,6 @@
 {
   "name": "be-linked",
-  "version": "0.0.35",
+  "version": "0.0.40",
   "description": "Connect (web) components together.",
   "keywords": [
     "web-components",
@@ -9,21 +9,21 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.34",
-    "be-exportable": "0.0.84",
-    "be-hive": "0.0.112",
-    "be-intl": "0.0.11",
-    "be-it": "0.0.17",
-    "be-propagating": "0.0.20",
-    "be-repeated": "0.0.112",
-    "be-scoped": "0.0.15",
-    "trans-render": "0.0.694",
-    "xtal-element": "0.0.572"
+    "be-enhanced": "0.0.36",
+    "be-exportable": "0.0.86",
+    "be-hive": "0.0.115",
+    "be-intl": "0.0.12",
+    "be-it": "0.0.22",
+    "be-propagating": "0.0.21",
+    "be-repeated": "0.0.114",
+    "be-scoped": "0.0.17",
+    "trans-render": "0.0.699",
+    "xtal-element": "0.0.574"
   },
   "devDependencies": {
-    "be-scoped": "0.0.15",
+    "be-scoped": "0.0.17",
     "may-it-serve": "0.0.5",
-    "@playwright/test": "1.35.1"
+    "@playwright/test": "1.36.1"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",

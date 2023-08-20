@@ -5,12 +5,13 @@ import {JSONValue} from 'trans-render/lib/types';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, Settings} from './types';
 import {register} from 'be-hive/register.js';
 
+const cache = new Map<string, JSONValue>();
 export class BeLinked extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
         return {
             parse: true,
             primaryProp: 'camelConfig',
-            cache: new Map<string, JSONValue>(),
+            cache,
             primaryPropReq: true,
             parseAndCamelize: true,
             camelizeOptions: {
@@ -106,6 +107,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
     }
 
     async onCanonical(self: this): ProPAP {
+        //console.log('start onCanonical', performance.now() );
         const {canonicalConfig} = self;
         const {links, settings} = canonicalConfig!;
         
@@ -156,8 +158,9 @@ const upgrade = '*';
 const xe = new XE<AP, Actions>({
     config: {
         tagName,
+        isEnh: true,
         propDefaults: {
-            ...propDefaults
+            //...propDefaults
         },
         propInfo: {
             ...propInfo,

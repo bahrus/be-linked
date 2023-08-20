@@ -35,61 +35,38 @@ export async function setItemProp(el, val, name) {
             break;
         case 'object':
             const aSrc = el;
-            if (Array.isArray(val)) {
-                import('be-repeated/be-repeated.js');
-                const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated');
-                beRepeated.rowHandler = async (row) => {
-                    await handleRow(row, val);
-                };
-                // beRepeated.addEventListener('rows', async (e: Event) => {
-                //     console.log('start rows');
-                //     const rows = (e as CustomEvent).detail.rows as Row[];
-                //     for(const row of rows){
-                //         const {idx, children, condition} = row;
-                //         //TODO:  support defer rendering based on condition === existing
-                //         const item = val[idx - 1];
-                //         for(const child of children){
-                //             const itemProp = child.getAttribute('itemprop');
-                //             if(itemProp === 'itemListElement'){
-                //                 await setItemProp(child, item, itemProp);
-                //             }
-                //         }
-                //     }
-                //     console.log('finished rows');
-                // });
-                Object.assign(beRepeated, {
-                    startIdx: 1,
-                    endIdx: val.length,
-                    templIdx: 0
-                });
-                //loop scenario
-            }
-            else {
-                if (el.hasAttribute('itemscope')) {
+            if (el.hasAttribute('itemscope')) {
+                if (Array.isArray(val)) {
+                    //loop scenario
+                    import('be-repeated/be-repeated.js');
+                    const beRepeated = await aSrc.beEnhanced.whenResolved('be-repeated');
+                    beRepeated.rowHandler = async (row) => {
+                        await handleRow(row, val);
+                    };
+                    Object.assign(beRepeated, {
+                        startIdx: 1,
+                        endIdx: val.length,
+                        templIdx: 0
+                    });
+                }
+                else {
                     if (val.constructor.toString().startsWith('class ')) {
+                        //use propagator
                         import('be-propagating/be-propagating.js');
                         const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating');
                         bePropagating.setKeyVal(name, val);
-                        //use propagator
                     }
                     else {
                         //assign into scope
                         import('be-scoped/be-scoped.js');
-                        const beSpoked = await aSrc.beEnhanced.whenResolved('be-scoped');
-                        // for(const key in val){
-                        //     const keyVal = val[key];
-                        //     if(typeof keyVal === 'object'){
-                        //         //TODO
-                        //     }else{
-                        //         beSpoked.setKeyVal(key, keyVal);
-                        //     }
-                        // }
-                        beSpoked.setKeyVal(name, val);
+                        const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped');
+                        beScoped.scope[name] = val;
+                        //beScoped.setKeyVal(name, val);
                     }
                 }
-                else {
-                    el.textContent = toString(val, 40); // JSON.stringify(val, null, 2);
-                }
+            }
+            else {
+                el.textContent = toString(val, 40); // JSON.stringify(val, null, 2);
             }
             break;
         default:
