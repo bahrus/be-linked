@@ -17,7 +17,6 @@ Other verbs are "specialized" verbs, designed to keep the statement short for co
 | On      | No          | Attach event handlers and do actions relative to the enhanced element.                                                               | Can also reference script elements.                                                              |
 | Elevate | Yes         | Pass property of enhanced element up to some upstream element on a click or other event.                                             | Supports marker properties, discussed below.                                                     |
 | Share   | Yes         | Share values from host or other element towards the top of the hierarchy, to child elements, usually based on microdata attributes.  | Can also share via name and id attributes.                                                       |
-| Itemize | Yes         | Split server rendered attributes into microdata meta/link elements.                                                                  |                                                                                                  |
 
 
 ## Part I Downstream linkage
