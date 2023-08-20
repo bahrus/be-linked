@@ -11,12 +11,13 @@ be-linked is a one-stop shop for all needs as far as inline binding. It uses gra
 
 Other verbs are "specialized" verbs, designed to keep the statement short for common use cases ("Toggle", "Pass" for example), but make many assumptions.  These assumptions impose many constraints as far as what they can do.
 
-| Verb    | Specialized | Purpose                                                                 |  Notes                                                                                             |
-|---------|-------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| Link    | No          | Relate properties of any two components together centered around the enhanced element.  | Covers large use cases, but requires lengthy statements in many cases. |
-| On      | No          | Attach event handlers and do actions relative to the enhanced element.  | Can also reference script elements. |
-| Elevate | Yes         | Pass property of enhanced element up to some upstream element on a click or other event.  | Supports marker properties, discussed below.  |
-| Share   | Yes         | Share values from host or other element towards the top of the hierarchy, to child elements, usually based on microdata attributes.  |  Can also share via name and id attributes.  |
+| Verb    | Specialized | Purpose                                                                                                                              |  Notes                                                                                           |
+|---------|-------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| Link    | No          | Relate properties of any two components together centered around the enhanced element.                                               | Covers large use cases, but requires lengthy statements in many cases.                           |
+| On      | No          | Attach event handlers and do actions relative to the enhanced element.                                                               | Can also reference script elements.                                                              |
+| Elevate | Yes         | Pass property of enhanced element up to some upstream element on a click or other event.                                             | Supports marker properties, discussed below.                                                     |
+| Share   | Yes         | Share values from host or other element towards the top of the hierarchy, to child elements, usually based on microdata attributes.  | Can also share via name and id attributes.                                                       |
+| Itemize | Yes         | Split server rendered attributes into microdata meta/link elements.                                                                  |                                                                                                  |
 
 
 ## Part I Downstream linkage
