@@ -45,6 +45,7 @@ export type ObserveStatement = string;
 export type ShareStatement = string;
 export type ToggleStatement = string;
 export type ElevateStatement = string;
+export type JoinStatement = string;
 export type OnIncrementStatement = `${EventName}EventOf${UpstreamCamelQry}DoIncrement${DownstreamPropPath}Of${TargetOptions}`;
 export type ParseOptions = 'string' | 'number' | 'date' | 'regExp' | 'object' | 'url';
 export type MathOp = '+' | '-' | '*' | '/' | '%';
@@ -96,6 +97,10 @@ export interface Assign{
 
 export interface Elevate{
 
+}
+
+export interface Join{
+    
 }
 
 
@@ -163,6 +168,11 @@ export interface ToggleCamelConfig<TSrc = any, TDest = any>{
 export interface ElevateCamelConfig<TSrc = any, TDest = any>{
     Elevate?: ElevateStatement[];
     passOverrides?: Elevate;
+}
+
+export interface JoinCamelConfig<TSrc = any, TDest = any>{
+    Join?: Array<JoinStatement>;
+    joinOverrides?: Join;
 }
 
 export interface AssignCamelConfig<TSrc = any, TDest = any>{
