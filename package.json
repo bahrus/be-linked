@@ -9,21 +9,21 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.36",
-    "be-exportable": "0.0.86",
-    "be-hive": "0.0.115",
-    "be-intl": "0.0.12",
+    "be-enhanced": "0.0.42",
+    "be-exportable": "0.0.87",
+    "be-hive": "0.0.116",
+    "be-intl": "0.0.15",
     "be-it": "0.0.22",
-    "be-propagating": "0.0.21",
+    "be-propagating": "0.0.22",
     "be-repeated": "0.0.114",
     "be-scoped": "0.0.17",
-    "trans-render": "0.0.699",
-    "xtal-element": "0.0.574"
+    "trans-render": "0.0.703",
+    "xtal-element": "0.0.577"
   },
   "devDependencies": {
     "be-scoped": "0.0.17",
     "may-it-serve": "0.0.5",
-    "@playwright/test": "1.36.1"
+    "@playwright/test": "1.37.1"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",
