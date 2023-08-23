@@ -57,17 +57,23 @@ export async function share(ibe, link, onlyDoNonCachedElements) {
             }
             break;
         case 'beScoped':
-            const itemprop = enhancedElement.getAttribute('itemprop');
-            if (itemprop === null)
-                throw 'NI';
+            // const itemprop = enhancedElement.getAttribute('itemprop');
+            // if(itemprop === null) throw 'NI';
             const beScoped = objectWithState.beEnhanced.beScoped; //whenResolved('be-scoped');
             const localEventTarget = beScoped.scope;
-            objectWithState = eventTarget[itemprop];
-            localEventTarget?.addEventListener(itemprop, async (e) => {
-                objectWithState = eventTarget[itemprop];
-                if (objectWithState !== undefined)
-                    await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
-            });
+            //objectWithState = (<any>eventTarget)[itemprop];
+            objectWithState = localEventTarget;
+            // if(names !== undefined){
+            //     for(const name of names){
+            //         localEventTarget.addEventListener(name, e => {
+            //         })
+            //     }
+            // }
+            // debugger;
+            // localEventTarget?.addEventListener(itemprop, async e => {
+            //     objectWithState = (<any>eventTarget)[itemprop];
+            //     if(objectWithState !== undefined) await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
+            // });
             //await recShare(affect, cache, null, onlyDoNonCachedElements, names, allNames, ibe, link, objectWithState, attr);
             //console.log({itemprop, eventTarget, objectWithState});
             break;
