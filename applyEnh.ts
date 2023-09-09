@@ -5,7 +5,7 @@ export async function applyEnh(instance: Element, enhancement: string, wait?: bo
     if(wait){
         return await (<any>instance).beEnhanced.whenResolved(enh);
     }else{
-        return await (<any>instance).beEnhanced.whenDefined(enh);
+        return await (<any>instance).beEnhanced.whenAttached(enh);
     }
     
 }

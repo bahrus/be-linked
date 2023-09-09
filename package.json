@@ -9,9 +9,9 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.47",
+    "be-enhanced": "0.0.48",
     "be-exportable": "0.0.88",
-    "be-hive": "0.0.118",
+    "be-hive": "0.0.119",
     "be-intl": "0.0.15",
     "be-it": "0.0.22",
     "be-propagating": "0.0.22",

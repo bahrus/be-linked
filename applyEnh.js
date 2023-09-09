@@ -6,6 +6,6 @@ export async function applyEnh(instance, enhancement, wait) {
         return await instance.beEnhanced.whenResolved(enh);
     }
     else {
-        return await instance.beEnhanced.whenDefined(enh);
+        return await instance.beEnhanced.whenAttached(enh);
     }
 }
