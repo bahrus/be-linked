@@ -17,9 +17,7 @@ Others are "specialized" opening words, designed to keep the statement short for
 | On      | No          | Attach event handlers and do actions relative to the enhanced element.                                                               | Can also reference script elements.                                                              |
 | Elevate | Yes         | Pass property of enhanced element up to some upstream element on a click or other event.                                             | Supports marker properties, discussed below.                                                     |
 | Share   | Yes         | Share values from host or other element towards the top of the hierarchy, to child elements, usually based on microdata attributes.  | Can also share via name and id attributes.                                                       |
-| Join    | Yws         |                                                                                                                                      |                                                                                                  |
-
-
+| Join    | Yes         |                                                                                                                                      |                                                                                                  |
 
 
 ## Part I Downstream linkage
@@ -113,7 +111,7 @@ host-element container has property "readOnly".  Inner element wants to set data
 ```
 
 
-### Other verbs [Untested]
+### Other opening words [Untested]
 
 In place of "Negate" above, we can use the following verbs:
 
@@ -232,7 +230,7 @@ NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy.
 Maybe this should be a separate decorator? -->
 
 
-### Leaning on server rendering
+### Leaning on server rendering [WIP]
 
 If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
 
@@ -241,16 +239,12 @@ If the server is able to apply the initial round of rendering / passing, then we
 <host-element>
     #shadow
     <input disable be-linked='
-        ```
-        Link read only props.
-        Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
-        Skip initialization. //"initialization" is ignored commentary.
-        ```
+        Link read only props
+        where we nudge $0
+        and we skip initialization.
     '>
 </host-element>
 ```
-
-The use of the three tick marks here, by the way, is there just to demonstrate another important feature -- we can include multiple instruction sets within one be-linked attribute (i.e. an array of bindings).  We use the three tick separator (similar to markdown) to indicate a single object.  Nested tick marks not supported.  This is important when using separate qualifiers like "nudge" and "skip", because those qualifiers apply to all the "Link" and other statements contained within the tick marks.  So if those qualifiers should be applied to a single statement, simply wrap the single statement and qualifiers together within a set of tick marks.
 
 
 ## Traditional Element Events 
@@ -259,13 +253,11 @@ The use of the three tick marks here, by the way, is there just to demonstrate a
 <my-light-weight-container>
     <number-generator></number-generator>
     <metric-units enh-by-be-linked='
-        ```
-        On value changed event of previous element sibling pass value property to cm property of $0. 
-        Debug. //Done.
-        Fire changed event.  //Done.
-        Nudge previous element. //"previous element" is ignored commentary.  //Always nudges the source element.  //Done.
-        Skip initialization. //"initialization" is ignored commentary.
-        ```
+        On value changed event of previous element sibling pass value property to cm property of $0
+        where we enable debugging
+        and we fire changed event
+        and we nudge previous element
+        and we skip initialization. 
     '></metric-units>
 </my-light-weight-container
 ```
@@ -277,7 +269,7 @@ The use of the three tick marks here, by the way, is there just to demonstrate a
 ```html
 <input name=lhs>
 <template be-switched be-linked='
-    On input event of previous lhs named element pass value property to lhs property of enhancement be-switched of $0.
+    On input event of previous lhs named element pass value property to $0-enh-by-be-switched => lhs.
 '>
 ```
 
@@ -336,7 +328,7 @@ A special key word is used for invoking methods on the host:
 
 Because this is a form element, by default invokes the method on the change event.  If it's the form, invokes on submit.  
 
-For everything else, defaults to click.
+For everything else, invokes on click.
 
 To specify the event:
 
@@ -352,7 +344,7 @@ To specify the event:
 As far as finding the host, the following is used:
 
 1.  Searches for the closest element with attribute itemscope.
-2.  If dash in the name of the elemnt, does an await customElements.whenDefined
+2.  If dash in the name of the element, does an await customElements.whenDefined
 3.  Checks if method exists on custom element.
 4.  If not found, continues to searching for the next closest element with attribute itemscope.
 5.  Lastly, tries getRootNode().host
