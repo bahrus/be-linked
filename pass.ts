@@ -1,12 +1,11 @@
 import {AP, Link} from './types';
-import {IBE} from 'be-enhanced/types'
+import {IBE} from 'be-enhanced/types';
+import {findRealm} from 'trans-render/lib/findRealm.js';
+import {getVal} from 'trans-render/lib/getVal.js';
+import {setProp} from 'trans-render/lib/setProp.js';
 export async function pass(ibe: IBE, downlink: Link): Promise<ET>{
     const et = new ET();
     const {enhancedElement} = ibe;
-        
-    const {findRealm} = await import('trans-render/lib/findRealm.js');
-    const {getVal} = await import('trans-render/lib/getVal.js');
-    const {setProp} = await import('trans-render/lib/setProp.js');
     const {
         upstreamCamelQry, skipInit, upstreamPropPath, localInstance, 
         downstreamPropPath, negate, translate, parseOption, handler,

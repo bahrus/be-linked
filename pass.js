@@ -1,9 +1,9 @@
+import { findRealm } from 'trans-render/lib/findRealm.js';
+import { getVal } from 'trans-render/lib/getVal.js';
+import { setProp } from 'trans-render/lib/setProp.js';
 export async function pass(ibe, downlink) {
     const et = new ET();
     const { enhancedElement } = ibe;
-    const { findRealm } = await import('trans-render/lib/findRealm.js');
-    const { getVal } = await import('trans-render/lib/getVal.js');
-    const { setProp } = await import('trans-render/lib/setProp.js');
     const { upstreamCamelQry, skipInit, upstreamPropPath, localInstance, downstreamPropPath, negate, translate, parseOption, handler, conditionValue, newValue, on, debug, nudge, increment, passDirection, enhancement, invoke, fire, toggle, assign, inferTriggerEvent } = downlink;
     let src = null;
     let dest;
@@ -21,7 +21,9 @@ export async function pass(ibe, downlink) {
             }
             else {
                 const { applyEnh } = await import('./applyEnh.js');
+                console.log({ msg: 'beforeApplyEnh', upstreamRealm, downstreamInstance });
                 dest = await applyEnh(downstreamInstance, enhancement);
+                console.log({ msg: 'afterApplyEnh', upstreamRealm, downstreamInstance });
             }
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;
@@ -122,6 +124,7 @@ export async function pass(ibe, downlink) {
                 type = upstreamPropName;
             }
         }
+        console.log({ eventTarget, type });
         eventTarget.addEventListener(type, async (e) => {
             await doPass();
         });
