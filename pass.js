@@ -21,9 +21,7 @@ export async function pass(ibe, downlink) {
             }
             else {
                 const { applyEnh } = await import('./applyEnh.js');
-                console.log({ msg: 'beforeApplyEnh', upstreamRealm, downstreamInstance });
                 dest = await applyEnh(downstreamInstance, enhancement);
-                console.log({ msg: 'afterApplyEnh', upstreamRealm, downstreamInstance });
             }
             srcPropPath = upstreamPropPath;
             destPropPath = downstreamPropPath;
@@ -124,7 +122,6 @@ export async function pass(ibe, downlink) {
                 type = upstreamPropName;
             }
         }
-        console.log({ eventTarget, type });
         eventTarget.addEventListener(type, async (e) => {
             await doPass();
         });
