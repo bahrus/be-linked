@@ -269,7 +269,7 @@ If the server is able to apply the initial round of rendering / passing, then we
 ```html
 <input name=lhs>
 <template be-switched be-linked='
-    On input event of previous lhs named element pass value property to $0-enh-by-be-switched => lhs.
+    On input event of previous lhs named element pass value property to $0-enh-by-be-switched : lhs.
 '>
 ```
 
