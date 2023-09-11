@@ -90,7 +90,7 @@ This is just a sneak peak into something that will be discussed in more depth la
 <input type=search>
 
 <div be-linked='
-    On input event of previous element sibling pass value property to $0-enh-by-be-searching => for text.
+    On input event of previous element sibling pass value property to $0-enh-by-be-searching : for text.
 '>
 <div>
     supercalifragilisticexpialidocious
