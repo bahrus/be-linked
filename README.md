@@ -181,16 +181,48 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 
 ##### Using JavaScript for more complex scenarios
 
+###### Named handler
+
 ```html
 <host-element>
     #shadow
     <script nomodule>
-        export const readOnlyHandler = ({remoteInstance, adornedElement}) => ({
+        export const readOnlyHandler = ({remoteInstance, $0}) => ({
             checked: remoteInstance.readOnly ? 'on' : 'off',
         });
     </script>
     <toggle-element enh-by-be-linked='
         When read only property of host changes assign result of read only handler to $0. 
+    '></toggle-element>
+    <be-hive></be-hive>
+</host-element>
+```
+
+[TODO]  Alternative:
+
+```html
+<host-element>
+    #shadow
+    <script nomodule>
+        export const readOnlyHandler = ({$$, $0}) => ({
+            checked: $$.readOnly ? 'on' : 'off',
+        });
+    </script>
+    <toggle-element enh-by-be-linked='
+        When read only property of host changes assign result of read only handler to $0. 
+    '></toggle-element>
+    <be-hive></be-hive>
+</host-element>
+```
+
+###### Anonymous handler [TODO]
+
+```html
+<host-element>
+    #shadow
+    <script nomodule>({checked: $$.readOnly ? 'on': 'off'})</script>
+    <toggle-element enh-by-be-linked='
+        When read only property of host changes assign result of ! to $0. 
     '></toggle-element>
     <be-hive></be-hive>
 </host-element>
