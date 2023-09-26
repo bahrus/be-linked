@@ -1,6 +1,8 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE, Declarations} from 'be-enhanced/types';
 import {QueryInfo, Scope, camelQry, JSONObject} from 'trans-render/lib/types';
+import {BVAAllProps} from 'be-value-added/types';
+import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
 
 export interface EndUserProps extends IBE {
     camelConfig?: CamelConfig | CamelConfig[],
@@ -212,6 +214,11 @@ export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSr
 export interface Settings{
     enh?: {[key: string]: IBE}
 }
+
+export type ElTypes = '$' | '#' | '@' | '/';
+
+//copied from be-switched.  share from ... where?
+export type SignalRefType = BVAAllProps | ISignal | HTMLElement;
 
 export interface CanonicalConfig{
     links: Link[];
