@@ -220,7 +220,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
 ```html
 <host-element>
     #shadow
-    <script nomodule>({checked: $$.readOnly ? 'on': 'off'})</script>
+    <script nomodule>{checked: $$.readOnly ? 'on': 'off'}</script>
     <toggle-element enh-by-be-linked='
         When read only property of host changes assign result of ! to $0. 
     '></toggle-element>
