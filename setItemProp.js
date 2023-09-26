@@ -12,9 +12,9 @@ export async function setItemProp(el, val, name) {
             return;
         case 'link':
         case 'meta':
-            import('be-it/be-it.js');
-            const beIt = await el.beEnhanced.whenResolved('be-it');
-            beIt.value = val;
+            import('be-value-added/be-value-added.js');
+            const bva = await el.beEnhanced.whenResolved('be-value-added');
+            bva.value = val;
             return;
     }
     switch (typeof val) {
