@@ -8,8 +8,8 @@ export async function getItemPropVal(el) {
             return el.beEnhanced.beIntl.value;
         case 'link':
         case 'meta':
-            import('be-it/be-it.js');
-            await el.beEnhanced.whenResolved('be-it');
-            return el.beEnhanced.beIt.value;
+            import('be-value-added/be-value-added.js');
+            await el.beEnhanced.whenResolved('be-value-added');
+            return el.beEnhanced.beValueAdded.value;
     }
 }

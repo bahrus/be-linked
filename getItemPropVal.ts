@@ -8,9 +8,9 @@ export async function getItemPropVal(el: Element){
             return (<any>el).beEnhanced.beIntl.value;
         case 'link':
         case 'meta':
-            import('be-it/be-it.js');
-            await (<any>el).beEnhanced.whenResolved('be-it');
-            return (<any>el).beEnhanced.beIt.value;
+            import('be-value-added/be-value-added.js');
+            await (<any>el).beEnhanced.whenResolved('be-value-added');
+            return (<any>el).beEnhanced.beValueAdded.value;
     }
 
 }
