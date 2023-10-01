@@ -12,6 +12,7 @@
 		"be-linked.ts",
 		"getItemScopeObject.ts",
 		"getSignalVal.ts",
+		"setSignalVal.ts",
 		"demo/paul-mccartney.ts"
 	],
 	"exclude":[

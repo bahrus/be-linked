@@ -1,7 +1,9 @@
 export function getSignalVal(obj) {
-    if (obj instanceof HTMLElement) {
+    if (obj instanceof Element) {
         if ('checked' in obj) {
-            return obj.checked;
+            if (obj instanceof HTMLInputElement && obj.type === 'checkbox') {
+                return obj.checked;
+            }
         }
         if (obj.hasAttribute('aria-checked')) {
             return obj.getAttribute('aria-checked') === 'true';

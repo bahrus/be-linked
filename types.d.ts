@@ -218,7 +218,7 @@ export interface Settings{
 export type ElTypes = '$' | '#' | '@' | '/' | '-';
 
 //copied from be-switched.  share from ... where?
-export type SignalRefType = BVAAllProps | ISignal | HTMLElement;
+export type SignalRefType = BVAAllProps | ISignal | Element;
 
 export interface CanonicalConfig{
     links: Link[];

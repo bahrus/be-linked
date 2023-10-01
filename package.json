@@ -37,7 +37,9 @@
     "./observe.js": "./observe.js",
     "./pass.js": "./pass.js",
     "./reCommon.js": "./reCommon.js",
-    "./reOn.js": "./reOn.js"
+    "./reOn.js": "./reOn.js",
+    "./setItemProp.js": "./setItemProp.js",
+    "./setSignalVal.js": "./setSignalVal.js"
   },
   "files": [
     "*.js",
