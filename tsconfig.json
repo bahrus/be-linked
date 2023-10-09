@@ -10,11 +10,13 @@
 	},
 	"files":[
 		"be-linked.ts",
+		"doPG.ts",
+		"doVA.ts",
 		"getItemScopeObject.ts",
 		"getSignalVal.ts",
 		"setSignalVal.ts",
 		"demo/paul-mccartney.ts",
-		"doPG.ts"
+		
 	],
 	"exclude":[
 		"node_modules"

@@ -1,28 +1,28 @@
 import {SignalContainer} from './types';
+import {BVAAllProps} from 'be-value-added/types';
 import {BE} from 'be-enhanced/BE.js';
-import 'be-propagating/be-propagating.js';
-export async function doPG<TSelf extends BE = BE>(
+
+export async function doVA<TSelf extends BE = BE>(
     self:  TSelf,
     el: Element,
     signalContainer: SignalContainer,
-    signalProp: string,
-    prop: string, 
+    signalProp: string, 
     abortControllers: Array<AbortController>,
     evalFn: (self: TSelf, triggerSrc?: string) => void,
     triggerSrc: string
-){
-    const bePropagating = await (<any>el).beEnhanced.whenResolved('be-propagating');
-    const signal = await bePropagating.getSignal(prop);
-    signalContainer[signalProp] = new WeakRef(signal);
+    ){
+    import('be-value-added/be-value-added.js');
+    //const {enhancedElement} = self;
+    const beValueAdded = await  (<any>el).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
+    signalContainer[signalProp] = new WeakRef<BVAAllProps>(beValueAdded);
     const ab = new AbortController();
     abortControllers.push(ab);
-    signal.addEventListener('value-changed', async () => {
+    beValueAdded.addEventListener('value-changed', async e => {
         if(self.resolved){
             evalFn(self, triggerSrc);
         }else{
             await self.whenResolved();
             evalFn(self, triggerSrc);
         }
-        
     }, {signal: ab.signal});
 }
