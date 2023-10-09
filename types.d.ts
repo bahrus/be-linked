@@ -249,3 +249,7 @@ export interface IP {
 }
 
 type itemprop = string;
+
+export interface SignalContainer{
+    [key: string]: WeakRef<SignalRefType>
+}

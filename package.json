@@ -31,6 +31,7 @@
     ".": "./be-linked.js",
     "./adjustLink.js": "./adjustLink.js",
     "./be-linked.js": "./be-linked.js",
+    "./doPG.js": "./doPG.js",
     "./getItemPropVal.js": "./getItemPropVal.js",
     "./getItemScopeObject.js": "./getItemScopeObject.js",
     "./getSignalVal.js": "./getSignalVal.js",
