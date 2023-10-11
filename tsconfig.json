@@ -13,6 +13,7 @@
 		"doPG.ts",
 		"doVA.ts",
 		"getItemScopeObject.ts",
+		"getRemoteEl.ts",
 		"getSignalVal.ts",
 		"setSignalVal.ts",
 		"demo/paul-mccartney.ts",

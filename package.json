@@ -35,6 +35,7 @@
     "./doVA.js": "./doVA.js",
     "./getItemPropVal.js": "./getItemPropVal.js",
     "./getItemScopeObject.js": "./getItemScopeObject.js",
+    "./getRemoteEl.js": "./getRemoteEl.js",
     "./getSignalVal.js": "./getSignalVal.js",
     "./observe.js": "./observe.js",
     "./pass.js": "./pass.js",
