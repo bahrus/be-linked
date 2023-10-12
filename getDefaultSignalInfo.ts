@@ -1,3 +1,4 @@
+import {SignalInfo} from './types';
 export function getDefaultSignalInfo(enhancedElement: Element): SignalInfo{
     const {localName} = enhancedElement;
     switch(localName){
