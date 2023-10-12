@@ -253,3 +253,8 @@ type itemprop = string;
 export interface SignalContainer{
     [key: string]: WeakRef<SignalRefType>
 }
+
+export interface SignalInfo{
+    eventTarget: EventTarget,
+    type: string,
+}

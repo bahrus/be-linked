@@ -1,5 +1,4 @@
-"use strict";
-function getDefaultSignalInfo(enhancedElement) {
+export function getDefaultSignalInfo(enhancedElement) {
     const { localName } = enhancedElement;
     switch (localName) {
         case 'input':
