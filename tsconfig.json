@@ -12,6 +12,7 @@
 		"be-linked.ts",
 		"doPG.ts",
 		"doVA.ts",
+		"getDefaultSignalInfo.ts",
 		"getItemScopeObject.ts",
 		"getRemoteEl.ts",
 		"getSignalVal.ts",

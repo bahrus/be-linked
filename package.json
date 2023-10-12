@@ -33,6 +33,7 @@
     "./be-linked.js": "./be-linked.js",
     "./doPG.js": "./doPG.js",
     "./doVA.js": "./doVA.js",
+    "./getDefaultSignalInfo.js": "./getDefaultSignalInfo.js",
     "./getItemPropVal.js": "./getItemPropVal.js",
     "./getItemScopeObject.js": "./getItemScopeObject.js",
     "./getRemoteEl.js": "./getRemoteEl.js",
