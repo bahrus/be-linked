@@ -10,6 +10,7 @@
 	},
 	"files":[
 		"be-linked.ts",
+		"defaults.ts",
 		"doPG.ts",
 		"doVA.ts",
 		"getDefaultSignalInfo.ts",
