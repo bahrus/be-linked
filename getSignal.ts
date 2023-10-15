@@ -16,7 +16,8 @@ export async function getSignal(enhancedElement: Element, type: ElTypes, prop: s
                 return {
                     el,
                     signal,
-                    ref: new WeakRef<BVAAllProps>(signal)
+                    ref: new WeakRef<BVAAllProps>(signal),
+                    eventType: 'value-changed'
                 };
             }
         }
@@ -26,7 +27,8 @@ export async function getSignal(enhancedElement: Element, type: ElTypes, prop: s
             return {
                 el,
                 signal: el,
-                ref: new WeakRef(el)
+                ref: new WeakRef(el),
+                eventType: 'input',
             }
         }
         case '#':{
@@ -35,7 +37,8 @@ export async function getSignal(enhancedElement: Element, type: ElTypes, prop: s
             return {
                 el,
                 signal: el,
-                ref: new WeakRef(el)
+                ref: new WeakRef(el),
+                eventType: 'input'
             }
         }
         case '/':{
@@ -49,7 +52,8 @@ export async function getSignal(enhancedElement: Element, type: ElTypes, prop: s
             return {
                 el,
                 signal,
-                ref: new WeakRef(signal)
+                ref: new WeakRef(signal),
+                eventType: 'value-changed'
             };
         }
         case '-':{
@@ -61,7 +65,8 @@ export async function getSignal(enhancedElement: Element, type: ElTypes, prop: s
             return {
                 el,
                 signal,
-                ref: new WeakRef(signal)
+                ref: new WeakRef(signal),
+                eventType: 'value-changed'
             };
         }
             
