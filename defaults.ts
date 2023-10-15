@@ -1,3 +1,5 @@
+import {LocalSignal} from './types';
+import {BVAAllProps} from 'be-value-added/types';
 export function getRemoteProp(enhancedElement: Element){
     if(enhancedElement.hasAttribute('itemprop')){
         return enhancedElement.getAttribute('itemprop')?.split(' ')[0];
@@ -5,27 +7,47 @@ export function getRemoteProp(enhancedElement: Element){
     return (enhancedElement as any).name || enhancedElement.id;
 }
 
-export function getLocalProp(enhancedElement: Element){
+export async function getLocalSignal(enhancedElement: Element): Promise<LocalSignal>{
     const {localName} = enhancedElement;
-    let localProp: string | null = 'textContent';
     switch(localName){
-        case 'input':
+        case 'input':{
             const {type} = enhancedElement as HTMLInputElement;
+            const signal = enhancedElement;
             switch(type){
                 case 'number':
-                    return 'valueAsNumber';
+                    return {
+                       prop: 'valueAsNumber',
+                       signal
+                    };
                 case 'checkbox':
-                    return 'checked';
+                    return {
+                        prop: 'checked',
+                        signal
+                    };
                     break;
                 default:
-                    return 'value';
+                    return {
+                        prop: 'value',
+                        signal
+                    };
             }
-            break;
-        case 'meta':
-            return 'value';
+        }
+
+        case 'meta':{
+            import('be-value-added/be-value-added.js');
+            const signal = await  (<any>enhancedElement).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
+            return {
+                prop: 'value',
+                signal,
+            };
+        }
+            
         // default:
         //     localProp = enhancedElement.getAttribute('itemprop');
         //     if(localProp === null) throw 'itemprop not specified';
     }
-    return 'textContent';
+    return {
+        prop: 'textContent',
+        signal: enhancedElement,
+    }
 }

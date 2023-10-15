@@ -265,3 +265,8 @@ export interface SignalRefs{
     ref: WeakRef<SignalRefType>,
     eventType: string,
 }
+
+export interface LocalSignal{
+    prop: string,
+    signal: SignalRefType,
+}

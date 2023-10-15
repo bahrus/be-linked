@@ -4,27 +4,45 @@ export function getRemoteProp(enhancedElement) {
     }
     return enhancedElement.name || enhancedElement.id;
 }
-export function getLocalProp(enhancedElement) {
+export async function getLocalSignal(enhancedElement) {
     const { localName } = enhancedElement;
-    let localProp = 'textContent';
     switch (localName) {
-        case 'input':
+        case 'input': {
             const { type } = enhancedElement;
+            const signal = enhancedElement;
             switch (type) {
                 case 'number':
-                    return 'valueAsNumber';
+                    return {
+                        prop: 'valueAsNumber',
+                        signal
+                    };
                 case 'checkbox':
-                    return 'checked';
+                    return {
+                        prop: 'checked',
+                        signal
+                    };
                     break;
                 default:
-                    return 'value';
+                    return {
+                        prop: 'value',
+                        signal
+                    };
             }
-            break;
-        case 'meta':
-            return 'value';
+        }
+        case 'meta': {
+            import('be-value-added/be-value-added.js');
+            const signal = await enhancedElement.beEnhanced.whenResolved('be-value-added');
+            return {
+                prop: 'value',
+                signal,
+            };
+        }
         // default:
         //     localProp = enhancedElement.getAttribute('itemprop');
         //     if(localProp === null) throw 'itemprop not specified';
     }
-    return 'textContent';
+    return {
+        prop: 'textContent',
+        signal: enhancedElement,
+    };
 }
