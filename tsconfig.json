@@ -13,6 +13,7 @@
 		"defaults.ts",
 		"doPG.ts",
 		"doVA.ts",
+		"getSignal.ts",
 		"getDefaultSignalInfo.ts",
 		"getItemScopeObject.ts",
 		"getRemoteEl.ts",

@@ -38,6 +38,7 @@
     "./getItemPropVal.js": "./getItemPropVal.js",
     "./getItemScopeObject.js": "./getItemScopeObject.js",
     "./getRemoteEl.js": "./getRemoteEl.js",
+    "./getSignal.js": "./getSignal.js",
     "./getSignalVal.js": "./getSignalVal.js",
     "./observe.js": "./observe.js",
     "./pass.js": "./pass.js",

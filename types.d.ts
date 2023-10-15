@@ -258,3 +258,9 @@ export interface SignalInfo{
     eventTarget: EventTarget,
     type: string,
 }
+
+export interface SignalRefs{
+    el: Element,
+    signal: SignalRefType,
+    ref: WeakRef<SignalRefType>
+}
