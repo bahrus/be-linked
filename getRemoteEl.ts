@@ -6,7 +6,7 @@ type ScopeOrScopeFn = Scope | ((remoteProp: string) => Scope);
 const realmMap = new Map<ElTypes, ScopeOrScopeFn>(
     [
         ['#', (remoteProp: string) => ['wrn', '#' + remoteProp]],
-        ['/', 'host'],
+        ['/', 'hostish'],
         ['@', (remoteProp: string) => ['wf', remoteProp]],
         ['$', (remoteProp: string) => ['wis', remoteProp]],
         ['-', (remoteProp: string) => ['us', `[-${remoteProp}]`]]

@@ -3,7 +3,13 @@ import {findRealm} from 'trans-render/lib/findRealm.js';
 import {BVAAllProps} from 'be-value-added/types';
 import {Actions as BPActions} from 'be-propagating/types';
 
-export async function getSignal(enhancedElement: Element, type: ElTypes, prop: string, attr?: string): Promise<SignalRefs>{
+export async function getSignal(
+    enhancedElement: Element, 
+    type: ElTypes, 
+    prop: string, 
+    attr?: string,
+    
+    ): Promise<SignalRefs>{
     switch(type){
         case '$':{
             const el = await findRealm(enhancedElement, ['wis', prop!]) as HTMLElement;

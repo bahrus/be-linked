@@ -1,7 +1,7 @@
 import { findRealm } from 'trans-render/lib/findRealm.js';
 const realmMap = new Map([
     ['#', (remoteProp) => ['wrn', '#' + remoteProp]],
-    ['/', 'host'],
+    ['/', 'hostish'],
     ['@', (remoteProp) => ['wf', remoteProp]],
     ['$', (remoteProp) => ['wis', remoteProp]],
     ['-', (remoteProp) => ['us', `[-${remoteProp}]`]]
