@@ -35,7 +35,7 @@ export async function getLocalSignal(enhancedElement: Element): Promise<LocalSig
                     };
             }
         }
-
+        case 'link':
         case 'meta':{
             import('be-value-added/be-value-added.js');
             const signal = await  (<any>enhancedElement).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
@@ -47,11 +47,12 @@ export async function getLocalSignal(enhancedElement: Element): Promise<LocalSig
         }
             
         // default:
-        //     localProp = enhancedElement.getAttribute('itemprop');
-        //     if(localProp === null) throw 'itemprop not specified';
+            // localProp = enhancedElement.getAttribute('itemprop');
+            // if(localProp === null) throw 'itemprop not specified';
     }
     return {
         prop: 'textContent',
         signal: enhancedElement,
+        type: 'input'
     }
 }

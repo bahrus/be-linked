@@ -32,6 +32,7 @@ export async function getLocalSignal(enhancedElement) {
                     };
             }
         }
+        case 'link':
         case 'meta': {
             import('be-value-added/be-value-added.js');
             const signal = await enhancedElement.beEnhanced.whenResolved('be-value-added');
@@ -42,11 +43,12 @@ export async function getLocalSignal(enhancedElement) {
             };
         }
         // default:
-        //     localProp = enhancedElement.getAttribute('itemprop');
-        //     if(localProp === null) throw 'itemprop not specified';
+        // localProp = enhancedElement.getAttribute('itemprop');
+        // if(localProp === null) throw 'itemprop not specified';
     }
     return {
         prop: 'textContent',
         signal: enhancedElement,
+        type: 'input'
     };
 }
