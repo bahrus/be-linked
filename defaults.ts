@@ -7,7 +7,7 @@ export function getRemoteProp(enhancedElement: Element){
     return (enhancedElement as any).name || enhancedElement.id;
 }
 
-export async function getLocalSignal(enhancedElement: Element): Promise<LocalSignal>{
+export async function getLocalSignal(enhancedElement: Element, beVigilant = false): Promise<LocalSignal>{
     const {localName} = enhancedElement;
     switch(localName){
         case 'input':{
@@ -26,7 +26,6 @@ export async function getLocalSignal(enhancedElement: Element): Promise<LocalSig
                         signal,
                         type: localName
                     };
-                    break;
                 default:
                     return {
                         prop: 'value',
@@ -35,24 +34,27 @@ export async function getLocalSignal(enhancedElement: Element): Promise<LocalSig
                     };
             }
         }
-        case 'link':
-        case 'meta':{
-            import('be-value-added/be-value-added.js');
-            const signal = await  (<any>enhancedElement).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
-            return {
-                prop: 'value',
-                signal,
-                type: 'value-changed',
-            };
+    }
+    if(enhancedElement.hasAttribute('contenteditable')){
+        return {
+            prop: 'textContent',
+            signal: enhancedElement,
+            type: 'input'
         }
+    }
+    if(localName.includes('-')) throw 'NI';
+        
+    import('be-value-added/be-value-added.js');
+    const signal = await  (<any>enhancedElement).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
+    signal.beVigilant = beVigilant;
+    return {
+        prop: 'value',
+        signal,
+        type: 'value-changed',
+    };
             
         // default:
             // localProp = enhancedElement.getAttribute('itemprop');
             // if(localProp === null) throw 'itemprop not specified';
-    }
-    return {
-        prop: 'textContent',
-        signal: enhancedElement,
-        type: 'input'
-    }
+    
 }

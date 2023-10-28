@@ -4,7 +4,7 @@ export function getRemoteProp(enhancedElement) {
     }
     return enhancedElement.name || enhancedElement.id;
 }
-export async function getLocalSignal(enhancedElement) {
+export async function getLocalSignal(enhancedElement, beVigilant = false) {
     const { localName } = enhancedElement;
     switch (localName) {
         case 'input': {
@@ -23,7 +23,6 @@ export async function getLocalSignal(enhancedElement) {
                         signal,
                         type: localName
                     };
-                    break;
                 default:
                     return {
                         prop: 'value',
@@ -32,23 +31,25 @@ export async function getLocalSignal(enhancedElement) {
                     };
             }
         }
-        case 'link':
-        case 'meta': {
-            import('be-value-added/be-value-added.js');
-            const signal = await enhancedElement.beEnhanced.whenResolved('be-value-added');
-            return {
-                prop: 'value',
-                signal,
-                type: 'value-changed',
-            };
-        }
-        // default:
-        // localProp = enhancedElement.getAttribute('itemprop');
-        // if(localProp === null) throw 'itemprop not specified';
     }
+    if (enhancedElement.hasAttribute('contenteditable')) {
+        return {
+            prop: 'textContent',
+            signal: enhancedElement,
+            type: 'input'
+        };
+    }
+    if (localName.includes('-'))
+        throw 'NI';
+    import('be-value-added/be-value-added.js');
+    const signal = await enhancedElement.beEnhanced.whenResolved('be-value-added');
+    signal.beVigilant = beVigilant;
     return {
-        prop: 'textContent',
-        signal: enhancedElement,
-        type: 'input'
+        prop: 'value',
+        signal,
+        type: 'value-changed',
     };
+    // default:
+    // localProp = enhancedElement.getAttribute('itemprop');
+    // if(localProp === null) throw 'itemprop not specified';
 }
