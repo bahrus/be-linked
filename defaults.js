@@ -14,18 +14,21 @@ export async function getLocalSignal(enhancedElement) {
                 case 'number':
                     return {
                         prop: 'valueAsNumber',
-                        signal
+                        signal,
+                        type: localName
                     };
                 case 'checkbox':
                     return {
                         prop: 'checked',
-                        signal
+                        signal,
+                        type: localName
                     };
                     break;
                 default:
                     return {
                         prop: 'value',
-                        signal
+                        signal,
+                        type: localName
                     };
             }
         }
@@ -35,6 +38,7 @@ export async function getLocalSignal(enhancedElement) {
             return {
                 prop: 'value',
                 signal,
+                type: 'value-changed',
             };
         }
         // default:

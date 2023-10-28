@@ -1,4 +1,5 @@
 import {SignalInfo, RemoteRule} from './types';
+//this seems to be a duplicate of defaults.ts
 export function getDefaultSignalInfo(enhancedElement: Element): SignalInfo{
     const {localName} = enhancedElement;
     switch(localName){
@@ -8,8 +9,11 @@ export function getDefaultSignalInfo(enhancedElement: Element): SignalInfo{
                 signalRef: enhancedElement,
                 type: 'input'
             }
+        default:
+            if(enhancedElement.hasAttribute('contenteditable')){
+                throw 'NI';
+            }
     }
-    throw 'NI';
 }
 
 export function getDefaultRemoteRule(downstreamEl: Element){

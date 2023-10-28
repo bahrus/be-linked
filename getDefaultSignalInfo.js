@@ -1,3 +1,4 @@
+//this seems to be a duplicate of defaults.ts
 export function getDefaultSignalInfo(enhancedElement) {
     const { localName } = enhancedElement;
     switch (localName) {
@@ -7,8 +8,11 @@ export function getDefaultSignalInfo(enhancedElement) {
                 signalRef: enhancedElement,
                 type: 'input'
             };
+        default:
+            if (enhancedElement.hasAttribute('contenteditable')) {
+                throw 'NI';
+            }
     }
-    throw 'NI';
 }
 export function getDefaultRemoteRule(downstreamEl) {
     return {
