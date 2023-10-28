@@ -256,6 +256,7 @@ export interface SignalContainer{
 
 export interface SignalInfo{
     eventTarget: EventTarget,
+    signalRef: SignalRefType,
     type: string,
 }
 
@@ -269,4 +270,10 @@ export interface SignalRefs{
 export interface LocalSignal{
     prop: string,
     signal: SignalRefType,
+}
+
+export interface RemoteRule{
+    remoteProp: string,
+    remoteType: ElTypes,
+    remoteRef?: WeakRef<Element>,
 }
