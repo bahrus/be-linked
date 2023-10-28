@@ -47,7 +47,7 @@ export async function getLocalSignal(enhancedElement, beVigilant = false) {
     return {
         prop: 'value',
         signal,
-        type: 'value-changed',
+        type: 'value',
     };
     // default:
     // localProp = enhancedElement.getAttribute('itemprop');

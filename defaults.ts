@@ -50,7 +50,7 @@ export async function getLocalSignal(enhancedElement: Element, beVigilant = fals
     return {
         prop: 'value',
         signal,
-        type: 'value-changed',
+        type: 'value',
     };
             
         // default:
