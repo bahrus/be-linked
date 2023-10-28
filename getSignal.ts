@@ -23,7 +23,7 @@ export async function getSignal(
                     el,
                     signal,
                     ref: new WeakRef<BVAAllProps>(signal),
-                    eventType: 'value-changed'
+                    eventType: 'value'
                 };
             }
         }

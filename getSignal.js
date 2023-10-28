@@ -15,7 +15,7 @@ export async function getSignal(enhancedElement, type, prop, attr) {
                     el,
                     signal,
                     ref: new WeakRef(signal),
-                    eventType: 'value-changed'
+                    eventType: 'value'
                 };
             }
         }
