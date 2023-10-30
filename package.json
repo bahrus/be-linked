@@ -31,6 +31,7 @@
     ".": "./be-linked.js",
     "./adjustLink.js": "./adjustLink.js",
     "./be-linked.js": "./be-linked.js",
+    "./breakTie.js": "./breakTie.js",
     "./defaults.js": "./defaults.js",
     "./doPG.js": "./doPG.js",
     "./doVA.js": "./doVA.js",

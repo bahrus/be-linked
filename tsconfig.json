@@ -10,6 +10,7 @@
 	},
 	"files":[
 		"be-linked.ts",
+		"breakTie.ts",
 		"defaults.ts",
 		"doPG.ts",
 		"doVA.ts",
