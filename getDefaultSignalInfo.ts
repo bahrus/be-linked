@@ -16,10 +16,10 @@ export function getDefaultSignalInfo(enhancedElement: Element): SignalInfo{
     }
 }
 
-export function getDefaultRemoteRule(downstreamEl: Element){
-    return {
-        remoteType: '/',
-        //TODO:  move this evaluation to be-linked -- shared with be-bound
-        remoteProp: downstreamEl.getAttribute('itemprop') || (downstreamEl as any).name || downstreamEl.id,
-    } as RemoteRule
-}
+// export function getDefaultRemoteRule(downstreamEl: Element){
+//     return {
+//         remoteType: '/',
+//         //TODO:  move this evaluation to be-linked -- shared with be-bound
+//         remoteProp: downstreamEl.getAttribute('itemprop') || (downstreamEl as any).name || downstreamEl.id,
+//     } as RemoteRule
+// }

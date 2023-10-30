@@ -279,3 +279,11 @@ export interface RemoteRule{
     remoteType: ElTypes,
     remoteRef?: WeakRef<Element>,
 }
+
+export type TriggerSource = 'local' | 'remote' | 'tie';
+
+export interface SpecificityResult {
+    val?: any,
+    winner?: TriggerSource;
+}
+

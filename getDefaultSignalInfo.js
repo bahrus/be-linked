@@ -14,10 +14,10 @@ export function getDefaultSignalInfo(enhancedElement) {
             }
     }
 }
-export function getDefaultRemoteRule(downstreamEl) {
-    return {
-        remoteType: '/',
-        //TODO:  move this evaluation to be-linked -- shared with be-bound
-        remoteProp: downstreamEl.getAttribute('itemprop') || downstreamEl.name || downstreamEl.id,
-    };
-}
+// export function getDefaultRemoteRule(downstreamEl: Element){
+//     return {
+//         remoteType: '/',
+//         //TODO:  move this evaluation to be-linked -- shared with be-bound
+//         remoteProp: downstreamEl.getAttribute('itemprop') || (downstreamEl as any).name || downstreamEl.id,
+//     } as RemoteRule
+// }
