@@ -10,20 +10,20 @@
   ],
   "dependencies": {
     "be-enhanced": "0.0.55",
-    "be-exportable": "0.0.93",
-    "be-hive": "0.0.123",
+    "be-exportable": "0.0.95",
+    "be-hive": "0.0.125",
     "be-intl": "0.0.17",
     "be-propagating": "0.0.28",
     "be-repeated": "0.0.115",
     "be-scoped": "0.0.19",
-    "be-value-added": "0.0.12",
+    "be-value-added": "0.0.15",
     "trans-render": "0.0.707",
     "xtal-element": "0.0.579"
   },
   "devDependencies": {
     "be-scoped": "0.0.19",
     "may-it-serve": "0.0.6",
-    "@playwright/test": "1.39.0"
+    "@playwright/test": "1.40.0"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",
