@@ -1,7 +1,7 @@
 import {SignalContainer} from './types';
-import {BE} from 'be-enhanced/BE.js';
+import {IBE} from 'be-enhanced/types';
 import 'be-propagating/be-propagating.js';
-export async function doPG<TSelf extends BE = BE>(
+export async function doPG<TSelf extends IBE = IBE>(
     self:  TSelf,
     el: Element,
     signalContainer: SignalContainer,

@@ -5,7 +5,7 @@ export async function doVA(self, el, signalContainer, signalProp, abortControlle
     signalContainer[signalProp] = new WeakRef(beValueAdded);
     const ab = new AbortController();
     abortControllers.push(ab);
-    beValueAdded.addEventListener('value-changed', async (e) => {
+    beValueAdded.addEventListener('value', async (e) => {
         if (self.resolved) {
             evalFn(self, triggerSrc);
         }

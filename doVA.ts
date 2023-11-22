@@ -1,8 +1,8 @@
 import {SignalContainer} from './types';
 import {BVAAllProps} from 'be-value-added/types';
-import {BE} from 'be-enhanced/BE.js';
+import {IBE} from 'be-enhanced/types';
 
-export async function doVA<TSelf extends BE = BE>(
+export async function doVA<TSelf extends IBE = IBE>(
     self:  TSelf,
     el: Element,
     signalContainer: SignalContainer,
@@ -17,7 +17,7 @@ export async function doVA<TSelf extends BE = BE>(
     signalContainer[signalProp] = new WeakRef<BVAAllProps>(beValueAdded);
     const ab = new AbortController();
     abortControllers.push(ab);
-    beValueAdded.addEventListener('value-changed', async e => {
+    beValueAdded.addEventListener('value', async e => {
         if(self.resolved){
             evalFn(self, triggerSrc);
         }else{
