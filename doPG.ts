@@ -15,7 +15,7 @@ export async function doPG<TSelf extends IBE = IBE>(
     const signal = await bePropagating.getSignal(prop);
     signalContainer[signalProp] = new WeakRef(signal);
     const ab = new AbortController();
-    abortControllers.push(ab);
+    abortControllers?.push(ab);
     signal.addEventListener('value-changed', async () => {
         if(self.resolved){
             evalFn(self, triggerSrc);

@@ -11,7 +11,8 @@ export function setSignalVal(obj: SignalRefType, val: any){
         // if(obj.hasAttribute('aria-checked')){
         //     return obj.setAttribute('aria-checked' === 'true';
         // }
-        if('value' in obj && typeOfVal === 'string'){
+        //previously had code to check if val is string, but we need to be abe to pass boolean to be-value-added, for example.
+        if('value' in obj){
             obj.value = val;
             return;
         }
