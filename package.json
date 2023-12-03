@@ -23,7 +23,7 @@
   "devDependencies": {
     "be-scoped": "0.0.20",
     "may-it-serve": "0.0.6",
-    "@playwright/test": "1.40.0"
+    "@playwright/test": "1.40.1"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",
