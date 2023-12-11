@@ -1,6 +1,7 @@
 import {ElTypes} from 'be-linked/types';
 import {Scope} from 'trans-render/lib/types';
 import {findRealm} from 'trans-render/lib/findRealm.js';
+import {camelToLisp} from 'trans-render/lib/camelToLisp.js';
 
 type ScopeOrScopeFn = Scope | ((remoteProp: string) => Scope);
 const realmMap = new Map<ElTypes, ScopeOrScopeFn>(
@@ -9,7 +10,7 @@ const realmMap = new Map<ElTypes, ScopeOrScopeFn>(
         ['/', 'hostish'],
         ['@', (remoteProp: string) => ['wf', remoteProp]],
         ['$', (remoteProp: string) => ['wis', remoteProp]],
-        ['-', (remoteProp: string) => ['us', `[-${remoteProp}]`]]
+        ['-', (remoteProp: string) => ['us', `[-${camelToLisp(remoteProp)}]`]]
     ]
 );
 

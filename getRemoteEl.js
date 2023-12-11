@@ -1,10 +1,11 @@
 import { findRealm } from 'trans-render/lib/findRealm.js';
+import { camelToLisp } from 'trans-render/lib/camelToLisp.js';
 const realmMap = new Map([
     ['#', (remoteProp) => ['wrn', '#' + remoteProp]],
     ['/', 'hostish'],
     ['@', (remoteProp) => ['wf', remoteProp]],
     ['$', (remoteProp) => ['wis', remoteProp]],
-    ['-', (remoteProp) => ['us', `[-${remoteProp}]`]]
+    ['-', (remoteProp) => ['us', `[-${camelToLisp(remoteProp)}]`]]
 ]);
 export async function getRemoteEl(enhancedElement, typ, remoteProp) {
     const scopeOrScopeFn = realmMap.get(typ);
