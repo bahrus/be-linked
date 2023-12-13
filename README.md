@@ -87,13 +87,26 @@ which is shorthand for one of two lingo's:
 
 This is just a sneak peak into something that will be discussed in more depth later -- integration with microdata.-->
 
-## Special notation for hooking up custom enhancements
+## Special notation for hooking up custom enhancements [TODO]
 
 ```html
-<input type=search>
+<input type=search> 
 
 <div be-linked='
     On input event of previous element sibling pass value property to $0-enh-by-be-searching : for text.
+'>
+<div>
+    supercalifragilisticexpialidocious
+</div>
+```
+
+[TODO] Switch to:
+
+```html
+<input type=search> 
+
+<div be-linked='
+    On input event of previous element sibling pass value property to $0+beSearching : for text.
 '>
 <div>
     supercalifragilisticexpialidocious
@@ -299,12 +312,21 @@ If the server is able to apply the initial round of rendering / passing, then we
 
 
 
-### Traditional Element Events to enhancement property
+### Traditional Element Events to enhancement property [TODO]
 
 ```html
 <input name=lhs>
 <template be-switched be-linked='
     On input event of previous lhs named element pass value property to $0-enh-by-be-switched : lhs.
+'>
+```
+
+[TODO]  Switch to:
+
+```html
+<input name=lhs>
+<template be-switched be-linked='
+    On input event of previous lhs named element pass value property to $0+beSwitched : lhs.
 '>
 ```
 
