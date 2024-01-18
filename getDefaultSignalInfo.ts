@@ -13,6 +13,7 @@ export function getDefaultSignalInfo(enhancedElement: Element): SignalInfo{
             if(enhancedElement.hasAttribute('contenteditable')){
                 throw 'NI';
             }
+            throw 'NI'
     }
 }
 

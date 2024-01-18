@@ -11,7 +11,7 @@ export async function getSignal(
     
     ): Promise<SignalRefs>{
     switch(type){
-        case '$':{
+        case '|':{
             const el = await findRealm(enhancedElement, ['wis', prop!]) as HTMLElement;
             if(!el) throw 404;
             if(el.hasAttribute('contenteditable')){
@@ -74,6 +74,9 @@ export async function getSignal(
                 ref: new WeakRef(signal),
                 eventType: 'value-changed'
             };
+        }
+        case '$':{
+            throw 'NI';
         }
             
     }

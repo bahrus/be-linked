@@ -12,6 +12,7 @@ export function getDefaultSignalInfo(enhancedElement) {
             if (enhancedElement.hasAttribute('contenteditable')) {
                 throw 'NI';
             }
+            throw 'NI';
     }
 }
 // export function getDefaultRemoteRule(downstreamEl: Element){

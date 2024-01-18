@@ -4,8 +4,9 @@ const realmMap = new Map([
     ['#', (remoteProp) => ['wrn', '#' + remoteProp]],
     ['/', 'hostish'],
     ['@', (remoteProp) => ['wf', remoteProp]],
-    ['$', (remoteProp) => ['wis', remoteProp]],
-    ['-', (remoteProp) => ['us', `[-${camelToLisp(remoteProp)}]`]]
+    ['|', (remoteProp) => ['wis', remoteProp]],
+    ['-', (remoteProp) => ['us', `[-${camelToLisp(remoteProp)}]`]],
+    ['$', (remoteProp) => { throw 'NI'; }]
 ]);
 export async function getRemoteEl(enhancedElement, typ, remoteProp) {
     const scopeOrScopeFn = realmMap.get(typ);

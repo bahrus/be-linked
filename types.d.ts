@@ -215,7 +215,7 @@ export interface Settings{
     enh?: {[key: string]: IBE}
 }
 
-export type ElTypes = '$' | '#' | '@' | '/' | '-';
+export type ElTypes = '$' | '#' | '@' | '/' | '-' | '|';
 
 //copied from be-switched.  share from ... where?
 export type SignalRefType = BVAAllProps | ISignal | Element;

@@ -9,8 +9,9 @@ const realmMap = new Map<ElTypes, ScopeOrScopeFn>(
         ['#', (remoteProp: string) => ['wrn', '#' + remoteProp]],
         ['/', 'hostish'],
         ['@', (remoteProp: string) => ['wf', remoteProp]],
-        ['$', (remoteProp: string) => ['wis', remoteProp]],
-        ['-', (remoteProp: string) => ['us', `[-${camelToLisp(remoteProp)}]`]]
+        ['|', (remoteProp: string) => ['wis', remoteProp]],
+        ['-', (remoteProp: string) => ['us', `[-${camelToLisp(remoteProp)}]`]],
+        ['$', (remoteProp: string) => {throw 'NI'}]
     ]
 );
 

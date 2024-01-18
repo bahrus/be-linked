@@ -1,7 +1,7 @@
 import { findRealm } from 'trans-render/lib/findRealm.js';
 export async function getSignal(enhancedElement, type, prop, attr) {
     switch (type) {
-        case '$': {
+        case '|': {
             const el = await findRealm(enhancedElement, ['wis', prop]);
             if (!el)
                 throw 404;
@@ -70,6 +70,9 @@ export async function getSignal(enhancedElement, type, prop, attr) {
                 ref: new WeakRef(signal),
                 eventType: 'value-changed'
             };
+        }
+        case '$': {
+            throw 'NI';
         }
     }
 }
