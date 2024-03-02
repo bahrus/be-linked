@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-test('Link_StandardLinkExample', async ({ page }) => {
-    await page.goto('./tests/Link/StandardLinkExample.html');
+test('Link_Simplest', async ({ page }) => {
+    await page.goto('./tests/Link/Simplest.html');
     // wait for 2 seconds
     await page.waitForTimeout(2000);
     const editor = page.locator('#target');
