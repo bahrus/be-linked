@@ -27,7 +27,7 @@ export async function prsElevate(ecc, links) {
                 const link = {
                     ...defaultLink,
                     downstreamPropPath,
-                    upstreamCamelQry: 'upSearchFor' + clUpstreamMarker + 'M',
+                    upstreamCamelQry: 'upSearchFor' + clUpstreamMarker + 'M', // ['upSearch', upstreamMarker + 'M'],
                     upstreamPropPath: clUpstreamMarker,
                     inferTriggerEvent: true,
                 };
