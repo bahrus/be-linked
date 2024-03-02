@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-test('test1', async ({ page }) => {
+test('Link_StandardLinkeExample', async ({ page }) => {
     await page.goto('./tests/Link/StandardLinkExample.html');
     // wait for 2 seconds
     await page.waitForTimeout(2000);
