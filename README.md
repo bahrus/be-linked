@@ -302,6 +302,8 @@ If host-element has method "doSomething": [Untested]
 </host-element>
 ```
 
+See [be-invoking](https://github.com/bahrus/be-invoking).
+
 ## Shorthand for invoking [TODO]
 
 A special key word is used for invoking methods on the host:
@@ -368,7 +370,7 @@ If the user enters something in the input field before the my-carousel element h
 
 To avoid this possibility maybe it would make more sense to add a be-linked attribute to my-carousel?
 
-
+See [be-passing](https://github.com/bahrus/be-passing)
 
 
 ## Running locally
