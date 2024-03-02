@@ -9,7 +9,7 @@
 <body>
     <paul-mccartney>
         <template>
-            <paul-mccartney be-linked='
+            <paul-mccartney enh-be-linked='
                 Link age props.
             '></paul-mccartney>
             <be-hive></be-hive>
@@ -22,13 +22,14 @@
                 "be-hive/": "../../node_modules/be-hive/",
                 "be-propagating/": "../../node_modules/be-propagating/",
                 "be-scoped/": "../../node_modules/be-scoped/",
+                "mount-observer/": "../../node_modules/mount-observer/",
                 "trans-render/": "../../node_modules/trans-render/",
                 "xtal-element/": "../../node_modules/xtal-element/"
             }
         }
     </script>
     <script type=module>
-        import '../../be-linked.js';
+        import '../../behivior.js';
         import '../paul-mccartney.js';
     </script>
 </body>
