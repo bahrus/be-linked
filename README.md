@@ -258,7 +258,7 @@ Maybe this should be a separate decorator? -->
 </my-light-weight-container
 ```
 
-See [be-elevating](https://github.com/bahrus/be-elevating) for a companion enhancement which specializes in this functionality, with more compact notation, special support for microdata, and other features.
+See companion enhancement [be-listening](https://github.com/bahrus/be-listening) for more compact / specialized ways of doing this.
 
 ## Upstream linking 
 
@@ -272,6 +272,8 @@ Suppose we want to pass information in the opposite direction -- from the adorne
         '>
 </host-element>
 ```
+
+See [be-elevating](https://github.com/bahrus/be-elevating) for a companion enhancement which specializes in this functionality, with more compact notation, special support for microdata, and other features.
 
 ## Upstream scripting 
 
