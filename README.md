@@ -248,7 +248,7 @@ Maybe this should be a separate decorator? -->
 ```html
 <my-light-weight-container>
     <number-generator></number-generator>
-    <metric-units enh-by-be-linked='
+    <metric-units enh-be-linked='
         On value changed event of previous element sibling pass value property to cm property of $0
         where we enable debugging
         and we fire changed event
