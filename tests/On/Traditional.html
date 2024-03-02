@@ -26,7 +26,7 @@
         }
     </script>
     <script type=module>
-        import '../../be-linked.js';
+        import '../../behivior.js';
     </script>
     <script>
         function runTest(){
@@ -36,11 +36,11 @@
                 if(input2.value === 'hello'){
                     target.setAttribute('mark', 'good')
                 }
-            }, 200)
+            }, 100)
         }
         setTimeout(() => {
             runTest();
-        }, 4000)
+        }, 1000)
     </script>
 </body>
 </html>
