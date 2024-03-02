@@ -70,23 +70,9 @@ which is shorthand for one of two lingo's:
 </host-element>
 ```
 
-<!--##### Microdata Notation [TODO]
-```html
-<host-element>
-    #shadow
-    <link itemscope itemref="my-id" be-linked>
-    ...
-    <input be-linked='
-        Derive read only property from my-id
-    '>
-    <link itemprop=readOnly id=my-id href="https://schema.org/True">
-    ...
-    
-</host-element>
-```
+For more compact and flexible options with similar functionality, see companion enhancements [be-entrusting](https://github.com/bahrus/be-entrusting) and [be-observant](https://github.com/bahrus/be-observant).
 
-This is just a sneak peak into something that will be discussed in more depth later -- integration with microdata.-->
-
+<!--
 ## Special notation for hooking up custom enhancements [TODO]
 
 ```html
@@ -112,6 +98,8 @@ This is just a sneak peak into something that will be discussed in more depth la
     supercalifragilisticexpialidocious
 </div>
 ```
+
+-->
 
 #### Negation scenario
 
@@ -159,7 +147,7 @@ Refer             |Pass weak reference of the property.
 
 Options:  as number, as date, as object, as string, as reg exp, as url.
 
-
+<!--
 #### Mapping 
 
 In many frameworks (take knockout.js, for example) the expectation is that the host element can easily be peppered with lots of computed properties that can then be passed to various child elements.  
@@ -194,6 +182,8 @@ host-element container has boolean property "readOnly" property.  If readOnly is
     <be-hive></be-hive>
 </host-element>
 ```
+
+-->
 
 ##### Using JavaScript for more complex scenarios
 
@@ -251,22 +241,6 @@ NB:  Can't subscribe to dataset.d changes.  So can't support link, only copy.
 
 Maybe this should be a separate decorator? -->
 
-
-### Leaning on server rendering [WIP]
-
-If the server is able to apply the initial round of rendering / passing, then we can alleviate the browser of a little extra work by saying it is so.
-
-
-```html
-<host-element>
-    #shadow
-    <input disable be-linked='
-        Link read only props
-        where we nudge $0
-        and we skip initialization.
-    '>
-</host-element>
-```
 
 
 ## Traditional Element Events 
