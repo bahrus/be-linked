@@ -21,7 +21,6 @@
     "xtal-element": "0.0.598"
   },
   "devDependencies": {
-    "be-scoped": "0.0.24",
     "may-it-serve": "0.0.6",
     "@playwright/test": "1.42.1"
   },

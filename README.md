@@ -207,7 +207,7 @@ host-element container has boolean property "readOnly" property.  If readOnly is
             checked: remoteInstance.readOnly ? 'on' : 'off',
         });
     </script>
-    <toggle-element enh-by-be-linked='
+    <toggle-element enh-be-linked='
         When read only property of host changes assign result of read only handler to $0. 
     '></toggle-element>
     <be-hive></be-hive>
