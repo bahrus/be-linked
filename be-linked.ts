@@ -3,7 +3,6 @@ import {BEConfig, EnhancementInfo} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {JSONValue} from 'trans-render/lib/types';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, CamelConfig, CanonicalConfig, Settings} from './types';
-import {register} from 'be-hive/register.js';
 
 const cache = new Map<string, JSONValue>();
 export class BeLinked extends BE<AP, Actions> implements Actions{
@@ -151,9 +150,8 @@ export interface BeLinked extends AllProps{}
 
 const cachedCanonicals: {[key: string]: CanonicalConfig} = {};
 
-const tagName = 'be-linked';
-const ifWantsToBe = 'linked';
-const upgrade = '*';
+export const tagName = 'be-linked';
+
 
 const xe = new XE<AP, Actions>({
     config: {
@@ -175,5 +173,3 @@ const xe = new XE<AP, Actions>({
     },
     superclass: BeLinked
 });
-
-register(ifWantsToBe, upgrade, tagName);

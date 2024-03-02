@@ -1,6 +1,5 @@
 import { BE, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
-import { register } from 'be-hive/register.js';
 const cache = new Map();
 export class BeLinked extends BE {
     static get beConfig() {
@@ -130,9 +129,7 @@ export class BeLinked extends BE {
     }
 }
 const cachedCanonicals = {};
-const tagName = 'be-linked';
-const ifWantsToBe = 'linked';
-const upgrade = '*';
+export const tagName = 'be-linked';
 const xe = new XE({
     config: {
         tagName,
@@ -153,4 +150,3 @@ const xe = new XE({
     },
     superclass: BeLinked
 });
-register(ifWantsToBe, upgrade, tagName);
