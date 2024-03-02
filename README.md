@@ -258,25 +258,7 @@ Maybe this should be a separate decorator? -->
 </my-light-weight-container
 ```
 
-
-
-### Traditional Element Events to enhancement property [TODO]
-
-```html
-<input name=lhs>
-<template be-switched be-linked='
-    On input event of previous lhs named element pass value property to $0-enh-by-be-switched : lhs.
-'>
-```
-
-[TODO]  Switch to:
-
-```html
-<input name=lhs>
-<template be-switched be-linked='
-    On input event of previous lhs named element pass value property to $0+beSwitched : lhs.
-'>
-```
+See [be-elevating](https://github.com/bahrus/be-elevating) for a companion enhancement which specializes in this functionality, with more compact notation, special support for microdata, and other features.
 
 ## Upstream linking 
 
