@@ -17,7 +17,7 @@
     "be-repeated": "0.0.120",
     "be-scoped": "0.0.24",
     "be-value-added": "0.0.23",
-    "trans-render": "0.0.741",
+    "trans-render": "0.0.742",
     "xtal-element": "0.0.598"
   },
   "devDependencies": {
