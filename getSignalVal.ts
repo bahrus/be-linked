@@ -23,6 +23,8 @@ export function getSignalVal(obj: SignalRefType){
         if('value' in obj){
             return obj.value;
         }
+        const ariaValueNow = (obj as Element).ariaValueNow;
+        if(ariaValueNow) return ariaValueNow; 
         //TODO:  hyperlinks
         return obj.textContent;
     }else{
