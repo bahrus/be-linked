@@ -3,10 +3,11 @@ const typeComp = new Map([
     ['string.string', 'tie'],
     ['boolean.undefined', 'local'],
     ['string.object', 'remote'],
+    ['string.null', 'local']
 ]);
 export function breakTie(localVal, remoteVal) {
     const localType = typeof localVal;
-    const remoteType = typeof remoteVal;
+    const remoteType = remoteVal === null ? 'null' : typeof remoteVal;
     const sameType = localType === remoteType;
     let winner = typeComp.get(`${localType}.${remoteType}`);
     let val = localVal;
