@@ -12,7 +12,7 @@ export async function adjustLink(link, ap) {
         const iPosOfColon = enhancement.indexOf(':');
         if (iPosOfColon > -1) {
             link.enhancement = enhancement.substring(0, iPosOfColon);
-            link.downstreamPropPath = enhancement.substring(iPosOfColon).replaceAll(':', '.');
+            link.downstreamPropPath = enhancement.substring(iPosOfColon + 1).replaceAll(':', '.');
         }
         // const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
         // link.enhancement = lispToCamel(enhancement);

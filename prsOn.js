@@ -76,7 +76,6 @@ export async function prsOn(cc, links, pp) {
     }
     for (const onString of On) {
         const test = tryParse(onString, reOnPassStatements, declare);
-        console.log({ test });
         if (test !== null) {
             await adjustLink(test, pp);
             links.push({
