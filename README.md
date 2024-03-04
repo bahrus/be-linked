@@ -72,34 +72,20 @@ which is shorthand for one of two lingo's:
 
 For more compact and flexible options with similar functionality, see companion enhancements [be-entrusting](https://github.com/bahrus/be-entrusting) and [be-observant](https://github.com/bahrus/be-observant).
 
-<!--
-## Special notation for hooking up custom enhancements [TODO]
+
+## Special notation for hooking up custom enhancements
 
 ```html
 <input type=search> 
 
 <div be-linked='
-    On input event of previous element sibling pass value property to $0-enh-by-be-searching : for text.
+    On input event of previous element sibling pass value property to $0+beSearching:forText.
 '>
 <div>
     supercalifragilisticexpialidocious
 </div>
 ```
 
-[TODO] Switch to:
-
-```html
-<input type=search> 
-
-<div be-linked='
-    On input event of previous element sibling pass value property to $0+beSearching : for text.
-'>
-<div>
-    supercalifragilisticexpialidocious
-</div>
-```
-
--->
 
 #### Negation scenario
 
