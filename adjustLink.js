@@ -9,8 +9,13 @@ export async function adjustLink(link, ap) {
         link.on = await camelToLisp(on);
     }
     if (enhancement !== undefined) {
-        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
-        link.enhancement = lispToCamel(enhancement);
+        const iPosOfColon = enhancement.indexOf(':');
+        if (iPosOfColon > -1) {
+            link.enhancement = enhancement.substring(0, iPosOfColon);
+            link.downstreamPropPath = enhancement.substring(iPosOfColon).replaceAll(':', '.');
+        }
+        // const {lispToCamel} = await import('trans-render/lib/lispToCamel.js');
+        // link.enhancement = lispToCamel(enhancement);
     }
     // if(catchAll !== undefined){
     //     const {doSub} = await import('./doSub.js');
