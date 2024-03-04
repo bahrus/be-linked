@@ -90,6 +90,7 @@ export async function prsOn(cc: CamelConfig, links: Link[], pp: AP){
 
     for(const onString of On!){
         const test = tryParse(onString, reOnPassStatements, declare) as OnPassStatement | null;
+        console.log({test});
         if(test !== null){
             await adjustLink(test as Link, pp);
             links.push({
