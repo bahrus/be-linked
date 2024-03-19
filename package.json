@@ -9,16 +9,16 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.69",
-    "be-exportable": "0.0.100",
-    "be-hive": "0.0.138",
-    "be-intl": "0.0.23",
-    "be-propagating": "0.0.33",
-    "be-repeated": "0.0.120",
-    "be-scoped": "0.0.24",
-    "be-value-added": "0.0.23",
-    "trans-render": "0.0.742",
-    "xtal-element": "0.0.598"
+    "be-enhanced": "0.0.72",
+    "be-exportable": "0.0.101",
+    "be-hive": "0.0.140",
+    "be-intl": "0.0.24",
+    "be-propagating": "0.0.34",
+    "be-repeated": "0.0.121",
+    "be-scoped": "0.0.25",
+    "be-value-added": "0.0.24",
+    "trans-render": "0.0.746",
+    "xtal-element": "0.0.599"
   },
   "devDependencies": {
     "may-it-serve": "0.0.6",
