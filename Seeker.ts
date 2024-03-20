@@ -59,7 +59,8 @@ export class Seeker<TSelf = any, TCtx = any>{
                 break;
             }
             case '/':
-                signalRef = await findRealm(enhancedElement, ['coh', '[itemscope]']) as HTMLInputElement;
+                signalRef = await findRealm(enhancedElement, ['h', true]) as HTMLInputElement;
+                await customElements.whenDefined(signalRef.localName);
                 import('be-propagating/be-propagating.js');
                 const bePropagating = await (<any>signalRef).beEnhanced.whenResolved('be-propagating');
                 const signal2 = await bePropagating.getSignal(prop);
