@@ -52,7 +52,7 @@ export class Seeker {
                 break;
             }
             case '/':
-                signalRef = await findRealm(enhancedElement, ['corn', '[itemscope]']);
+                signalRef = await findRealm(enhancedElement, ['coh', '[itemscope]']);
                 signal = new WeakRef(signalRef);
                 break;
         }

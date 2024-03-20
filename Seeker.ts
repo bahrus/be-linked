@@ -58,7 +58,7 @@ export class Seeker<TSelf = any, TCtx = any>{
                 break;
             }
             case '/':
-                signalRef = await findRealm(enhancedElement, ['corn', '[itemscope]']) as HTMLInputElement;
+                signalRef = await findRealm(enhancedElement, ['coh', '[itemscope]']) as HTMLInputElement;
                 signal = new WeakRef(signalRef);
                 break;
             
