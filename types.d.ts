@@ -287,3 +287,8 @@ export interface SpecificityResult {
     winner?: TriggerSource;
 }
 
+export interface SignalAndEvent {
+    signal?: WeakRef<SignalRefType>,
+    eventSuggestion?: string
+}
+

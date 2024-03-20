@@ -20,6 +20,7 @@
 		"getRemoteEl.ts",
 		"getSignalVal.ts",
 		"setSignalVal.ts",
+		"Seeker.ts",
 		"demo/paul-mccartney.ts",
 		
 	],
