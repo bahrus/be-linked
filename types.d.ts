@@ -288,6 +288,7 @@ export interface SpecificityResult {
 }
 
 export interface SignalAndEvent {
+    propagator?: EventTarget,
     signal?: WeakRef<SignalRefType>,
     eventSuggestion?: string
 }

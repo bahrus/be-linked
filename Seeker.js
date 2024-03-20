@@ -13,6 +13,7 @@ export class Seeker {
         let signal = undefined;
         let eventSuggestion = undefined;
         let signalRef = undefined;
+        let propagator = undefined;
         switch (elType) {
             case '|':
                 signalRef = await findRealm(enhancedElement, ['wis', prop]);
@@ -53,6 +54,11 @@ export class Seeker {
             }
             case '/':
                 signalRef = await findRealm(enhancedElement, ['coh', '[itemscope]']);
+                import('be-propagating/be-propagating.js');
+                const bePropagating = await signalRef.beEnhanced.whenResolved('be-propagating');
+                const signal2 = await bePropagating.getSignal(prop);
+                propagator = signal2.propagator;
+                eventSuggestion = prop;
                 signal = new WeakRef(signalRef);
                 break;
         }
@@ -61,7 +67,8 @@ export class Seeker {
         }
         return {
             signal,
-            eventSuggestion
+            eventSuggestion,
+            propagator,
         };
     }
     async callback(self, signalRef, eventSuggestion, onOrOff) {

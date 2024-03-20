@@ -19,6 +19,7 @@ export class Seeker<TSelf = any, TCtx = any>{
         let signal: WeakRef<SignalRefType> | undefined = undefined;
         let eventSuggestion: string | undefined = undefined;
         let signalRef: HTMLInputElement | undefined = undefined;
+        let propagator: EventTarget | undefined = undefined;
         switch(elType){
             case '|':
                 signalRef = await findRealm(enhancedElement, ['wis', prop!])  as HTMLInputElement;
@@ -59,6 +60,11 @@ export class Seeker<TSelf = any, TCtx = any>{
             }
             case '/':
                 signalRef = await findRealm(enhancedElement, ['coh', '[itemscope]']) as HTMLInputElement;
+                import('be-propagating/be-propagating.js');
+                const bePropagating = await (<any>signalRef).beEnhanced.whenResolved('be-propagating');
+                const signal2 = await bePropagating.getSignal(prop);
+                propagator = signal2.propagator;
+                eventSuggestion = prop;
                 signal = new WeakRef(signalRef);
                 break;
             
@@ -68,7 +74,8 @@ export class Seeker<TSelf = any, TCtx = any>{
         }
         return {
             signal,
-            eventSuggestion
+            eventSuggestion,
+            propagator,
         };
     }
 
