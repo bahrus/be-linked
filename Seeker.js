@@ -9,7 +9,7 @@ export class Seeker {
     val;
     async do(self, ctx, enhancedElement) {
         const { elO } = this;
-        const { event, prop, elType, perimeter } = elO;
+        const { event, prop, elType, perimeter, marker } = elO;
         let signal = undefined;
         let eventSuggestion = undefined;
         let signalRef = undefined;
@@ -52,8 +52,18 @@ export class Seeker {
                 eventSuggestion = event || 'input';
                 break;
             }
-            case '/':
-                signalRef = await findRealm(enhancedElement, ['h', true]);
+            case '-':
+            case '/': {
+                switch (elType) {
+                    case '-': {
+                        signalRef = await findRealm(enhancedElement, ['us', `[${marker}]`]);
+                        break;
+                    }
+                    case '/': {
+                        signalRef = await findRealm(enhancedElement, ['h', true]);
+                        break;
+                    }
+                }
                 await customElements.whenDefined(signalRef.localName);
                 import('be-propagating/be-propagating.js');
                 const bePropagating = await signalRef.beEnhanced.whenResolved('be-propagating');
@@ -62,6 +72,7 @@ export class Seeker {
                 eventSuggestion = prop;
                 signal = new WeakRef(signalRef);
                 break;
+            }
         }
         if (this.doCallback && signalRef !== undefined && eventSuggestion !== undefined) {
             await this.callback(self, signalRef, eventSuggestion, ctx);
