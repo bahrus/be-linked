@@ -88,7 +88,7 @@ export class Seeker {
     async addValue(signalRef) {
         import('be-value-added/be-value-added.js');
         const newSignalRef = await signalRef.beEnhanced.whenResolved('be-value-added');
-        const signal = new WeakRef(signalRef);
-        return [newSignalRef, signal, 'value-changed'];
+        const signal = new WeakRef(newSignalRef);
+        return [newSignalRef, signal, 'value'];
     }
 }
