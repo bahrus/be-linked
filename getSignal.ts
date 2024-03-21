@@ -78,6 +78,8 @@ export async function getSignal(
         case '$':{
             throw 'NI';
         }
-            
+        default:{
+            throw 'NI';
+        }    
     }
 }

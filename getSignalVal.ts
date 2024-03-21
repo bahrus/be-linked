@@ -28,6 +28,6 @@ export function getSignalVal(obj: SignalRefType){
         //TODO:  hyperlinks
         return obj.textContent;
     }else{
-        return obj.value;
+        return (<any>obj).value;
     }
 }

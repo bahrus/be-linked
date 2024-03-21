@@ -74,5 +74,8 @@ export async function getSignal(enhancedElement, type, prop, attr) {
         case '$': {
             throw 'NI';
         }
+        default: {
+            throw 'NI';
+        }
     }
 }
