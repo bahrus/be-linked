@@ -15,7 +15,7 @@ export class Seeker<TSelf = any, TCtx = any>{
         enhancedElement: Element) : Promise<SignalAndEvent | undefined>
     {
         const {elO} = this;
-        const {event, prop, elType, perimeter, marker} = elO;
+        const {event, prop, elType, perimeter, marker, subProp} = elO;
         let signal: WeakRef<SignalRefType> | undefined = undefined;
         let eventSuggestion: string | undefined = undefined;
         let signalRef: HTMLInputElement | undefined = undefined;
@@ -30,7 +30,6 @@ export class Seeker<TSelf = any, TCtx = any>{
                     [signalRef, signal, eventSuggestion] = await this.addValue(signalRef);
                 }
                 break;
-            case '~':
             case '@':
             case '#':{
                 switch(elType){
@@ -45,11 +44,6 @@ export class Seeker<TSelf = any, TCtx = any>{
                     case '#':
                         signalRef = await findRealm(enhancedElement, ['wrn', '#' + prop!]) as HTMLInputElement;
                         break;
-                    case '~':
-                        const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
-                        const localName = camelToLisp(prop!);
-                        signalRef = await findRealm(enhancedElement, ['wis', localName, true]) as HTMLInputElement;
-                        break;
                 }
                 if(!signalRef) throw 404;
                 signal = new WeakRef(signalRef);
@@ -58,8 +52,10 @@ export class Seeker<TSelf = any, TCtx = any>{
 
                 break;
             }
+            case '~':
             case '-':
             case '/':{
+                let propToSubscribeTo = prop;
                 switch(elType){
                     case '-':{
                         signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
@@ -69,13 +65,22 @@ export class Seeker<TSelf = any, TCtx = any>{
                         signalRef = await findRealm(enhancedElement, ['h', true]) as HTMLInputElement;
                         break;
                     }
+                    case '~':{
+                        //TODO:  the line below is likely to appear elsewhere, share it
+                        const subPropToConsider = subProp || enhancedElement.getAttribute('itemprop') || (<HTMLInputElement>enhancedElement).name || enhancedElement.id;
+                        const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
+                        const localName = camelToLisp(prop!);
+                        signalRef = await findRealm(enhancedElement, ['wis', localName, true]) as HTMLInputElement;
+                        const {substrBefore} = await import('trans-render/lib/substrBefore.js');
+                        propToSubscribeTo = substrBefore(substrBefore(subPropToConsider, '.'), '|');
+                    }
                 }
                 await customElements.whenDefined(signalRef.localName);
                 import('be-propagating/be-propagating.js');
                 const bePropagating = await (<any>signalRef).beEnhanced.whenResolved('be-propagating');
                 const signal2 = await bePropagating.getSignal(prop);
                 propagator = signal2.propagator;
-                eventSuggestion = prop;
+                eventSuggestion = propToSubscribeTo;
                 signal = new WeakRef(signalRef);
                 break;
             }
@@ -99,6 +104,8 @@ export class Seeker<TSelf = any, TCtx = any>{
         const signal = new WeakRef(newSignalRef);
         return [newSignalRef, signal, 'value'];
     }
+
+
 
 }
 
