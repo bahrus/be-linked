@@ -60,7 +60,7 @@ export class Seeker<TSelf = any, TCtx = any>{
                 switch(elType){
                     case '-':{
                         //signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
-                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`]) as HTMLInputElement;
+                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`, true]) as HTMLInputElement;
                         break;
                     }
                     case '/':{

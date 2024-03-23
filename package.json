@@ -37,6 +37,7 @@
     "./getDefaultSignalInfo.js": "./getDefaultSignalInfo.js",
     "./getItemPropVal.js": "./getItemPropVal.js",
     "./getItemScopeObject.js": "./getItemScopeObject.js",
+    "./getObsVal.js": "./getObjVal.js",
     "./getRemoteEl.js": "./getRemoteEl.js",
     "./getSignal.js": "./getSignal.js",
     "./getSignalVal.js": "./getSignalVal.js",

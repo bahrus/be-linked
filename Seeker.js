@@ -53,7 +53,7 @@ export class Seeker {
                 switch (elType) {
                     case '-': {
                         //signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
-                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`]);
+                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`, true]);
                         break;
                     }
                     case '/': {
