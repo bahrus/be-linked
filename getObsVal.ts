@@ -1,7 +1,7 @@
 import {SignalRefType} from './types';
 import { ElO } from 'trans-render/lib/prs/types';
 
-export async function getObjVal(remoteRef: SignalRefType, elO: ElO, enhancedElement: Element): any{
+export async function getObsVal(remoteRef: SignalRefType, elO: ElO, enhancedElement: Element): any{
     let remoteVal: any;
     const {elType, prop} = elO;
     //TODO:  Generic code.  Share with be-bound/Bind.js/#reconcileValues

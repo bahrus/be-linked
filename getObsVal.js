@@ -1,4 +1,4 @@
-export async function getObjVal(remoteRef, elO, enhancedElement) {
+export async function getObsVal(remoteRef, elO, enhancedElement) {
     let remoteVal;
     const { elType, prop } = elO;
     //TODO:  Generic code.  Share with be-bound/Bind.js/#reconcileValues
