@@ -59,7 +59,8 @@ export class Seeker<TSelf = any, TCtx = any>{
                 let propToSubscribeTo = prop;
                 switch(elType){
                     case '-':{
-                        signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
+                        //signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
+                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`]) as HTMLInputElement;
                         break;
                     }
                     case '/':{
