@@ -9,7 +9,7 @@ export class Seeker {
     val;
     async do(self, ctx, enhancedElement) {
         const { elO } = this;
-        const { event, prop, elType, perimeter, marker, subProp } = elO;
+        const { event, prop, elType, perimeter, marker } = elO;
         let signal = undefined;
         let eventSuggestion = undefined;
         let signalRef = undefined;
@@ -61,7 +61,8 @@ export class Seeker {
                     }
                     case '~': {
                         //TODO:  the line below is likely to appear elsewhere, share it
-                        const subPropToConsider = subProp || enhancedElement.getAttribute('itemprop') || enhancedElement.name || enhancedElement.id;
+                        const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
+                        const subPropToConsider = getSubProp(elO, enhancedElement);
                         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
                         const localName = camelToLisp(prop);
                         signalRef = await findRealm(enhancedElement, ['wis', localName, true]);

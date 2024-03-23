@@ -1,5 +1,6 @@
 import { SignalAndEvent, SignalRefType } from '../be-linked/types.js';
 import { findRealm } from 'trans-render/lib/findRealm.js';
+
 import {ElTypes, ElO} from 'trans-render/lib/prs/types';
 
 export class Seeker<TSelf = any, TCtx = any>{
@@ -15,7 +16,7 @@ export class Seeker<TSelf = any, TCtx = any>{
         enhancedElement: Element) : Promise<SignalAndEvent | undefined>
     {
         const {elO} = this;
-        const {event, prop, elType, perimeter, marker, subProp} = elO;
+        const {event, prop, elType, perimeter, marker} = elO;
         let signal: WeakRef<SignalRefType> | undefined = undefined;
         let eventSuggestion: string | undefined = undefined;
         let signalRef: HTMLInputElement | undefined = undefined;
@@ -67,7 +68,8 @@ export class Seeker<TSelf = any, TCtx = any>{
                     }
                     case '~':{
                         //TODO:  the line below is likely to appear elsewhere, share it
-                        const subPropToConsider = subProp || enhancedElement.getAttribute('itemprop') || (<HTMLInputElement>enhancedElement).name || enhancedElement.id;
+                        const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
+                        const subPropToConsider = getSubProp(elO, enhancedElement as HTMLElement);
                         const {camelToLisp} = await import('trans-render/lib/camelToLisp.js');
                         const localName = camelToLisp(prop!);
                         signalRef = await findRealm(enhancedElement, ['wis', localName, true]) as HTMLInputElement;
