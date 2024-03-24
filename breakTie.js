@@ -9,7 +9,7 @@ export function breakTie(localVal, remoteVal) {
     const localType = typeof localVal;
     const remoteType = remoteVal === null ? 'null' : typeof remoteVal;
     const sameType = localType === remoteType;
-    let winner = typeComp.get(`${localType}.${remoteType}`);
+    let winner = sameType ? 'tie' : typeComp.get(`${localType}.${remoteType}`);
     let val = localVal;
     switch (winner) {
         case 'tie':
@@ -23,6 +23,19 @@ export function breakTie(localVal, remoteVal) {
                         winner = 'remote';
                         val = remoteVal;
                     }
+                    break;
+                case 'boolean':
+                    if (sameType) {
+                        //since the values are different, one should take precedence
+                        val = true;
+                        if (localVal) {
+                            winner = 'local';
+                        }
+                        else {
+                            winner = 'remote';
+                        }
+                    }
+                    break;
             }
             break;
         case 'remote':
