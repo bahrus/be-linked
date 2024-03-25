@@ -270,6 +270,7 @@ export interface SignalRefs{
 export interface LocalSignal{
     prop?: string,
     signal: SignalRefType,
+    subProp?: string,
     //eventTarget: EventTarget,
     type: string,
 }

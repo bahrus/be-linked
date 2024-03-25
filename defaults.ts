@@ -33,6 +33,14 @@ export async function getLocalSignal(enhancedElement: Element, beVigilant = fals
                         type: localName
                     };
             }
+            break;
+        }
+        case 'form':{
+            return {
+                prop: 'formData',
+                signal: enhancedElement,
+                type: 'input',
+            }
         }
     }
     if(enhancedElement.hasAttribute('contenteditable')){
