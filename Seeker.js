@@ -9,14 +9,13 @@ export class Seeker {
     val;
     async do(self, ctx, enhancedElement) {
         const { elO } = this;
-        const { event, prop, elType, perimeter, marker } = elO;
+        const { event, prop, elType, perimeter, marker, scope } = elO;
         let signal = undefined;
         let eventSuggestion = undefined;
-        let signalRef = undefined;
+        let signalRef = await findRealm(enhancedElement, scope);
         let propagator = undefined;
         switch (elType) {
             case '|':
-                signalRef = await findRealm(enhancedElement, ['wis', prop]);
                 if (signalRef.hasAttribute('contenteditable')) {
                     signal = new WeakRef(signalRef);
                     eventSuggestion = 'input';
@@ -27,19 +26,6 @@ export class Seeker {
                 break;
             case '@':
             case '#': {
-                switch (elType) {
-                    case '@':
-                        if (perimeter !== undefined) {
-                            signalRef = await findRealm(enhancedElement, ['wi', perimeter, `[name="${prop}"]`]);
-                        }
-                        else {
-                            signalRef = await findRealm(enhancedElement, ['wf', prop]);
-                        }
-                        break;
-                    case '#':
-                        signalRef = await findRealm(enhancedElement, ['wrn', '#' + prop]);
-                        break;
-                }
                 if (!signalRef)
                     throw 404;
                 signal = new WeakRef(signalRef);
@@ -51,22 +37,12 @@ export class Seeker {
             case '/': {
                 let propToSubscribeTo = prop;
                 switch (elType) {
-                    case '-': {
-                        //signalRef = await findRealm(enhancedElement, ['us', `[${marker}]` ]) as HTMLInputElement;
-                        signalRef = await findRealm(enhancedElement, ['wis', `[${marker}]`, true]);
-                        break;
-                    }
-                    case '/': {
-                        signalRef = await findRealm(enhancedElement, ['h', true]);
-                        break;
-                    }
                     case '~': {
                         //TODO:  the line below is likely to appear elsewhere, share it
                         const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
                         const subPropToConsider = getSubProp(elO, enhancedElement);
                         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
                         const localName = camelToLisp(prop);
-                        signalRef = await findRealm(enhancedElement, ['wis', localName, true]);
                         const { substrBefore } = await import('trans-render/lib/substrBefore.js');
                         propToSubscribeTo = substrBefore(substrBefore(subPropToConsider, '.'), '|');
                     }
