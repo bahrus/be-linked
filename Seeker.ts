@@ -32,6 +32,7 @@ export class Seeker<TSelf = any, TCtx = any>{
                     [signalRef, signal, eventSuggestion] = await this.addValue(signalRef);
                 }
                 break;
+            case '%':
             case '@':
             case '#':{
                 if(!signalRef) throw 404;
