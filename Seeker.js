@@ -1,20 +1,20 @@
-import { findRealm } from 'trans-render/lib/findRealm.js';
+import { find, getSubProp } from 'trans-render/dss/find.js';
 export class Seeker {
-    elO;
+    specifier;
     doCallback;
-    constructor(elO, doCallback) {
-        this.elO = elO;
+    constructor(specifier, doCallback) {
+        this.specifier = specifier;
         this.doCallback = doCallback;
     }
     val;
     async do(self, ctx, enhancedElement) {
-        const { elO } = this;
-        const { event, prop, elType, perimeter, marker, scope } = elO;
+        const { specifier } = this;
+        const { evt, prop, s, scopeS, ms } = specifier;
         let signal = undefined;
         let eventSuggestion = undefined;
-        let signalRef = await findRealm(enhancedElement, scope);
+        let signalRef = await find(enhancedElement, specifier);
         let propagator = undefined;
-        switch (elType) {
+        switch (s) {
             case '|':
                 if (signalRef.hasAttribute('contenteditable')) {
                     signal = new WeakRef(signalRef);
@@ -29,18 +29,17 @@ export class Seeker {
                 if (!signalRef)
                     throw 404;
                 signal = new WeakRef(signalRef);
-                eventSuggestion = event || 'input';
+                eventSuggestion = evt || 'input';
                 break;
             }
             case '~':
             case '-':
             case '/': {
                 let propToSubscribeTo = prop;
-                switch (elType) {
+                switch (s) {
                     case '~': {
                         //TODO:  the line below is likely to appear elsewhere, share it
-                        const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
-                        const subPropToConsider = getSubProp(elO, enhancedElement);
+                        const subPropToConsider = getSubProp(specifier, enhancedElement);
                         const { camelToLisp } = await import('trans-render/lib/camelToLisp.js');
                         const localName = camelToLisp(prop);
                         const { substrBefore } = await import('trans-render/lib/substrBefore.js');
