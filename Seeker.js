@@ -58,7 +58,7 @@ export class Seeker {
             }
         }
         if (this.doCallback && signalRef !== undefined && eventSuggestion !== undefined) {
-            await this.callback(self, signalRef, eventSuggestion, ctx);
+            await this.callback(self, signalRef, eventSuggestion, propagator, ctx);
         }
         return {
             signal,
@@ -66,7 +66,7 @@ export class Seeker {
             propagator,
         };
     }
-    async callback(self, signalRef, eventSuggestion, onOrOff) {
+    async callback(self, signalRef, eventSuggestion, propagator, ctx) {
     }
     async addValue(signalRef) {
         import('be-value-added/be-value-added.js');

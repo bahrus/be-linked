@@ -65,7 +65,7 @@ export class Seeker<TSelf = any, TCtx = any>{
             }
         }
         if(this.doCallback && signalRef !== undefined && eventSuggestion !== undefined){
-            await this.callback(self, signalRef, eventSuggestion, ctx);
+            await this.callback(self, signalRef, eventSuggestion, propagator, ctx);
         }
         return {
             signal,
@@ -74,7 +74,12 @@ export class Seeker<TSelf = any, TCtx = any>{
         };
     }
 
-    async callback<TSelf, TCtx>(self: TSelf, signalRef: HTMLInputElement, eventSuggestion: string, onOrOff: TCtx){
+    async callback<TSelf, TCtx>(
+        self: TSelf, 
+        signalRef: HTMLInputElement, 
+        eventSuggestion: string, 
+        propagator: EventTarget | undefined,
+        ctx: TCtx){
     }
 
     async addValue(signalRef: HTMLInputElement) : Promise<[HTMLInputElement, WeakRef<SignalRefType>, string]>{
