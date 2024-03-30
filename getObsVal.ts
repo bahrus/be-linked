@@ -1,10 +1,10 @@
+import { Specifier } from 'trans-render/dss/types';
 import {SignalRefType} from './types';
-import { ElO } from 'trans-render/lib/prs/types';
 
-export async function getObsVal(remoteRef: SignalRefType, elO: ElO, enhancedElement: Element): Promise<any>{
+export async function getObsVal(remoteRef: SignalRefType, specifier: Specifier, enhancedElement: Element): Promise<any>{
     let remoteVal: any;
-    const {elType, prop} = elO;
-    switch(elType){
+    const {s, prop} = specifier;
+    switch(s){
         case '|':
         case '#':
         case '@':{
@@ -17,8 +17,8 @@ export async function getObsVal(remoteRef: SignalRefType, elO: ElO, enhancedElem
             remoteVal = (<any>remoteRef)[prop!];
             break;
         case '~':
-            const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
-            const dynSubProp = getSubProp(elO, enhancedElement as HTMLElement);
+            const { getSubProp } = await import('trans-render/dss/find.js');
+            const dynSubProp = getSubProp(specifier, enhancedElement as HTMLElement);
             if(dynSubProp){
                 const head = dynSubProp[0];
                 if(head === '.'){

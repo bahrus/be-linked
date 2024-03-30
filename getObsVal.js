@@ -1,7 +1,7 @@
-export async function getObsVal(remoteRef, elO, enhancedElement) {
+export async function getObsVal(remoteRef, specifier, enhancedElement) {
     let remoteVal;
-    const { elType, prop } = elO;
-    switch (elType) {
+    const { s, prop } = specifier;
+    switch (s) {
         case '|':
         case '#':
         case '@':
@@ -15,8 +15,8 @@ export async function getObsVal(remoteRef, elO, enhancedElement) {
             remoteVal = remoteRef[prop];
             break;
         case '~':
-            const { getSubProp } = await import('trans-render/lib/prs/prsElO.js');
-            const dynSubProp = getSubProp(elO, enhancedElement);
+            const { getSubProp } = await import('trans-render/dss/find.js');
+            const dynSubProp = getSubProp(specifier, enhancedElement);
             if (dynSubProp) {
                 const head = dynSubProp[0];
                 if (head === '.') {
