@@ -1,5 +1,9 @@
 # be-linked [WIP]
 
+Deprecated (for now?)
+
+This package provides common utilities for a family of enhancements that make the semantic aspects of this package superfluous.   
+
 [![Playwright Tests](https://github.com/bahrus/be-linked/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-linked/actions/workflows/CI.yml)
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-linked?style=for-the-badge)](https://bundlephobia.com/result?p=be-linked)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-linked?compression=gzip">
