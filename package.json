@@ -9,20 +9,19 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.75",
-    "be-exportable": "0.0.104",
-    "be-hive": "0.0.143",
-    "be-intl": "0.0.27",
-    "be-propagating": "0.0.37",
-    "be-repeated": "0.0.125",
-    "be-scoped": "0.0.28",
-    "be-value-added": "0.0.27",
-    "trans-render": "0.0.756",
-    "xtal-element": "0.0.602"
+    "be-enhanced": "0.0.89",
+    "be-exportable": "0.0.106",
+    "be-hive": "0.0.160",
+    "be-intl": "0.0.28",
+    "be-propagating": "0.0.39",
+    "be-repeated": "0.0.126",
+    "be-scoped": "0.0.29",
+    "be-value-added": "0.0.30",
+    "trans-render": "0.0.769"
   },
   "devDependencies": {
     "may-it-serve": "0.0.6",
-    "@playwright/test": "1.42.1"
+    "@playwright/test": "1.44.1"
   },
   "main": "be-linked.js",
   "module": "be-linked.js",
@@ -51,7 +50,8 @@
   },
   "files": [
     "*.js",
-    "types.d.ts"
+    "types.d.ts",
+    "*.json"
   ],
   "types": "./types.d.ts",
   "scripts": {
