@@ -57,7 +57,7 @@ export class Seeker<TSelf = any, TCtx = any>{
                 await customElements.whenDefined(signalRef.localName);
                 const {emc} = await import('be-propagating/behivior.js');
                 const bePropagating = await (<any>signalRef).beEnhanced.whenResolved(emc);
-                const signal2 = await bePropagating.getSignal(prop);
+                const signal2 = await bePropagating.getGate(prop);
                 propagator = signal2.propagator;
                 eventSuggestion = propToSubscribeTo;
                 signal = new WeakRef(signalRef);
