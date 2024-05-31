@@ -83,8 +83,8 @@ export class Seeker<TSelf = any, TCtx = any>{
     }
 
     async addValue(signalRef: HTMLInputElement) : Promise<[HTMLInputElement, WeakRef<SignalRefType>, string]>{
-        import('be-value-added/be-value-added.js');
-        const newSignalRef = await  (<any>signalRef).beEnhanced.whenResolved('be-value-added') as HTMLInputElement;
+        const {emc} = await import('be-value-added/behivior.js');
+        const newSignalRef = await  (<any>signalRef).beEnhanced.whenResolved(emc) as HTMLInputElement;
         const signal = new WeakRef(newSignalRef);
         return [newSignalRef, signal, 'value'];
     }
