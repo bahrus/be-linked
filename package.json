@@ -10,13 +10,13 @@
   ],
   "dependencies": {
     "be-enhanced": "0.0.97",
-    "be-exportable": "0.0.109",
-    "be-hive": "0.0.169",
-    "be-intl": "0.0.30",
-    "be-propagating": "0.0.42",
-    "be-repeated": "0.0.128",
-    "be-scoped": "0.0.31",
-    "be-value-added": "0.0.33",
+    "be-exportable": "0.0.110",
+    "be-hive": "0.0.170",
+    "be-intl": "0.0.31",
+    "be-propagating": "0.0.43",
+    "be-repeated": "0.0.129",
+    "be-scoped": "0.0.32",
+    "be-value-added": "0.0.34",
     "trans-render": "0.0.779"
   },
   "devDependencies": {
