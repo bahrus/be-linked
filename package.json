@@ -9,7 +9,7 @@
     "custom-elements"
   ],
   "dependencies": {
-    "be-enhanced": "0.0.100",
+    "be-enhanced": "0.0.101",
     "be-exportable": "0.0.114",
     "be-hive": "0.0.178",
     "be-intl": "0.0.35",
@@ -17,7 +17,7 @@
     "be-repeated": "0.0.132",
     "be-scoped": "0.0.35",
     "be-value-added": "0.0.37",
-    "trans-render": "0.0.781"
+    "trans-render": "0.0.782"
   },
   "devDependencies": {
     "may-it-serve": "0.0.6",
