@@ -52,8 +52,8 @@ export async function getLocalSignal(enhancedElement: Element, beVigilant = fals
     }
     if(localName.includes('-')) throw 'NI';
         
-    import('be-value-added/be-value-added.js');
-    const signal = await  (<any>enhancedElement).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
+    const {emc} = await import('be-value-added/behivior.js');
+    const signal = await  (<any>enhancedElement).beEnhanced.whenResolved(emc) as BVAAllProps & EventTarget;
     signal.beVigilant = beVigilant;
     return {
         prop: 'value',
