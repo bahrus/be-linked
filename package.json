@@ -16,8 +16,8 @@
     "be-propagating": "0.0.46",
     "be-repeated": "0.0.132",
     "be-scoped": "0.0.35",
-    "be-value-added": "0.0.37",
-    "trans-render": "0.0.782"
+    "be-value-added": "0.0.38",
+    "trans-render": "0.0.783"
   },
   "devDependencies": {
     "may-it-serve": "0.0.6",

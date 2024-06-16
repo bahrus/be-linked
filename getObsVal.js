@@ -15,15 +15,20 @@ export async function getObsVal(remoteRef, specifier, enhancedElement) {
             remoteVal = remoteRef[prop];
             break;
         case '~':
-            const { getSubProp } = await import('trans-render/dss/find.js');
-            const dynSubProp = getSubProp(specifier, enhancedElement);
-            if (dynSubProp) {
-                const head = dynSubProp[0];
-                if (head === '.') {
-                    throw 'NI';
-                }
-                else {
-                    remoteVal = remoteRef[dynSubProp];
+            if (prop !== undefined) {
+                remoteVal = remoteRef[prop];
+            }
+            else {
+                const { getSubProp } = await import('trans-render/dss/find.js');
+                const dynSubProp = getSubProp(specifier, enhancedElement);
+                if (dynSubProp) {
+                    const head = dynSubProp[0];
+                    if (head === '.') {
+                        throw 'NI';
+                    }
+                    else {
+                        remoteVal = remoteRef[dynSubProp];
+                    }
                 }
             }
             break;

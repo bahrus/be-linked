@@ -218,7 +218,7 @@ export interface Settings{
 export type ElTypes = '$' | '#' | '@' | '/' | '-' | '|' | '%' | '~';
 
 //copied from be-switched.  share from ... where?
-export type SignalRefType = BVAAllProps | ISignal | Element;
+export type SignalRefType = EventTarget & (BVAAllProps | ISignal | Element);
 
 export interface CanonicalConfig{
     links: Link[];
@@ -288,9 +288,16 @@ export interface SpecificityResult {
     winner?: TriggerSource;
 }
 
-export interface SignalAndEvent {
+
+
+export interface WeakEndPoint {
     propagator?: EventTarget,
     signal?: WeakRef<SignalRefType>,
-    eventSuggestion?: string
+    eventSuggestion?: string,
+    isStale?: boolean,
 }
+
+//deprecate
+export type SignalAndEvent = WeakEndPoint;
+
 
