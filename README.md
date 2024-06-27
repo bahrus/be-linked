@@ -153,7 +153,7 @@ So we provide two ways of adding the equivalent of computed properties:
 
 ##### Declarative mapping scenario
 
-host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If anything else, set it to "indeterminate".
+host-element container has boolean property "readOnly" property.  If readOnly is true, set inner element's checked property to "on", if it is false "off".  If otherwise, set it to "indeterminate".
 
 ```html
 <host-element>
