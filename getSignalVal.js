@@ -9,7 +9,7 @@ export function getSignalVal(obj) {
             return obj.getAttribute('aria-checked') === 'true';
         }
         if ('valueAsNumber' in obj) {
-            if (obj instanceof HTMLInputElement && obj.type === 'number') {
+            if (obj instanceof HTMLInputElement && (obj.type === 'number' || obj.type === 'range')) {
                 return obj.valueAsNumber;
             }
         }
