@@ -40,7 +40,14 @@ export async function getLocalSignal(enhancedElement: Element, beVigilant = fals
                 prop: 'formData',
                 signal: enhancedElement,
                 type: 'input',
-            }
+            };
+        }
+        case 'button': {
+            return {
+                prop: 'value',
+                signal: enhancedElement,
+                type: 'click'
+            };
         }
     }
     if(enhancedElement.hasAttribute('contenteditable')){

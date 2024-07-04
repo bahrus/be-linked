@@ -39,6 +39,13 @@ export async function getLocalSignal(enhancedElement, beVigilant = false) {
                 type: 'input',
             };
         }
+        case 'button': {
+            return {
+                prop: 'value',
+                signal: enhancedElement,
+                type: 'click'
+            };
+        }
     }
     if (enhancedElement.hasAttribute('contenteditable')) {
         return {
