@@ -32,6 +32,7 @@ export class Seeker<TSelf = any, TCtx = any>{
                     [signalRef, signal, eventSuggestion] = await this.addValue(signalRef);
                 }
                 break;
+            case '$0':
             case '%':
             case '@':
             case '#':{

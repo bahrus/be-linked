@@ -24,6 +24,7 @@ export class Seeker {
                     [signalRef, signal, eventSuggestion] = await this.addValue(signalRef);
                 }
                 break;
+            case '$0':
             case '%':
             case '@':
             case '#': {
