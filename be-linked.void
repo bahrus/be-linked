@@ -71,7 +71,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
                 await prsObj(cc, links, self);
             }
             if(Share !== undefined){
-                const {prsShare} = await import('./prsShare.js');
+                const {prsShare} = await import('./prsShare.void');
                 await prsShare(cc, links, self);
             }
             if(Toggle !== undefined){
@@ -127,7 +127,7 @@ export class BeLinked extends BE<AP, Actions> implements Actions{
             }
             const shareableLinks = links.filter(link => link.share !== undefined);
             if(shareableLinks.length > 0){
-                const {share} = await import('./share.js');
+                const {share} = await import('./share.void');
                 for(const shareableLink of shareableLinks){
                     await share(self, shareableLink, false);
                 }

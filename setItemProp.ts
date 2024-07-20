@@ -1,6 +1,6 @@
 import {AllProps} from 'be-intl/types';
 import {Actions as bePropagatingActions} from 'be-propagating/types';
-import {Actions as beScopedActions, AllProps as BeScopedProps} from 'be-scoped/types';
+//import {Actions as beScopedActions, AllProps as BeScopedProps} from 'be-scoped/types';
 import {AllProps as BeRepeatedAllProps, EndUserProps as BeRepeatedEndUserProps, Row} from 'be-repeated/types';
 export async function setItemProp(el: Element, val: any, name: string){
     if(val === undefined) return;
@@ -58,10 +58,11 @@ export async function setItemProp(el: Element, val: any, name: string){
                         const bePropagating = await aSrc.beEnhanced.whenResolved('be-propagating') as bePropagatingActions;
                         bePropagating.setKeyVal(name, val);
                     }else{
-                        //assign into scope
-                        import('be-scoped/be-scoped.js');
-                        const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped') as BeScopedProps & beScopedActions;
-                        beScoped.scope[name] = val;
+                        throw 'NI';
+                        // //assign into scope
+                        // import('be-scoped/be-scoped.js');
+                        // const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped') as BeScopedProps & beScopedActions;
+                        // beScoped.scope[name] = val;
                         //beScoped.setKeyVal(name, val);
                     }
                 }

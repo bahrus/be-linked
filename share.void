@@ -1,4 +1,4 @@
-import {AP, Share, Link, IP} from './types';
+import {AP, Share, Link, IP} from './types.js';
 import {IBE} from 'be-enhanced/types';
 import {findRealm} from 'trans-render/lib/findRealm.js';
 import {applyEnh} from './applyEnh.js';

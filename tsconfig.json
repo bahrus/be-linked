@@ -9,7 +9,6 @@
 		"strict": true
 	},
 	"files":[
-		"behivior.ts",
 		"breakTie.ts",
 		"defaults.ts",
 		"doPG.ts",

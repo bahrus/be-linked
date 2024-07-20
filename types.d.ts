@@ -1,17 +1,17 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
-import {IBE, Declarations} from 'be-enhanced/types';
+//import {IBE, Declarations} from 'be-enhanced/types';
 import {QueryInfo, Scope, camelQry, JSONObject} from 'trans-render/lib/types';
 import {BVAAllProps} from 'be-value-added/types';
 import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
 
-export interface EndUserProps extends IBE {
-    camelConfig?: CamelConfig | CamelConfig[],
-}
+// export interface EndUserProps extends IBE {
+//     camelConfig?: CamelConfig | CamelConfig[],
+// }
 
-export interface AllProps extends EndUserProps{
-    canonicalConfig?: CanonicalConfig;
-    propertyBag?: EventTarget;
-}
+// export interface AllProps extends EndUserProps{
+//     canonicalConfig?: CanonicalConfig;
+//     propertyBag?: EventTarget;
+// }
 
 export type propName = string;
 export type UpstreamPropPath = string;
@@ -182,66 +182,66 @@ export interface AssignCamelConfig<TSrc = any, TDest = any>{
     assignOverrides?: Assign;
 }
 
-export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
-    Link?: LinkStatement[];
-    negate?: boolean;
-    Negate?: LinkStatement[];
-    Debug?: [DebugStatement];
-    debug?: boolean;
-    Clone?: LinkStatement[];
-    Refer?: LinkStatement[];
-    Assign?: AssignStatement[];
-    Invoke?: InvokeStatement[];
-    On?: OnPassStatement[];
-    Nudge?: [''];
-    nudge?: boolean;
-    Skip?: [''];
-    skip?: boolean;
-    links?: Link<TSrc, TDest>[];
-    When?: WhenStatement[];
-    Toggle?: ToggleStatement[];
-    Elevate?: ElevateStatement[];
-    Fire?: FireStatement[];
-    fire?: string[];
-    declare: Declarations,
-    //enh: {[key: string] : any},
-    settings?:  Settings;
-    Observe?: ObserveStatement[];
-    observeOverrides?: IObserve;
+// export interface CamelConfig<TSrc=any, TDest=any> extends SharingCamelConfig<TSrc, TDest>{
+//     Link?: LinkStatement[];
+//     negate?: boolean;
+//     Negate?: LinkStatement[];
+//     Debug?: [DebugStatement];
+//     debug?: boolean;
+//     Clone?: LinkStatement[];
+//     Refer?: LinkStatement[];
+//     Assign?: AssignStatement[];
+//     Invoke?: InvokeStatement[];
+//     On?: OnPassStatement[];
+//     Nudge?: [''];
+//     nudge?: boolean;
+//     Skip?: [''];
+//     skip?: boolean;
+//     links?: Link<TSrc, TDest>[];
+//     When?: WhenStatement[];
+//     Toggle?: ToggleStatement[];
+//     Elevate?: ElevateStatement[];
+//     Fire?: FireStatement[];
+//     fire?: string[];
+//     declare: Declarations,
+//     //enh: {[key: string] : any},
+//     settings?:  Settings;
+//     Observe?: ObserveStatement[];
+//     observeOverrides?: IObserve;
 
-}
+// }
 
-export interface Settings{
-    enh?: {[key: string]: IBE}
-}
+// export interface Settings{
+//     enh?: {[key: string]: IBE}
+// }
 
 export type ElTypes = '$' | '#' | '@' | '/' | '-' | '|' | '%' | '~';
 
 //copied from be-switched.  share from ... where?
 export type SignalRefType = EventTarget & (BVAAllProps | ISignal | Element);
 
-export interface CanonicalConfig{
-    links: Link[];
-    settings?:  Settings;
-}
+// export interface CanonicalConfig{
+//     links: Link[];
+//     settings?:  Settings;
+// }
 
-export interface AllProps extends EndUserProps {}
+// export interface AllProps extends EndUserProps {}
 
-export type AP = AllProps;
+// export type AP = AllProps;
 
-export type PAP = Partial<AP>;
+// export type PAP = Partial<AP>;
 
-export type ProPAP = Promise<PAP>;
+// export type ProPAP = Promise<PAP>;
 
-export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
+// export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
 export type Source = 'scope' | '$0' | 'host' | 'props' | '$1'; //$1 means parent or host
 
 
-export interface Actions{
-    camelToCanonical(self: this): ProPAP;
-    onCanonical(self: this): ProPAP;
-}
+// export interface Actions{
+//     camelToCanonical(self: this): ProPAP;
+//     onCanonical(self: this): ProPAP;
+// }
 
 export interface IP {
     el: Element,
