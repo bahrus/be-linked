@@ -57,10 +57,11 @@ export async function setItemProp(el, val, name) {
                         bePropagating.setKeyVal(name, val);
                     }
                     else {
-                        //assign into scope
-                        import('be-scoped/be-scoped.js');
-                        const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped');
-                        beScoped.scope[name] = val;
+                        throw 'NI';
+                        // //assign into scope
+                        // import('be-scoped/be-scoped.js');
+                        // const beScoped = await aSrc.beEnhanced.whenResolved('be-scoped') as BeScopedProps & beScopedActions;
+                        // beScoped.scope[name] = val;
                         //beScoped.setKeyVal(name, val);
                     }
                 }

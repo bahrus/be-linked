@@ -56,6 +56,16 @@ export async function getLocalSignal(enhancedElement, beVigilant = false) {
     }
     if (localName.includes('-'))
         throw 'NI';
+    const itemscope = enhancedElement.getAttribute('itemscope');
+    if (itemscope) {
+        const { emc } = await import('be-gingerly/behivior.js');
+        await enhancedElement.beEnhanced.whenResolved(emc);
+        return {
+            prop: 'value',
+            signal: enhancedElement.host,
+            type: 'input'
+        };
+    }
     const { emc } = await import('be-value-added/behivior.js');
     const signal = await enhancedElement.beEnhanced.whenResolved(emc);
     signal.beVigilant = beVigilant;

@@ -6,7 +6,8 @@
 		"experimentalDecorators": false,
 		"forceConsistentCasingInFileNames": true,
 		"newLine": "LF",
-		"strict": true
+		"strict": true,
+		"skipLibCheck": true,
 	},
 	"files":[
 		"breakTie.ts",
@@ -18,6 +19,7 @@
 		"getItemScopeObject.ts",
 		"getObsVal.ts",
 		"getRemoteEl.ts",
+		"setItemProp.ts",
 		"getSignalVal.ts",
 		"setSignalVal.ts",
 		"Seeker.ts",

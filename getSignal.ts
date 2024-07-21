@@ -67,7 +67,7 @@ export async function getSignal(
             if(!el) throw 404;
             import('be-propagating/be-propagating.js');
             const bePropagating = await (<any>el).beEnhanced.whenResolved('be-propagating') as BPActions;
-            const signal = await bePropagating.getSignal(prop!);
+            const signal = await bePropagating.getGate(prop!);
             return {
                 el,
                 signal,

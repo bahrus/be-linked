@@ -1,3 +1,4 @@
+import { ISignal } from '../be-propagating/types';
 import {LocalSignal} from './types';
 import {BVAAllProps} from 'be-value-added/types';
 export function getRemoteProp(enhancedElement: Element){
@@ -58,7 +59,16 @@ export async function getLocalSignal(enhancedElement: Element, beVigilant = fals
         }
     }
     if(localName.includes('-')) throw 'NI';
-        
+    const itemscope = enhancedElement.getAttribute('itemscope');
+    if(itemscope){
+        const {emc} = await import('be-gingerly/behivior.js');
+        await (<any>enhancedElement).beEnhanced.whenResolved(emc);
+        return {
+            prop: 'value',
+            signal: (<any>enhancedElement).host as EventTarget & ISignal,
+            type: 'input'
+        }
+    }    
     const {emc} = await import('be-value-added/behivior.js');
     const signal = await  (<any>enhancedElement).beEnhanced.whenResolved(emc) as BVAAllProps & EventTarget;
     signal.beVigilant = beVigilant;
