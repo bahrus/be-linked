@@ -15,13 +15,15 @@ export class Seeker<TSelf = any, TCtx = any>{
     async do<TSelf, TCtx>(
         self: TSelf,
         ctx: TCtx,
-        enhancedElement: Element) : Promise<SignalAndEvent | undefined>
+        enhancedElement: Element,
+        within?: Array<Element>
+    ) : Promise<SignalAndEvent | undefined>
     {
         const {specifier} = this;
         const {evt, prop, s, scopeS, ms} = specifier;
         let signal: WeakRef<SignalRefType> | undefined = undefined;
         let eventSuggestion: string | undefined = undefined;
-        let signalRef: HTMLInputElement = await find(enhancedElement, specifier) as HTMLInputElement;
+        let signalRef: HTMLInputElement = await find(enhancedElement, specifier, within) as HTMLInputElement;
         let propagator: EventTarget | undefined = undefined;
         switch(s){
             case '|':

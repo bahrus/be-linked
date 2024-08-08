@@ -7,12 +7,12 @@ export class Seeker {
         this.doCallback = doCallback;
     }
     val;
-    async do(self, ctx, enhancedElement) {
+    async do(self, ctx, enhancedElement, within) {
         const { specifier } = this;
         const { evt, prop, s, scopeS, ms } = specifier;
         let signal = undefined;
         let eventSuggestion = undefined;
-        let signalRef = await find(enhancedElement, specifier);
+        let signalRef = await find(enhancedElement, specifier, within);
         let propagator = undefined;
         switch (s) {
             case '|':
